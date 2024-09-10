@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.felipeschoffen.montrabudgetapp.core.ui.theme.VioletLight20
 
 @Composable
-fun OnBoardingPagerIndicator(
+internal fun OnBoardingPagerIndicator(
     modifier: Modifier = Modifier,
     pageCount: Int,
     currentPage: Int

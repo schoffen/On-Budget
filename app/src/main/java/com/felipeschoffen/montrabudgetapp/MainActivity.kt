@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.felipeschoffen.montrabudgetapp.core.ui.theme.MontraBudgetAppTheme
 import com.felipeschoffen.montrabudgetapp.login.ui.LoginScreen
 import com.felipeschoffen.montrabudgetapp.onboarding.ui.OnBoardingScreen
+import com.felipeschoffen.montrabudgetapp.sign_up.ui.SignUpScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,9 +22,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MontraBudgetAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    OnBoardingScreen(modifier = Modifier.padding(innerPadding))
-                }
+                SignUpScreen()
             }
         }
     }
