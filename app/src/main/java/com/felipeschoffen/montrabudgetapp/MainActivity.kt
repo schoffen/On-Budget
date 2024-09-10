@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.felipeschoffen.montrabudgetapp.core.ui.theme.MontraBudgetAppTheme
 import com.felipeschoffen.montrabudgetapp.login.ui.LoginScreen
+import com.felipeschoffen.montrabudgetapp.onboarding.ui.OnBoardingScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +22,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             MontraBudgetAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    LoginScreen(modifier = Modifier.padding(innerPadding))
+                    OnBoardingScreen(modifier = Modifier.padding(innerPadding))
                 }
             }
         }

@@ -6,23 +6,26 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.felipeschoffen.montrabudgetapp.R
 
 @Composable
-fun PagerContent(
+fun OnBoardingPagerContent(
     @DrawableRes image: Int,
     @StringRes title: Int,
     @StringRes description: Int,
@@ -30,35 +33,28 @@ fun PagerContent(
 ) {
     Column(
         modifier = modifier
-            .wrapContentSize()
+            .fillMaxWidth()
+            .heightIn(min = 480.dp)
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-    )
-    {
-        Image(painter = painterResource(image), contentDescription = null)
+        verticalArrangement = Arrangement.SpaceEvenly,
+    ) {
+        Image(
+            modifier = Modifier.size(280.dp),
+            painter = painterResource(image),
+            contentDescription = null,
+            contentScale = ContentScale.Crop
+        )
         Text(
             text = stringResource(title),
-            fontSize = MaterialTheme.typography.titleLarge.fontSize,
-            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.titleMedium,
             textAlign = TextAlign.Center
         )
         Text(
             text = stringResource(description),
-            fontSize = MaterialTheme.typography.bodyLarge.fontSize,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.bodyLarge
         )
-
     }
-}
-
-@Preview
-@Composable
-fun PreviewPagerContent(modifier: Modifier = Modifier) {
-    PagerContent(
-        image = R.drawable.illustration_1,
-        title = R.string.onboarding_illustration_1_title,
-        description = R.string.onboarding_illustration_1_description
-    )
 }
