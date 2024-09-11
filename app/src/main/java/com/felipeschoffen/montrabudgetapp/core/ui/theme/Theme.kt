@@ -1,8 +1,6 @@
 package com.felipeschoffen.montrabudgetapp.core.ui.theme
 
-import android.app.Activity
 import android.os.Build
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -22,8 +20,16 @@ private val DarkColorScheme = darkColorScheme(
 
 private val LightColorScheme = lightColorScheme(
     primary = Violet100,
+    onPrimary = GreyLight80,
+
     secondary = VioletLight20,
+    onSecondary = Violet100,
+
     tertiary = GreyLight80,
+
+    background = Color.White,
+    onBackground = Color.Black,
+
     onSurface = Color.Black,
     onSurfaceVariant = GreyLight20,
     surfaceContainer = GreyLight60

@@ -1,4 +1,4 @@
-package com.felipeschoffen.montrabudgetapp.core.ui
+package com.felipeschoffen.montrabudgetapp.core.ui.buttons
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -30,7 +30,7 @@ fun CustomButtonSecondary(
         Text(
             text = text,
             style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.onSecondary
         )
     }
 }

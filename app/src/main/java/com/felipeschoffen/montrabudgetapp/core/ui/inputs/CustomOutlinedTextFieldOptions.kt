@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Icon
@@ -19,17 +18,15 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun defaultTextFieldPlaceholder(text: String) = Text(text = text, style = MaterialTheme.typography.labelSmall)
+internal fun CustomTextFieldPlaceholder(text: String) = Text(text = text, style = MaterialTheme.typography.labelSmall)
 
 @Composable
-internal fun defaultTextFieldModifier() = Modifier
-        .fillMaxWidth()
-        .height(56.dp)
+internal fun Modifier.customOutlinedTextFieldModifier() = this.fillMaxWidth().height(56.dp)
 
 @Composable
-internal fun defaultTextFieldColors() = TextFieldDefaults.colors(
+internal fun customOutlinedTextFieldColors() = TextFieldDefaults.colors(
     focusedTextColor = MaterialTheme.colorScheme.primary,
-    unfocusedTextColor = MaterialTheme.colorScheme.surfaceContainer,
+    unfocusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
     focusedIndicatorColor = MaterialTheme.colorScheme.primary,
     unfocusedIndicatorColor = MaterialTheme.colorScheme.surfaceContainer,
     unfocusedContainerColor = Color.Transparent,
@@ -37,19 +34,19 @@ internal fun defaultTextFieldColors() = TextFieldDefaults.colors(
 )
 
 @Composable
-internal fun defaultTextFieldShape() = RoundedCornerShape(16.dp)
+internal fun customOutlinedTextFieldShape() = RoundedCornerShape(16.dp)
 
 @Composable
-internal fun defaultTextStyle() = MaterialTheme.typography.bodyMedium
+internal fun customTextStyle() = MaterialTheme.typography.bodyMedium
 
 @Composable
-internal fun defaultEmailKeyboardOptions() = KeyboardOptions(keyboardType = KeyboardType.Email)
+internal fun customEmailKeyboardOptions() = KeyboardOptions(keyboardType = KeyboardType.Email)
 
 @Composable
-internal fun defaultPasswordKeyboardOptions() = KeyboardOptions(keyboardType = KeyboardType.Password)
+internal fun customPasswordKeyboardOptions() = KeyboardOptions(keyboardType = KeyboardType.Password)
 
 @Composable
-internal fun defaultPasswordVisibilityOffTrailingIcon() = Icon(imageVector = Icons.Filled.VisibilityOff, contentDescription = null)
+internal fun CustomPasswordVisibilityOffTrailingIcon() = Icon(imageVector = Icons.Filled.VisibilityOff, contentDescription = null)
 
 @Composable
-internal fun defaultPasswordVisibilityOnTrailingIcon() = Icon(imageVector = Icons.Filled.Visibility, contentDescription = null)
+internal fun CustomPasswordVisibilityOnTrailingIcon() = Icon(imageVector = Icons.Filled.Visibility, contentDescription = null)

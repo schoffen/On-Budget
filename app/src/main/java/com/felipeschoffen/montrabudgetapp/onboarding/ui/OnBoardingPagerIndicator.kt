@@ -1,7 +1,5 @@
 package com.felipeschoffen.montrabudgetapp.onboarding.ui
 
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
@@ -9,12 +7,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -23,7 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.felipeschoffen.montrabudgetapp.core.ui.theme.VioletLight20
 
 @Composable
 internal fun OnBoardingPagerIndicator(
@@ -41,7 +36,7 @@ internal fun OnBoardingPagerIndicator(
     ) {
         repeat(pageCount) { iteration ->
             val color =
-                if (currentPage == iteration) MaterialTheme.colorScheme.primary else VioletLight20
+                if (currentPage == iteration) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary
             val size by animateDpAsState(
                 if (currentPage == iteration) 16.dp else 8.dp,
                 label = "",

@@ -3,6 +3,7 @@ package com.felipeschoffen.montrabudgetapp.onboarding.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -12,8 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.felipeschoffen.montrabudgetapp.R
-import com.felipeschoffen.montrabudgetapp.core.ui.CustomButtonPrimary
-import com.felipeschoffen.montrabudgetapp.core.ui.CustomButtonSecondary
+import com.felipeschoffen.montrabudgetapp.core.ui.buttons.CustomButtonPrimary
+import com.felipeschoffen.montrabudgetapp.core.ui.buttons.CustomButtonSecondary
 
 @Composable
 fun OnBoardingScreen(modifier: Modifier = Modifier) {
@@ -53,8 +54,14 @@ fun OnBoardingScreen(modifier: Modifier = Modifier) {
             currentPage = pagerState.currentPage
         )
 
-        CustomButtonPrimary(text = stringResource(R.string.sign_up), onClick = { })
+        Column(
+            modifier = modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            CustomButtonPrimary(text = stringResource(R.string.sign_up), onClick = { })
 
-        CustomButtonSecondary(text = stringResource(R.string.login), onClick = { })
+            CustomButtonSecondary(text = stringResource(R.string.login), onClick = { })
+        }
     }
 }

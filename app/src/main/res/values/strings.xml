@@ -12,4 +12,16 @@
 
     <string name="login">Login</string>
     <string name="sign_up">Sign Up</string>
+
+    <string name="sign_up_with_google">Sign Up with Google</string>
+
+    <string name="name_placeholder">Name</string>
+    <string name="email_placeholder">Email</string>
+    <string name="password_placeholder">Password</string>
+
+    <string name="checkbox_terms_of_service_agreement">By signing up, you agree to the Terms of Service and Privacy Policy</string>
+
+    <string name="or_with">Or with</string>
+
+    <string name="already_have_an_account">Already have an account? Login</string>
 </resources>

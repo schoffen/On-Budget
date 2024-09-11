@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -30,8 +29,7 @@ internal fun OnBoardingPagerContent(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .heightIn(min = 480.dp)
-            .padding(16.dp),
+            .heightIn(min = 480.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly,
     ) {
@@ -43,6 +41,7 @@ internal fun OnBoardingPagerContent(
         )
         Text(
             text = stringResource(title),
+            color = MaterialTheme.colorScheme.onBackground,
             style = MaterialTheme.typography.titleMedium,
             textAlign = TextAlign.Center
         )

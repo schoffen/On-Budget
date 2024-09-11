@@ -3,6 +3,9 @@ package com.felipeschoffen.montrabudgetapp.core.ui.inputs
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 
 @Composable
 fun PasswordOutlinedTextField(
@@ -13,17 +16,18 @@ fun PasswordOutlinedTextField(
     isVisible: Boolean
 ) {
     OutlinedTextField(
-        modifier = defaultTextFieldModifier(),
-        textStyle = defaultTextStyle(),
-        colors = defaultTextFieldColors(),
-        shape = defaultTextFieldShape(),
+        modifier = Modifier.customOutlinedTextFieldModifier(),
+        textStyle = customTextStyle(),
+        colors = customOutlinedTextFieldColors(),
+        shape = customOutlinedTextFieldShape(),
         value = value,
         onValueChange = onValueChanged,
-        placeholder = { defaultTextFieldPlaceholder(placeholder) },
-        keyboardOptions = defaultPasswordKeyboardOptions(),
+        placeholder = { CustomTextFieldPlaceholder(placeholder) },
+        visualTransformation = if (isVisible) VisualTransformation.None else PasswordVisualTransformation(),
+        keyboardOptions = customPasswordKeyboardOptions(),
         trailingIcon = {
             IconButton(toggleVisibility) {
-                if (isVisible) defaultPasswordVisibilityOnTrailingIcon() else defaultPasswordVisibilityOffTrailingIcon()
+                if (isVisible) CustomPasswordVisibilityOnTrailingIcon() else CustomPasswordVisibilityOffTrailingIcon()
             }
         }
     )
