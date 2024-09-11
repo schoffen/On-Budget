@@ -21,7 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun OnBoardingPagerIndicator(
+fun OnBoardingPagerIndicator(
     modifier: Modifier = Modifier,
     pageCount: Int,
     currentPage: Int
@@ -29,7 +29,7 @@ internal fun OnBoardingPagerIndicator(
     Row(
         modifier = modifier
             .heightIn(min = 20.dp)
-            .widthIn(min = 150.dp)
+            .widthIn(min = 100.dp)
             .padding(bottom = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly

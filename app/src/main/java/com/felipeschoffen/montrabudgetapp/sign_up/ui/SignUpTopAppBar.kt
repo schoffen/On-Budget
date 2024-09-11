@@ -6,7 +6,7 @@ import com.felipeschoffen.montrabudgetapp.R
 import com.felipeschoffen.montrabudgetapp.core.ui.CenteredTopAppBarWithBackAction
 
 @Composable
-internal fun SignUpTopAppBar() {
+fun SignUpTopAppBar() {
     CenteredTopAppBarWithBackAction(
         onBackPressed = {
 

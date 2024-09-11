@@ -13,9 +13,9 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun CustomButtonSecondary(
-    modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    text: String
+    text: String,
+    modifier: Modifier = Modifier
 ) {
     FilledTonalButton(
         onClick = onClick,

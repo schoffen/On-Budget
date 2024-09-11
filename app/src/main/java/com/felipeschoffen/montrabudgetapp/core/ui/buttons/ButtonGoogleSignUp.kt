@@ -18,8 +18,8 @@ import com.felipeschoffen.montrabudgetapp.R
 
 @Composable
 fun ButtonGoogleSignUp(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     FilledTonalButton(
         onClick = onClick,

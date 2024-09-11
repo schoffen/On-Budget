@@ -20,7 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun OnBoardingPagerContent(
+fun OnBoardingPagerContent(
     @DrawableRes image: Int,
     @StringRes title: Int,
     @StringRes description: Int,
@@ -29,7 +29,7 @@ internal fun OnBoardingPagerContent(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .heightIn(min = 480.dp),
+            .heightIn(min = 460.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly,
     ) {

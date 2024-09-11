@@ -19,9 +19,11 @@
     <string name="email_placeholder">Email</string>
     <string name="password_placeholder">Password</string>
 
-    <string name="checkbox_terms_of_service_agreement">By signing up, you agree to the Terms of Service and Privacy Policy</string>
+    <string name="checkbox_terms_of_service_agreement_1">By signing up, you agree to the</string>
+    <string name="checkbox_terms_of_service_agreement_2">Terms of Service and Privacy Policy</string>
 
     <string name="or_with">Or with</string>
 
-    <string name="already_have_an_account">Already have an account? Login</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="sign_up_text">By signing up, you agree to the %1$s and %2$s</string>
 </resources>

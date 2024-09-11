@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun Modifier.customButtonModifier() = this.fillMaxWidth().height(56.dp)
+fun Modifier.customButtonModifier() = this.fillMaxWidth().height(56.dp)
 
 @Composable
-internal fun customButtonShape() = RoundedCornerShape(16.dp)
+fun customButtonShape() = RoundedCornerShape(16.dp)

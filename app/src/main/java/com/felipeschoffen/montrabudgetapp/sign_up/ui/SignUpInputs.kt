@@ -17,7 +17,7 @@ import com.felipeschoffen.montrabudgetapp.core.ui.inputs.LabeledOutlinedTextFiel
 import com.felipeschoffen.montrabudgetapp.core.ui.inputs.PasswordOutlinedTextField
 
 @Composable
-internal fun SignUpInputs(modifier: Modifier = Modifier) {
+fun SignUpInputs(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(24.dp)

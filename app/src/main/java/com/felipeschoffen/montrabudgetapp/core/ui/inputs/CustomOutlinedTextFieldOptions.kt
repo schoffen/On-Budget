@@ -18,35 +18,35 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun CustomTextFieldPlaceholder(text: String) = Text(text = text, style = MaterialTheme.typography.labelSmall)
+fun CustomTextFieldPlaceholder(text: String) = Text(text = text, style = MaterialTheme.typography.labelSmall)
 
 @Composable
-internal fun Modifier.customOutlinedTextFieldModifier() = this.fillMaxWidth().height(56.dp)
+fun Modifier.customOutlinedTextFieldModifier() = this.fillMaxWidth().height(56.dp)
 
 @Composable
-internal fun customOutlinedTextFieldColors() = TextFieldDefaults.colors(
+fun customOutlinedTextFieldColors() = TextFieldDefaults.colors(
     focusedTextColor = MaterialTheme.colorScheme.primary,
-    unfocusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+    unfocusedTextColor = MaterialTheme.colorScheme.outline,
     focusedIndicatorColor = MaterialTheme.colorScheme.primary,
-    unfocusedIndicatorColor = MaterialTheme.colorScheme.surfaceContainer,
+    unfocusedIndicatorColor = MaterialTheme.colorScheme.outline,
     unfocusedContainerColor = Color.Transparent,
     focusedContainerColor = Color.Transparent
 )
 
 @Composable
-internal fun customOutlinedTextFieldShape() = RoundedCornerShape(16.dp)
+fun customOutlinedTextFieldShape() = RoundedCornerShape(16.dp)
 
 @Composable
-internal fun customTextStyle() = MaterialTheme.typography.bodyMedium
+fun customTextStyle() = MaterialTheme.typography.bodyMedium
 
 @Composable
-internal fun customEmailKeyboardOptions() = KeyboardOptions(keyboardType = KeyboardType.Email)
+fun customEmailKeyboardOptions() = KeyboardOptions(keyboardType = KeyboardType.Email)
 
 @Composable
-internal fun customPasswordKeyboardOptions() = KeyboardOptions(keyboardType = KeyboardType.Password)
+fun customPasswordKeyboardOptions() = KeyboardOptions(keyboardType = KeyboardType.Password)
 
 @Composable
-internal fun CustomPasswordVisibilityOffTrailingIcon() = Icon(imageVector = Icons.Filled.VisibilityOff, contentDescription = null)
+fun CustomPasswordVisibilityOffTrailingIcon() = Icon(imageVector = Icons.Filled.VisibilityOff, contentDescription = null)
 
 @Composable
-internal fun CustomPasswordVisibilityOnTrailingIcon() = Icon(imageVector = Icons.Filled.Visibility, contentDescription = null)
+fun CustomPasswordVisibilityOnTrailingIcon() = Icon(imageVector = Icons.Filled.Visibility, contentDescription = null)
