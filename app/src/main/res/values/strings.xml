@@ -26,4 +26,15 @@
 
     <string name="already_have_an_account">Already have an account?</string>
     <string name="sign_up_text">By signing up, you agree to the %1$s and %2$s</string>
+
+    <string name="enter_verification_code">Enter your\nVerification Code</string>
+
+    <string name="email_send_message_pt1">We send verification code to your email</string>
+    <string name="email_send_message_pt2">. You can check your inbox.</string>
+
+    <string name="didnt_recieve_code">I didn’t received the code. Send again</string>
+
+    <string name="verify">Verify</string>
+
+    <string name="verification">Verification</string>
 </resources>
