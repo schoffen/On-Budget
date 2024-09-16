@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.felipeschoffen.montrabudgetapp.core.ui.theme.MontraBudgetAppTheme
+import com.felipeschoffen.montrabudgetapp.login.ui.LoginScreen
 import com.felipeschoffen.montrabudgetapp.verification.ui.VerificationScreen
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +14,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MontraBudgetAppTheme {
-                VerificationScreen()
+                LoginScreen()
             }
         }
     }
