@@ -17,7 +17,7 @@ fun ForgotPasswordTextButton(
         onClick = onClick
     ) {
         Text(
-            text = stringResource(R.string.forgot_password),
+            text = stringResource(R.string.forgot_password_1),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.primary
         )

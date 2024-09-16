@@ -9,9 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.felipeschoffen.montrabudgetapp.R
 import com.felipeschoffen.montrabudgetapp.core.ui.inputs.EmailOutlinedTextField
 import com.felipeschoffen.montrabudgetapp.core.ui.inputs.PasswordOutlinedTextField
 
@@ -25,8 +23,7 @@ fun LoginInputs(modifier: Modifier = Modifier) {
 
         EmailOutlinedTextField(
             onValueChanged = { emailValue = it },
-            value = emailValue,
-            placeholder = stringResource(R.string.email_placeholder)
+            value = emailValue
         )
 
         var passwordValue by remember { mutableStateOf("") }
@@ -35,7 +32,6 @@ fun LoginInputs(modifier: Modifier = Modifier) {
         PasswordOutlinedTextField(
             onValueChanged = { passwordValue = it },
             value = passwordValue,
-            placeholder = stringResource(R.string.password_placeholder),
             toggleVisibility = {visible =! visible},
             isVisible = visible
         )

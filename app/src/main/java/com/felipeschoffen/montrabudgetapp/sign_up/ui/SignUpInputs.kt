@@ -32,8 +32,7 @@ fun SignUpInputs(modifier: Modifier = Modifier) {
         var emailValue by remember { mutableStateOf("") }
         EmailOutlinedTextField(
             onValueChanged = { emailValue = it },
-            value = emailValue,
-            placeholder = stringResource(R.string.email_placeholder)
+            value = emailValue
         )
 
         var passwordValue by remember { mutableStateOf("") }
@@ -41,7 +40,6 @@ fun SignUpInputs(modifier: Modifier = Modifier) {
         PasswordOutlinedTextField(
             onValueChanged = { passwordValue = it },
             value = passwordValue,
-            placeholder = stringResource(R.string.password_placeholder),
             toggleVisibility = {visible =! visible},
             isVisible = visible
         )
