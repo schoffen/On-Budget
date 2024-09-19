@@ -48,7 +48,7 @@ fun ResetPasswordScreen(modifier: Modifier = Modifier) {
                     onClick = {
 
                     },
-                    text = stringResource(R.string.continue_)
+                    text = stringResource(R.string.action_continue)
                 )
             }
         }

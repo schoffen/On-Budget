@@ -1,6 +1,5 @@
 package com.felipeschoffen.montrabudgetapp.sign_up.ui
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Checkbox
@@ -44,7 +43,7 @@ fun SignUpPrivacyAgreement(
                     color = MaterialTheme.colorScheme.onBackground
                 )
             ) {
-                append(stringResource(R.string.checkbox_terms_of_service_agreement_1))
+                append(stringResource(R.string.terms_agreement_prefix))
                 append(" ")
             }
             // TODO: Switch this when implementing navigation
@@ -61,7 +60,24 @@ fun SignUpPrivacyAgreement(
                     )
                 )
             ) {
-                append(stringResource(R.string.checkbox_terms_of_service_agreement_2))
+                append(stringResource(R.string.terms_of_service))
+                append(" ")
+            }
+            append("and ")
+            withLink(
+                link = LinkAnnotation.Url(
+                    "https://www.google.com",
+                    styles = TextLinkStyles(
+                        style = SpanStyle(
+                            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                            fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
+                            fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    )
+                )
+            ) {
+                append(stringResource(R.string.privacy_policy))
             }
         })
     }

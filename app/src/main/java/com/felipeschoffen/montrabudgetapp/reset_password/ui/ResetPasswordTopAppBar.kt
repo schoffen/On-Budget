@@ -9,7 +9,8 @@ import com.felipeschoffen.montrabudgetapp.core.ui.CenteredTopAppBarWithBackActio
 @Composable
 fun ResetPasswordTopAppBar(modifier: Modifier = Modifier) {
     CenteredTopAppBarWithBackAction(
+        modifier = modifier,
         onBackPressed = {},
-        title = stringResource(R.string.reset_password)
+        title = stringResource(R.string.reset_password_title)
     )
 }

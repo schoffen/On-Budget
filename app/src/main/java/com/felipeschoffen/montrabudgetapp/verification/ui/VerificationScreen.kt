@@ -53,7 +53,7 @@ fun VerificationScreen(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
-                    text = stringResource(R.string.enter_verification_code),
+                    text = stringResource(R.string.verification_code_title),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onBackground
                 )
@@ -79,7 +79,7 @@ fun VerificationScreen(
                                 color = MaterialTheme.colorScheme.onBackground
                             )
                         ) {
-                            append(stringResource(R.string.email_send_message_pt1))
+                            append(stringResource(R.string.verification_email_sent))
                             append(" ")
                         }
 
@@ -102,14 +102,14 @@ fun VerificationScreen(
                                 color = MaterialTheme.colorScheme.onBackground
                             )
                         ) {
-                            append(stringResource(R.string.email_send_message_pt2))
+                            append(stringResource(R.string.verification_check_inbox))
                         }
                     },
                     textAlign = TextAlign.Start
                 )
 
                 Text(
-                    text = stringResource(R.string.didnt_recieve_code),
+                    text = stringResource(R.string.verification_resend_code),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.primary,
                     textDecoration = TextDecoration.Underline,
@@ -120,7 +120,7 @@ fun VerificationScreen(
                     onClick = {
 
                     },
-                    text = stringResource(R.string.verify)
+                    text = stringResource(R.string.action_verify)
                 )
             }
         }

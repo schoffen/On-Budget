@@ -4,12 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import com.felipeschoffen.montrabudgetapp.core.ui.theme.MontraBudgetAppTheme
-import com.felipeschoffen.montrabudgetapp.forgot_password.ui.EmailOnTheWayScreen
-import com.felipeschoffen.montrabudgetapp.forgot_password.ui.ForgotPasswordScreen
-import com.felipeschoffen.montrabudgetapp.login.ui.LoginScreen
-import com.felipeschoffen.montrabudgetapp.reset_password.ui.ResetPasswordScreen
-import com.felipeschoffen.montrabudgetapp.verification.ui.VerificationScreen
+import com.felipeschoffen.montrabudgetapp.pin.ui.PinInputScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,7 +17,13 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MontraBudgetAppTheme {
-                ResetPasswordScreen()
+                var pin by remember { mutableStateOf("") }
+
+                PinInputScreen(
+                    pin = pin,
+                    onPinChange = { pin = it },
+                    onSend = {}
+                )
             }
         }
     }

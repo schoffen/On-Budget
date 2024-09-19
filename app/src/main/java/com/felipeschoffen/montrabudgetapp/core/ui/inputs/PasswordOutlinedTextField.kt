@@ -13,7 +13,7 @@ import com.felipeschoffen.montrabudgetapp.R
 fun PasswordOutlinedTextField(
     onValueChanged: (String) -> Unit,
     value: String,
-    placeholder: String = stringResource(R.string.password_placeholder),
+    placeholder: String = stringResource(R.string.password_hint),
     toggleVisibility: () -> Unit,
     isVisible: Boolean
 ) {

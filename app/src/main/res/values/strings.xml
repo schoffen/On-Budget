@@ -1,58 +1,63 @@
 <resources>
     <string name="app_name">Montra Budget App</string>
 
-    <string name="onboarding_illustration_1_title">Gain total control\nof your money</string>
-    <string name="onboarding_illustration_1_description">Become your own money manager\nand make every cent count</string>
+    <string name="onboarding_control_title">Gain total control\nof your money</string>
+    <string name="onboarding_control_description">Become your own money manager\nand make every cent count</string>
 
-    <string name="onboarding_illustration_2_title">Know where your\nmoney goes</string>
-    <string name="onboarding_illustration_2_description">Track your transaction easily,\nwith categories and financial report</string>
+    <string name="onboarding_tracking_title">Know where your\nmoney goes</string>
+    <string name="onboarding_tracking_description">Track your transaction easily,\nwith categories and financial report</string>
 
-    <string name="onboarding_illustration_3_title">Planning ahead</string>
-    <string name="onboarding_illustration_3_description">Setup your budget for each category\nso you in control</string>
+    <string name="onboarding_planning_title">Planning ahead</string>
+    <string name="onboarding_planning_description">Setup your budget for each category\nso you in control</string>
 
-    <string name="login">Login</string>
-    <string name="sign_up">Sign Up</string>
+    <string name="login_title">Login</string>
+    <string name="sign_up_title">Sign Up</string>
 
-    <string name="sign_up_with_google">Sign Up with Google</string>
+    <string name="sign_up_with_google_button">Sign Up with Google</string>
 
-    <string name="name_placeholder">Name</string>
-    <string name="email_placeholder">Email</string>
-    <string name="password_placeholder">Password</string>
+    <string name="name_hint">Name</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
 
-    <string name="checkbox_terms_of_service_agreement_1">By signing up, you agree to the</string>
-    <string name="checkbox_terms_of_service_agreement_2">Terms of Service and Privacy Policy</string>
+    <string name="terms_agreement_prefix">By signing up, you agree to the</string>
+    <string name="terms_of_service">Terms of Service</string>
+    <string name="privacy_policy">Privacy Policy</string>
 
-    <string name="or_with">Or with</string>
+    <string name="login_or">Or with</string>
 
-    <string name="already_have_an_account">Already have an account?</string>
-    <string name="sign_up_text">By signing up, you agree to the %1$s and %2$s</string>
+    <string name="login_existing_account">Already have an account?</string>
+    <string name="sign_up_agreement">By signing up, you agree to the %1$s and %2$s</string>
 
-    <string name="enter_verification_code">Enter your\nVerification Code</string>
+    <string name="verification_code_title">Enter your\nVerification Code</string>
 
-    <string name="email_send_message_pt1">We send verification code to your email</string>
-    <string name="email_send_message_pt2">. You can check your inbox.</string>
+    <string name="verification_email_sent">We send verification code to your email</string>
+    <string name="verification_check_inbox">. You can check your inbox.</string>
 
-    <string name="didnt_recieve_code">I didn’t received the code. Send again</string>
+    <string name="verification_resend_code">I didn’t received the code. Send again</string>
 
-    <string name="verify">Verify</string>
+    <string name="action_verify">Verify</string>
 
-    <string name="verification">Verification</string>
+    <string name="verification_title">Verification</string>
 
-    <string name="forgot_password_1">Forgot Password?</string>
-    <string name="forgot_password_2">Forgot Password</string>
+    <string name="forgot_password_question">Forgot Password?</string>
+    <string name="forgot_password_title">Forgot Password</string>
 
-    <string name="dont_have_account">Dont\'t have an account yet?</string>
+    <string name="signup_no_account">Dont\'t have an account yet?</string>
 
-    <string name="forgot_password_screen_title">Don’t worry.\nEnter your email and we’ll send you a link to reset your password.</string>
+    <string name="forgot_password_instructions">Don’t worry.\nEnter your email and we’ll send you a link to reset your password.</string>
 
-    <string name="continue_">Continue</string>
+    <string name="action_continue">Continue</string>
 
-    <string name="back_to_login">Back to Login</string>
+    <string name="action_back_to_login">Back to Login</string>
 
-    <string name="your_email_is_on_the_way">Your email is on the way</string>
-    <string name="check_email">Check your email %1$s and follow the instructions to reset your password</string>
+    <string name="reset_email_sent">Your email is on the way</string>
+    <string name="reset_check_email">Check your email %1$s and follow the instructions to reset your password</string>
 
-    <string name="reset_password">Reset Password</string>
-    <string name="new_password_placeholder">New password</string>
-    <string name="retype_new_password_placeholder">Retype new password</string>
+    <string name="reset_password_title">Reset Password</string>
+    <string name="new_password_hint">New password</string>
+    <string name="confirm_password_hint">Retype new password</string>
+
+    <string name="enter_PIN">Enter your PIN</string>
+    <string name="setup_new_PIN">Let\'s setup your PIN</string>
+    <string name="setup_confirm_new_PIN">Let\'s setup your PIN</string>
 </resources>

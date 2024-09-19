@@ -13,7 +13,7 @@ fun VerificationTopAppBar(modifier: Modifier = Modifier) {
         onBackPressed = {
 
         }, title = stringResource(
-            R.string.verification
+            R.string.verification_title
         )
     )
 }

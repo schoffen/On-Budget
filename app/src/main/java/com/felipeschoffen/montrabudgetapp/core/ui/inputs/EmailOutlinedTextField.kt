@@ -18,7 +18,7 @@ fun EmailOutlinedTextField(
         shape = customOutlinedTextFieldShape(),
         value = value,
         onValueChange = onValueChanged,
-        placeholder = { CustomTextFieldPlaceholder(stringResource(R.string.email_placeholder)) },
+        placeholder = { CustomTextFieldPlaceholder(stringResource(R.string.email_hint)) },
         keyboardOptions = customEmailKeyboardOptions()
     )
 }

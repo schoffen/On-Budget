@@ -14,10 +14,11 @@ fun ForgotPasswordTextButton(
     modifier: Modifier = Modifier
 ) {
     TextButton(
-        onClick = onClick
+        onClick = onClick,
+        modifier = modifier
     ) {
         Text(
-            text = stringResource(R.string.forgot_password_1),
+            text = stringResource(R.string.forgot_password_question),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.primary
         )

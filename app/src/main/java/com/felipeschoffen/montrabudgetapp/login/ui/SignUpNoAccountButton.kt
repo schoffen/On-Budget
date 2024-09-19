@@ -14,8 +14,10 @@ import androidx.compose.ui.text.withStyle
 import com.felipeschoffen.montrabudgetapp.R
 
 @Composable
-fun DontHaveAccountTextButton(modifier: Modifier = Modifier) {
-    Text(text = buildAnnotatedString {
+fun SignUpNoAccountButton(modifier: Modifier = Modifier) {
+    Text(
+        modifier = modifier,
+        text = buildAnnotatedString {
         withStyle(
             SpanStyle(
                 fontSize = MaterialTheme.typography.bodyMedium.fontSize,
@@ -24,7 +26,7 @@ fun DontHaveAccountTextButton(modifier: Modifier = Modifier) {
                 color = MaterialTheme.colorScheme.onBackground
             )
         ) {
-            append(stringResource(R.string.dont_have_account))
+            append(stringResource(R.string.signup_no_account))
             append(" ")
         }
         // TODO: Switch this when implementing navigation
@@ -41,7 +43,7 @@ fun DontHaveAccountTextButton(modifier: Modifier = Modifier) {
                 )
             )
         ) {
-            append(stringResource(R.string.sign_up))
+            append(stringResource(R.string.sign_up_title))
         }
     })
 }

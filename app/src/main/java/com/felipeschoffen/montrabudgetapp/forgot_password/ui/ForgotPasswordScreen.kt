@@ -50,7 +50,7 @@ fun ForgotPasswordScreen(modifier: Modifier = Modifier) {
                 verticalArrangement = Arrangement.spacedBy(32.dp)
             ) {
                 Text(
-                    text = stringResource(R.string.forgot_password_screen_title),
+                    text = stringResource(R.string.forgot_password_instructions),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onBackground
                 )
@@ -68,7 +68,7 @@ fun ForgotPasswordScreen(modifier: Modifier = Modifier) {
                     onClick = {
 
                     },
-                    text = stringResource(R.string.continue_)
+                    text = stringResource(R.string.action_continue)
                 )
             }
         }

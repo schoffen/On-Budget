@@ -11,6 +11,6 @@ fun SignUpTopAppBar() {
         onBackPressed = {
 
         },
-        title = stringResource(R.string.sign_up)
+        title = stringResource(R.string.sign_up_title)
     )
 }

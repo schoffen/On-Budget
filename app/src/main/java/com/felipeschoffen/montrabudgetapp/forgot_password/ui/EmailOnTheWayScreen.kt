@@ -56,13 +56,13 @@ fun EmailOnTheWayScreen(
             )
 
             Text(
-                text = stringResource(R.string.your_email_is_on_the_way),
+                text = stringResource(R.string.reset_email_sent),
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onBackground
             )
 
             Text(
-                text = stringResource(R.string.check_email, email),
+                text = stringResource(R.string.reset_check_email, email),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onBackground,
                 textAlign = TextAlign.Center,
@@ -75,7 +75,7 @@ fun EmailOnTheWayScreen(
                 onClick = {
 
                 },
-                text = stringResource(R.string.back_to_login)
+                text = stringResource(R.string.action_back_to_login)
             )
         }
     }

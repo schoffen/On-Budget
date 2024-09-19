@@ -11,6 +11,6 @@ fun LoginTopAppBar() {
         onBackPressed = {
 
         },
-        title = stringResource(R.string.login)
+        title = stringResource(R.string.login_title)
     )
 }

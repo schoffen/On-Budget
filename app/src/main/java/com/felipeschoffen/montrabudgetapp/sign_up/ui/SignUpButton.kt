@@ -13,7 +13,7 @@ fun SignUpButton(
 ) {
     CustomButtonPrimary(
         onClick = onClick,
-        text = stringResource(R.string.sign_up),
+        text = stringResource(R.string.sign_up_title),
         modifier = modifier
     )
 }

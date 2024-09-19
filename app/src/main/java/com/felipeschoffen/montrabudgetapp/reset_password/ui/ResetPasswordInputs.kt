@@ -29,7 +29,7 @@ fun ResetPasswordInputs(modifier: Modifier = Modifier) {
                 newPassword = it
             },
             value = newPassword,
-            placeholder = stringResource(R.string.new_password_placeholder),
+            placeholder = stringResource(R.string.new_password_hint),
             toggleVisibility = { newPasswordVisible = !newPasswordVisible },
             isVisible = newPasswordVisible
         )
@@ -41,7 +41,7 @@ fun ResetPasswordInputs(modifier: Modifier = Modifier) {
             onValueChanged = {
                 confirmNewPassword = it
             },
-            placeholder = stringResource(R.string.retype_new_password_placeholder),
+            placeholder = stringResource(R.string.confirm_password_hint),
             value = confirmNewPassword,
             toggleVisibility = { confirmNewPasswordVisible = !confirmNewPasswordVisible },
             isVisible = confirmNewPasswordVisible

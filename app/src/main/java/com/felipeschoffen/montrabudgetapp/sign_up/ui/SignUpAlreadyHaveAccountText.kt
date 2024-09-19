@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.LinkAnnotation
-import androidx.compose.ui.text.LinkInteractionListener
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.buildAnnotatedString
@@ -31,7 +30,7 @@ fun SignUpAlreadyHaveAccountText(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         ) {
-            append(stringResource(R.string.already_have_an_account))
+            append(stringResource(R.string.login_existing_account))
             append(" ")
         }
         withLink(
@@ -49,7 +48,7 @@ fun SignUpAlreadyHaveAccountText(
                 linkInteractionListener = { onLoginClicked() }
             )
         ) {
-            append(stringResource(R.string.login))
+            append(stringResource(R.string.login_title))
         }
     })
 }

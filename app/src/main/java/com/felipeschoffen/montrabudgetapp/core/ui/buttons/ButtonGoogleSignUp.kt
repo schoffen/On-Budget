@@ -31,7 +31,7 @@ fun ButtonGoogleSignUp(
         Icon(painter = painterResource(R.drawable.ic_google), contentDescription = null, tint = Color.Unspecified)
         Spacer(modifier = Modifier.size(16.dp))
         Text(
-            text = stringResource(R.string.sign_up_with_google),
+            text = stringResource(R.string.sign_up_with_google_button),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onBackground
         )

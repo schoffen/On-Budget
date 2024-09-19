@@ -11,5 +11,5 @@ fun LoginButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    CustomButtonPrimary(onClick = onClick, text = stringResource(R.string.login))
+    CustomButtonPrimary(onClick = onClick, text = stringResource(R.string.login_title), modifier = modifier)
 }

@@ -26,7 +26,7 @@ fun SignUpInputs(modifier: Modifier = Modifier) {
         LabeledOutlinedTextField(
             onValueChanged = { nameValue = it },
             value = nameValue,
-            placeholder = stringResource(R.string.name_placeholder)
+            placeholder = stringResource(R.string.name_hint)
         )
 
         var emailValue by remember { mutableStateOf("") }

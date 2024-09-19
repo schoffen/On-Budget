@@ -30,21 +30,21 @@ fun OnBoardingScreen(modifier: Modifier = Modifier) {
         HorizontalPager(pagerState) { page ->
             when (page) {
                 0 -> OnBoardingPagerContent(
-                    image = R.drawable.illustration_1,
-                    title = R.string.onboarding_illustration_1_title,
-                    description = R.string.onboarding_illustration_1_description
+                    image = R.drawable.control_illustration,
+                    title = R.string.onboarding_control_title,
+                    description = R.string.onboarding_control_description
                 )
 
                 1 -> OnBoardingPagerContent(
-                    image = R.drawable.illustration_2,
-                    title = R.string.onboarding_illustration_2_title,
-                    description = R.string.onboarding_illustration_2_description
+                    image = R.drawable.tracking_illustration,
+                    title = R.string.onboarding_tracking_title,
+                    description = R.string.onboarding_tracking_description
                 )
 
                 2 -> OnBoardingPagerContent(
-                    image = R.drawable.illustration_3,
-                    title = R.string.onboarding_illustration_3_title,
-                    description = R.string.onboarding_illustration_3_description
+                    image = R.drawable.planning_illustration,
+                    title = R.string.onboarding_planning_title,
+                    description = R.string.onboarding_planning_description
                 )
             }
         }
@@ -59,9 +59,9 @@ fun OnBoardingScreen(modifier: Modifier = Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            CustomButtonPrimary(text = stringResource(R.string.sign_up), onClick = { })
+            CustomButtonPrimary(text = stringResource(R.string.sign_up_title), onClick = { })
 
-            CustomButtonSecondary(text = stringResource(R.string.login), onClick = { })
+            CustomButtonSecondary(text = stringResource(R.string.login_title), onClick = { })
         }
     }
 }

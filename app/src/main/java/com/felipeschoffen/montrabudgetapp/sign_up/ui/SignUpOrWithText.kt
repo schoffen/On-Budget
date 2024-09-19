@@ -11,7 +11,7 @@ import com.felipeschoffen.montrabudgetapp.R
 fun SignUpOrWithText(modifier: Modifier = Modifier) {
     Text(
         modifier = modifier,
-        text = stringResource(R.string.or_with),
+        text = stringResource(R.string.login_or),
         style = MaterialTheme.typography.bodyLarge,
         color = MaterialTheme.colorScheme.onSurfaceVariant
     )
