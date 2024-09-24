@@ -49,7 +49,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
 
                 })
 
-                DontHaveAccountTextButton()
+                SignUpNoAccountButton()
             }
         }
     }

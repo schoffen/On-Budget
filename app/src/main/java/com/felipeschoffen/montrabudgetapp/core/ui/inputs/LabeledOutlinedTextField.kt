@@ -6,17 +6,22 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun LabeledOutlinedTextField(
+    modifier: Modifier = Modifier,
     onValueChanged: (String) -> Unit,
     value: String,
-    placeholder: String
+    placeholder: String,
+    readOnly: Boolean = false,
+    trailingIcon: @Composable (() -> Unit)? = null,
 ) {
     OutlinedTextField(
-        modifier = Modifier.customOutlinedTextFieldModifier(),
+        modifier = modifier.customOutlinedTextFieldModifier(),
         textStyle = customTextStyle(),
         colors = customOutlinedTextFieldColors(),
         shape = customOutlinedTextFieldShape(),
         value = value,
         onValueChange = onValueChanged,
-        placeholder = { CustomTextFieldPlaceholder(placeholder) }
+        placeholder = { CustomTextFieldPlaceholder(placeholder) },
+        readOnly = readOnly,
+        trailingIcon = trailingIcon
     )
 }
