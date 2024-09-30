@@ -1,4 +1,4 @@
-package com.felipeschoffen.montrabudgetapp.ui.onboarding.financial_account.components
+package com.felipeschoffen.montrabudgetapp.ui.financial_account.components
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping

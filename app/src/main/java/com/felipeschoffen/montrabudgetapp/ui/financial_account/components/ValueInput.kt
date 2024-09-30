@@ -1,4 +1,4 @@
-package com.felipeschoffen.montrabudgetapp.ui.onboarding.financial_account.components
+package com.felipeschoffen.montrabudgetapp.ui.financial_account.components
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme

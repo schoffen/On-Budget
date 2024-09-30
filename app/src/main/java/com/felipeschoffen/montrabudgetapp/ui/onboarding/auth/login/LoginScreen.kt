@@ -1,4 +1,4 @@
-package com.felipeschoffen.montrabudgetapp.login.ui
+package com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.login
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,14 +21,20 @@ import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.login.components.Fo
 import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.login.components.LoginButton
 import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.login.components.LoginInputs
 import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.login.components.LoginTopAppBar
-import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.login.components.SignUpText
+import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.login.components.GoToRegisterText
 
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier) {
+fun LoginScreen(
+    onBackPressed: () -> Unit,
+    onSignUpClicked: () -> Unit,
+    onForgotPasswordClicked: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Scaffold(modifier = Modifier,
         topBar = {
-            LoginTopAppBar()
-        }) { paddingValues ->
+            LoginTopAppBar(onBackPressed = onBackPressed)
+        }
+    ) { paddingValues ->
         Box(
             modifier = modifier
                 .fillMaxSize()
@@ -40,7 +48,8 @@ fun LoginScreen(modifier: Modifier = Modifier) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .wrapContentHeight(),
+                    .wrapContentHeight()
+                    .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
@@ -50,11 +59,11 @@ fun LoginScreen(modifier: Modifier = Modifier) {
 
                 })
 
-                ForgotPasswordTextButton(onClick = {
+                ForgotPasswordTextButton(onClick = onForgotPasswordClicked)
 
-                })
-
-                SignUpText()
+                GoToRegisterText(
+                    onSignUpClicked = onSignUpClicked
+                )
             }
         }
     }

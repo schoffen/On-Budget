@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -25,13 +27,16 @@ import androidx.compose.ui.unit.dp
 import com.felipeschoffen.montrabudgetapp.R
 import com.felipeschoffen.montrabudgetapp.ui.core.buttons.CustomButtonPrimary
 import com.felipeschoffen.montrabudgetapp.ui.core.inputs.EmailOutlinedTextField
-import com.felipeschoffen.montrabudgetapp.forgot_password.ui.ForgotPasswordTopAppBar
+import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.recovery.components.ForgotPasswordTopAppBar
 
 @Composable
-fun ForgotPasswordScreen(modifier: Modifier = Modifier) {
+fun ForgotPasswordScreen(
+    onBackPressed: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Scaffold(modifier = Modifier,
         topBar = {
-            ForgotPasswordTopAppBar()
+            ForgotPasswordTopAppBar(onBackPressed = onBackPressed)
         }) { paddingValues ->
         Box(
             modifier = modifier
@@ -46,7 +51,8 @@ fun ForgotPasswordScreen(modifier: Modifier = Modifier) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .wrapContentHeight(),
+                    .wrapContentHeight()
+                    .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(32.dp)
             ) {

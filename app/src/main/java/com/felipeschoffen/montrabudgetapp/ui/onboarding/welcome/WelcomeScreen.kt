@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -19,10 +20,15 @@ import com.felipeschoffen.montrabudgetapp.ui.onboarding.welcome.components.OnBoa
 import com.felipeschoffen.montrabudgetapp.ui.onboarding.welcome.components.OnBoardingPagerIndicator
 
 @Composable
-fun OnBoardingScreen(modifier: Modifier = Modifier) {
+fun WelcomeScreen(
+    onLoginClicked: () -> Unit,
+    onRegisterClicked: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
+            .navigationBarsPadding()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly
@@ -61,9 +67,9 @@ fun OnBoardingScreen(modifier: Modifier = Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            CustomButtonPrimary(text = stringResource(R.string.sign_up_title), onClick = { })
+            CustomButtonPrimary(text = stringResource(R.string.sign_up_title), onClick = onRegisterClicked)
 
-            CustomButtonSecondary(text = stringResource(R.string.login_title), onClick = { })
+            CustomButtonSecondary(text = stringResource(R.string.login_title), onClick = onLoginClicked)
         }
     }
 }

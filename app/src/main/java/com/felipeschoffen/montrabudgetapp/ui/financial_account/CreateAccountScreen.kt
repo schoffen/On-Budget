@@ -1,4 +1,4 @@
-package com.felipeschoffen.montrabudgetapp.ui.onboarding.financial_account
+package com.felipeschoffen.montrabudgetapp.ui.financial_account
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -28,7 +28,7 @@ import com.felipeschoffen.montrabudgetapp.ui.core.buttons.CustomButtonPrimary
 import com.felipeschoffen.montrabudgetapp.ui.core.inputs.DropDownMenuItem
 import com.felipeschoffen.montrabudgetapp.ui.core.inputs.DropDownSelector
 import com.felipeschoffen.montrabudgetapp.ui.core.inputs.LabeledOutlinedTextField
-import com.felipeschoffen.montrabudgetapp.ui.onboarding.financial_account.components.ValueInput
+import com.felipeschoffen.montrabudgetapp.ui.financial_account.components.ValueInput
 
 @Composable
 fun CreateAccountScreen(modifier: Modifier = Modifier) {

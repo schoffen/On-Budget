@@ -1,4 +1,4 @@
-package com.felipeschoffen.montrabudgetapp.forgot_password.ui
+package com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.recovery.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -7,10 +7,13 @@ import com.felipeschoffen.montrabudgetapp.R
 import com.felipeschoffen.montrabudgetapp.ui.core.CenteredTopAppBarWithBackAction
 
 @Composable
-fun ForgotPasswordTopAppBar(modifier: Modifier = Modifier) {
+fun ForgotPasswordTopAppBar(
+    onBackPressed: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     CenteredTopAppBarWithBackAction(
         modifier = modifier,
-        onBackPressed = {},
+        onBackPressed = onBackPressed,
         title = stringResource(R.string.forgot_password_title)
     )
 }

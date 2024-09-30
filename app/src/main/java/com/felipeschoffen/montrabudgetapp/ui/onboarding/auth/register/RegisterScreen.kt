@@ -1,4 +1,4 @@
-package com.felipeschoffen.montrabudgetapp.sign_up.ui
+package com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.register
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -6,8 +6,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,37 +22,53 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.felipeschoffen.montrabudgetapp.ui.core.buttons.ButtonGoogleSignUp
-import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.register.components.SignUpAlreadyHaveAccountText
+import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.register.components.GoToLoginText
 import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.register.components.SignUpButton
 import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.register.components.SignUpInputs
 import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.register.components.SignUpOrWithText
 import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.register.components.SignUpPrivacyAgreement
-import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.register.components.SignUpTopAppBar
+import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.register.components.RegisterTopAppBar
 
 @Composable
-fun SignUpScreen(modifier: Modifier = Modifier) {
+fun RegisterScreen(
+    modifier: Modifier = Modifier,
+    onBackPressed: () -> Unit,
+    onLoginClicked: () -> Unit,
+    registerViewModel: RegisterViewModel
+) {
+    val registerState by registerViewModel.registerState
+
     Scaffold(
         topBar = {
-            SignUpTopAppBar()
+            RegisterTopAppBar(onBackPressed = onBackPressed)
         }
     ) { paddingValues ->
         Box(
             modifier = modifier
                 .fillMaxSize()
+                .imePadding()
                 .padding(paddingValues)
                 .padding(horizontal = 16.dp)
                 .background(Color.Transparent),
             contentAlignment = Alignment.Center,
 
-        ) {
+            ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .wrapContentHeight(),
+                    .wrapContentHeight()
+                    .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
-                SignUpInputs()
+                SignUpInputs(
+                    name = registerState.name,
+                    onNameChange = { registerViewModel.onNameChange(it) },
+                    password = registerState.password,
+                    onPasswordChange = { registerViewModel.onPasswordChange(it) },
+                    email = registerState.email,
+                    onEmailChange = { registerViewModel.onEmailChange(it) }
+                )
 
                 var checked by remember { mutableStateOf(false) }
                 SignUpPrivacyAgreement(checked = checked, onCheckedChange = { checked = !checked })
@@ -64,9 +83,7 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
 
                 })
 
-                SignUpAlreadyHaveAccountText({
-
-                })
+                GoToLoginText(onLoginClicked = onLoginClicked)
             }
         }
     }

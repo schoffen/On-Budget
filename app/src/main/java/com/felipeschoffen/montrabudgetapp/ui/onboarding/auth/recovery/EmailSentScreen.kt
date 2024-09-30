@@ -28,7 +28,7 @@ import com.felipeschoffen.montrabudgetapp.R
 import com.felipeschoffen.montrabudgetapp.ui.core.buttons.CustomButtonPrimary
 
 @Composable
-fun EmailSendScreen(
+fun EmailSentScreen(
     email: String,
     modifier: Modifier = Modifier
 ) {

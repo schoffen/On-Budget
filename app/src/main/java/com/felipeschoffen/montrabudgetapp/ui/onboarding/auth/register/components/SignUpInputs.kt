@@ -17,29 +17,35 @@ import com.felipeschoffen.montrabudgetapp.ui.core.inputs.LabeledOutlinedTextFiel
 import com.felipeschoffen.montrabudgetapp.ui.core.inputs.PasswordOutlinedTextField
 
 @Composable
-fun SignUpInputs(modifier: Modifier = Modifier) {
+fun SignUpInputs(
+    name: String,
+    onNameChange: (String) -> Unit,
+    email: String,
+    onEmailChange: (String) -> Unit,
+    password: String,
+    onPasswordChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        var nameValue by remember { mutableStateOf("") }
         LabeledOutlinedTextField(
-            onValueChanged = { nameValue = it },
-            value = nameValue,
+            onValueChanged = onNameChange,
+            value = name,
             placeholder = stringResource(R.string.name_hint)
         )
 
-        var emailValue by remember { mutableStateOf("") }
         EmailOutlinedTextField(
-            onValueChanged = { emailValue = it },
-            value = emailValue
+            onValueChanged = onEmailChange,
+            value = email
         )
 
-        var passwordValue by remember { mutableStateOf("") }
         var visible by remember { mutableStateOf(false) }
+
         PasswordOutlinedTextField(
-            onValueChanged = { passwordValue = it },
-            value = passwordValue,
+            onValueChanged = onPasswordChange,
+            value = password,
             toggleVisibility = {visible =! visible},
             isVisible = visible
         )

@@ -6,11 +6,11 @@ import com.felipeschoffen.montrabudgetapp.R
 import com.felipeschoffen.montrabudgetapp.ui.core.CenteredTopAppBarWithBackAction
 
 @Composable
-fun LoginTopAppBar() {
+fun LoginTopAppBar(
+    onBackPressed: () -> Unit
+) {
     CenteredTopAppBarWithBackAction(
-        onBackPressed = {
-
-        },
+        onBackPressed = onBackPressed,
         title = stringResource(R.string.login_title)
     )
 }
