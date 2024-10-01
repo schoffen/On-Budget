@@ -1,5 +1,6 @@
 package com.felipeschoffen.montrabudgetapp.ui.navigation
 
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -51,8 +52,7 @@ fun NavGraphBuilder.onBoardingNavGraph(navController: NavController) {
                     navController.popBackStack()
                     navController.navigate(Screens.OnBoarding.Auth.Login)
                 },
-                // TODO: add hilt view model
-                registerViewModel = RegisterViewModel()
+                registerViewModel = hiltViewModel<RegisterViewModel>()
             )
         }
 
