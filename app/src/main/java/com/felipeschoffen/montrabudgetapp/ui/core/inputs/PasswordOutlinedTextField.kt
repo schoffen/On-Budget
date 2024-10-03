@@ -2,6 +2,7 @@ package com.felipeschoffen.montrabudgetapp.ui.core.inputs
 
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -15,7 +16,9 @@ fun PasswordOutlinedTextField(
     value: String,
     placeholder: String = stringResource(R.string.password_hint),
     toggleVisibility: () -> Unit,
-    isVisible: Boolean
+    isVisible: Boolean,
+    isError: Boolean = false,
+    errorMessage: String? = null,
 ) {
     OutlinedTextField(
         modifier = Modifier.customOutlinedTextFieldModifier(),
@@ -31,6 +34,11 @@ fun PasswordOutlinedTextField(
             IconButton(toggleVisibility) {
                 if (isVisible) CustomPasswordVisibilityOnTrailingIcon() else CustomPasswordVisibilityOffTrailingIcon()
             }
+        },
+        isError = isError,
+        supportingText = {
+            if (errorMessage != null)
+                Text(text = errorMessage)
         }
     )
 }

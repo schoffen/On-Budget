@@ -36,7 +36,7 @@ fun RegisterScreen(
     onLoginClicked: () -> Unit,
     registerViewModel: RegisterViewModel
 ) {
-    val registerState by registerViewModel.registerState
+    val registerFormState by registerViewModel.registerFormState
 
     Scaffold(
         topBar = {
@@ -62,11 +62,9 @@ fun RegisterScreen(
                 verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
                 SignUpInputs(
-                    name = registerState.name,
+                    registerFormState = registerFormState,
                     onNameChange = { registerViewModel.onNameChange(it) },
-                    password = registerState.password,
                     onPasswordChange = { registerViewModel.onPasswordChange(it) },
-                    email = registerState.email,
                     onEmailChange = { registerViewModel.onEmailChange(it) }
                 )
 
@@ -74,7 +72,7 @@ fun RegisterScreen(
                 SignUpPrivacyAgreement(checked = checked, onCheckedChange = { checked = !checked })
 
                 SignUpButton(onClick = {
-
+                    registerViewModel.register()
                 })
 
                 SignUpOrWithText()

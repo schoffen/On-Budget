@@ -1,6 +1,7 @@
 package com.felipeschoffen.montrabudgetapp.ui.core.inputs
 
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -9,7 +10,9 @@ import com.felipeschoffen.montrabudgetapp.R
 @Composable
 fun EmailOutlinedTextField(
     onValueChanged: (String) -> Unit,
-    value: String
+    value: String,
+    isError: Boolean = false,
+    errorMessage: String? = null,
 ) {
     OutlinedTextField(
         modifier = Modifier.customOutlinedTextFieldModifier(),
@@ -19,6 +22,11 @@ fun EmailOutlinedTextField(
         value = value,
         onValueChange = onValueChanged,
         placeholder = { CustomTextFieldPlaceholder(stringResource(R.string.email_hint)) },
-        keyboardOptions = customEmailKeyboardOptions()
+        keyboardOptions = customEmailKeyboardOptions(),
+        isError = isError,
+        supportingText = {
+            if (errorMessage != null)
+                Text(text = errorMessage)
+        }
     )
 }

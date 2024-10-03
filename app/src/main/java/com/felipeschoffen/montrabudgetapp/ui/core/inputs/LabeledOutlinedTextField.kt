@@ -1,6 +1,7 @@
 package com.felipeschoffen.montrabudgetapp.ui.core.inputs
 
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
@@ -11,6 +12,8 @@ fun LabeledOutlinedTextField(
     value: String,
     placeholder: String,
     readOnly: Boolean = false,
+    isError: Boolean = false,
+    errorMessage: String? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
 ) {
     OutlinedTextField(
@@ -22,6 +25,11 @@ fun LabeledOutlinedTextField(
         onValueChange = onValueChanged,
         placeholder = { CustomTextFieldPlaceholder(placeholder) },
         readOnly = readOnly,
-        trailingIcon = trailingIcon
+        trailingIcon = trailingIcon,
+        isError = isError,
+        supportingText = {
+            if (errorMessage != null)
+                Text(text = errorMessage)
+        }
     )
 }

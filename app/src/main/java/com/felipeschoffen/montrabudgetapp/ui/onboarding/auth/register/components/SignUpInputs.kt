@@ -15,39 +15,44 @@ import com.felipeschoffen.montrabudgetapp.R
 import com.felipeschoffen.montrabudgetapp.ui.core.inputs.EmailOutlinedTextField
 import com.felipeschoffen.montrabudgetapp.ui.core.inputs.LabeledOutlinedTextField
 import com.felipeschoffen.montrabudgetapp.ui.core.inputs.PasswordOutlinedTextField
+import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.register.RegisterFormState
 
 @Composable
 fun SignUpInputs(
-    name: String,
+    modifier: Modifier = Modifier,
+    registerFormState: RegisterFormState,
     onNameChange: (String) -> Unit,
-    email: String,
     onEmailChange: (String) -> Unit,
-    password: String,
-    onPasswordChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    onPasswordChange: (String) -> Unit
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(24.dp)
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         LabeledOutlinedTextField(
             onValueChanged = onNameChange,
-            value = name,
-            placeholder = stringResource(R.string.name_hint)
+            value = registerFormState.name,
+            placeholder = stringResource(R.string.name_hint),
+            isError = !registerFormState.isNameValid,
+            errorMessage = registerFormState.nameErrorMessage
         )
 
         EmailOutlinedTextField(
             onValueChanged = onEmailChange,
-            value = email
+            value = registerFormState.email,
+            isError = !registerFormState.isEmailValid,
+            errorMessage = registerFormState.emailErrorMessage
         )
 
         var visible by remember { mutableStateOf(false) }
 
         PasswordOutlinedTextField(
             onValueChanged = onPasswordChange,
-            value = password,
+            value = registerFormState.password,
             toggleVisibility = {visible =! visible},
-            isVisible = visible
+            isVisible = visible,
+            isError = !registerFormState.isPasswordValid,
+            errorMessage = registerFormState.passwordErrorMessage
         )
     }
 }

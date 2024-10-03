@@ -81,4 +81,10 @@
     <string name="account_name_hint">Account Name</string>
 
     <string name="all_set_title">You are set!</string>
+
+    <string name="error_blank_input">This field cannot be empty</string>
+    <string name="error_invalid_email">Invalid email</string>
+    <string name="error_short_name">Name must have at least 3 letters</string>
+    <string name="error_short_password">Password must have at least 8 characters</string>
+
 </resources>

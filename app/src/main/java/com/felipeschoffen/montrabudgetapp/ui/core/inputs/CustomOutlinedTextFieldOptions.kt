@@ -1,7 +1,7 @@
 package com.felipeschoffen.montrabudgetapp.ui.core.inputs
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 fun CustomTextFieldPlaceholder(text: String) = Text(text = text, style = MaterialTheme.typography.labelSmall)
 
 @Composable
-fun Modifier.customOutlinedTextFieldModifier() = this.fillMaxWidth().height(56.dp)
+fun Modifier.customOutlinedTextFieldModifier() = this.fillMaxWidth().heightIn(56.dp)
 
 @Composable
 fun customOutlinedTextFieldColors() = TextFieldDefaults.colors(
