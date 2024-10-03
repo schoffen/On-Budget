@@ -5,15 +5,17 @@ import androidx.lifecycle.ViewModel
 import com.felipeschoffen.montrabudgetapp.R
 import com.felipeschoffen.montrabudgetapp.domain.util.InputError
 import com.felipeschoffen.montrabudgetapp.domain.util.ResourceProvider
-import com.felipeschoffen.montrabudgetapp.domain.validations.ValidateEmail
-import com.felipeschoffen.montrabudgetapp.domain.validations.ValidateName
-import com.felipeschoffen.montrabudgetapp.domain.validations.ValidatePassword
+import com.felipeschoffen.montrabudgetapp.domain.validations.EmailValidator
+import com.felipeschoffen.montrabudgetapp.domain.validations.NameValidator
+import com.felipeschoffen.montrabudgetapp.domain.validations.PasswordValidator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val resourceProvider: ResourceProvider
+    private val nameValidator: NameValidator,
+    private val emailValidator: EmailValidator,
+    private val passwordValidator: PasswordValidator,
 ) : ViewModel() {
 
     private var _registerFormState = mutableStateOf(RegisterFormState())
@@ -37,48 +39,34 @@ class RegisterViewModel @Inject constructor(
         validatePassword()
     }
 
+    private fun validateForm() {
+
+    }
+
     private fun validateName() {
-        val result = ValidateName().execute(_registerFormState.value.name)
+        val result = nameValidator.execute(_registerFormState.value.name)
 
         _registerFormState.value = _registerFormState.value.copy(
             isNameValid = result.successful,
-            nameErrorMessage = result.error?.let { error ->
-                when (error) {
-                    InputError.Blank -> resourceProvider.getString(R.string.error_blank_input)
-                    InputError.ShortLength -> resourceProvider.getString(R.string.error_short_name)
-                    else -> null
-                }
-            }
+            nameErrorMessage = result.errorMessage
         )
     }
 
     private fun validateEmail() {
-        val result = ValidateEmail().execute(_registerFormState.value.email)
+        val result = emailValidator.execute(_registerFormState.value.email)
 
         _registerFormState.value = _registerFormState.value.copy(
             isEmailValid = result.successful,
-            emailErrorMessage = result.error?.let { error ->
-                when (error) {
-                    InputError.Blank -> resourceProvider.getString(R.string.error_blank_input)
-                    InputError.Invalid -> resourceProvider.getString(R.string.error_invalid_email)
-                    else -> null
-                }
-            }
+            emailErrorMessage = result.errorMessage
         )
     }
 
     private fun validatePassword() {
-        val result = ValidatePassword().execute(_registerFormState.value.password)
+        val result = passwordValidator.execute(_registerFormState.value.password)
 
         _registerFormState.value = _registerFormState.value.copy(
             isPasswordValid = result.successful,
-            passwordErrorMessage = result.error?.let { error ->
-                when (error) {
-                    InputError.Blank -> resourceProvider.getString(R.string.error_blank_input)
-                    InputError.ShortLength -> resourceProvider.getString(R.string.error_short_password)
-                    else -> null
-                }
-            }
+            passwordErrorMessage = result.errorMessage
         )
     }
 }
