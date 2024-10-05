@@ -52,7 +52,10 @@ fun NavGraphBuilder.onBoardingNavGraph(navController: NavController) {
                     navController.popBackStack()
                     navController.navigate(Screens.OnBoarding.Auth.Login)
                 },
-                registerViewModel = hiltViewModel<RegisterViewModel>()
+                registerViewModel = hiltViewModel<RegisterViewModel>(),
+                onRegister = {
+                    navController.navigate(Screens.OnBoarding.Auth.Register.Verification)
+                }
             )
         }
 

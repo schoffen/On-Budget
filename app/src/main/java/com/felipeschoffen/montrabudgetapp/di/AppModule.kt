@@ -1,11 +1,16 @@
 package com.felipeschoffen.montrabudgetapp.di
 
 import android.content.Context
+import com.felipeschoffen.montrabudgetapp.data.database.AuthDatabase
+import com.felipeschoffen.montrabudgetapp.data.database.AuthFirebase
+import com.felipeschoffen.montrabudgetapp.data.repository.AuthRepositoryImpl
+import com.felipeschoffen.montrabudgetapp.domain.repository.AuthRepository
 import com.felipeschoffen.montrabudgetapp.domain.util.ErrorMessages
 import com.felipeschoffen.montrabudgetapp.domain.util.ResourceProvider
 import com.felipeschoffen.montrabudgetapp.domain.validations.EmailValidator
 import com.felipeschoffen.montrabudgetapp.domain.validations.NameValidator
 import com.felipeschoffen.montrabudgetapp.domain.validations.PasswordValidator
+import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,6 +20,16 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @Provides
+    fun provideAuthDatabase(): AuthDatabase {
+        return AuthFirebase
+    }
+
+    @Provides
+    fun provideAuthRepository(authDatabase: AuthDatabase): AuthRepository {
+        return AuthRepositoryImpl(authDatabase)
+    }
 
     @Provides
     fun provideResourceProvider(@ApplicationContext context: Context): ResourceProvider {

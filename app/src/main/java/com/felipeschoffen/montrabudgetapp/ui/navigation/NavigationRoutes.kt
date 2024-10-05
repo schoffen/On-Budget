@@ -18,7 +18,11 @@ sealed class Screens {
             object Login
 
             @Serializable
-            object Register
+            object Register {
+
+                @Serializable
+                object Verification
+            }
 
             @Serializable
             object ForgotPassword {
@@ -29,4 +33,7 @@ sealed class Screens {
 
         }
     }
+
+    @Serializable
+    object Home
 }

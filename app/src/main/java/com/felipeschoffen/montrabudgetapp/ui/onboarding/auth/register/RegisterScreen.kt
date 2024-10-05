@@ -34,6 +34,7 @@ fun RegisterScreen(
     modifier: Modifier = Modifier,
     onBackPressed: () -> Unit,
     onLoginClicked: () -> Unit,
+    onRegister: () -> Unit,
     registerViewModel: RegisterViewModel
 ) {
     val registerFormState by registerViewModel.registerFormState
@@ -72,7 +73,7 @@ fun RegisterScreen(
                 SignUpPrivacyAgreement(checked = checked, onCheckedChange = { checked = !checked })
 
                 SignUpButton(onClick = {
-                    registerViewModel.register()
+                    registerViewModel.registerWithEmail()
                 })
 
                 SignUpOrWithText()
@@ -84,6 +85,9 @@ fun RegisterScreen(
                 GoToLoginText(onLoginClicked = onLoginClicked)
             }
         }
+
+        if (registerViewModel.registerResult.value.isSuccessful)
+            onRegister()
     }
 }
 

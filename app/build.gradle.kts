@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.google.dagger.hilt)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -81,4 +82,7 @@ dependencies {
 
     implementation("androidx.compose.ui:ui-text-google-fonts:1.6.8")
     implementation("androidx.compose.material:material-icons-extended:1.6.0")
+
+    implementation(platform("com.google.firebase:firebase-bom:33.4.0"))
+    implementation("com.google.firebase:firebase-auth")
 }

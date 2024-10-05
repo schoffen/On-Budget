@@ -1,25 +1,29 @@
 package com.felipeschoffen.montrabudgetapp.ui.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import com.felipeschoffen.montrabudgetapp.ui.home.HomeScreen
+import com.felipeschoffen.montrabudgetapp.ui.onboarding.verification.ui.VerificationScreen
+import com.google.firebase.auth.FirebaseUser
 
 @Composable
 fun MainNavHost(
     navController: NavHostController,
-    isUserLoggedIn: Boolean
+    user: FirebaseUser?
 ) {
-    val startDestination = remember {
-        // TODO: check if use is logged in (not implemented yet)
-        Screens.OnBoarding
-    }
-
     NavHost(
         navController = navController,
-        startDestination = startDestination,
+        startDestination = if (user == null) Screens.OnBoarding else if (!user.isEmailVerified) Screens.OnBoarding.Auth.Register.Verification else Screens.Home,
         builder = {
             onBoardingNavGraph(navController)
+
+            composable<Screens.Home> { HomeScreen() }
+
+            composable<Screens.OnBoarding.Auth.Register.Verification> {
+                VerificationScreen()
+            }
         }
     )
 }

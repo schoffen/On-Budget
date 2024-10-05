@@ -1,18 +1,23 @@
 package com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.register
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.felipeschoffen.montrabudgetapp.R
-import com.felipeschoffen.montrabudgetapp.domain.util.InputError
-import com.felipeschoffen.montrabudgetapp.domain.util.ResourceProvider
+import androidx.lifecycle.viewModelScope
+import com.felipeschoffen.montrabudgetapp.data.model.RegistrationInfo
+import com.felipeschoffen.montrabudgetapp.domain.auth.RegisterResult
+import com.felipeschoffen.montrabudgetapp.domain.repository.AuthRepository
 import com.felipeschoffen.montrabudgetapp.domain.validations.EmailValidator
 import com.felipeschoffen.montrabudgetapp.domain.validations.NameValidator
 import com.felipeschoffen.montrabudgetapp.domain.validations.PasswordValidator
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
     private val nameValidator: NameValidator,
     private val emailValidator: EmailValidator,
     private val passwordValidator: PasswordValidator,
@@ -20,6 +25,8 @@ class RegisterViewModel @Inject constructor(
 
     private var _registerFormState = mutableStateOf(RegisterFormState())
     val registerFormState get() = _registerFormState
+
+    val registerResult: MutableState<RegisterResult> get() = authRepository.registerResult
 
     fun onNameChange(newName: String) {
         _registerFormState.value = _registerFormState.value.copy(name = newName)
@@ -33,14 +40,20 @@ class RegisterViewModel @Inject constructor(
         _registerFormState.value = _registerFormState.value.copy(password = newPassword)
     }
 
-    fun register() {
+    fun registerWithEmail() {
         validateName()
         validateEmail()
         validatePassword()
-    }
 
-    private fun validateForm() {
-
+        if (_registerFormState.value.isNameValid && _registerFormState.value.isEmailValid && _registerFormState.value.isPasswordValid) {
+            viewModelScope.launch {
+                authRepository.registerWithEmail(RegistrationInfo(
+                    name = _registerFormState.value.name,
+                    email = _registerFormState.value.email,
+                    password = _registerFormState.value.password
+                ))
+            }
+        }
     }
 
     private fun validateName() {
