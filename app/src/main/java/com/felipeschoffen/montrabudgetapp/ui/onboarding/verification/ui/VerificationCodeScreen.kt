@@ -3,6 +3,7 @@ package com.felipeschoffen.montrabudgetapp.ui.onboarding.verification.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
@@ -28,7 +29,7 @@ import com.felipeschoffen.montrabudgetapp.ui.core.inputs.OTPField
 import com.felipeschoffen.montrabudgetapp.verification.ui.VerificationTopAppBar
 
 @Composable
-fun VerificationScreen(
+fun VerificationCodeScreen(
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -124,6 +125,29 @@ fun VerificationScreen(
                     text = stringResource(R.string.action_verify)
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun VerificationEmailScreen(modifier: Modifier = Modifier, onContinueClicked: () -> Unit) {
+    Box(
+        modifier = modifier.fillMaxSize().padding(horizontal = 16.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = stringResource(R.string.verification_email_screen_title),
+                style = MaterialTheme.typography.titleSmall
+            )
+            Spacer(modifier = Modifier.padding(16.dp))
+            CustomButtonPrimary(
+                onClick = onContinueClicked,
+                text = stringResource(R.string.action_continue)
+            )
         }
     }
 }

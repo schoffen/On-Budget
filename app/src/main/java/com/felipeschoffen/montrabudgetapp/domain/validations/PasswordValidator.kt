@@ -1,21 +1,18 @@
 package com.felipeschoffen.montrabudgetapp.domain.validations
 
 import com.felipeschoffen.montrabudgetapp.domain.core.Constants
-import com.felipeschoffen.montrabudgetapp.domain.util.ErrorMessages
-import com.felipeschoffen.montrabudgetapp.domain.util.InputError
-import javax.inject.Inject
+import com.felipeschoffen.montrabudgetapp.core.Result
+import com.felipeschoffen.montrabudgetapp.core.error.PasswordInputError
 
-class PasswordValidator @Inject constructor(
-    private val errorMessages: ErrorMessages
-) {
+class PasswordValidator {
 
-    fun execute(password: String): ValidationResult {
+    fun execute(password: String): Result<Unit, PasswordInputError> {
         if (password.isBlank())
-            return ValidationResult(successful = false, errorMessage = errorMessages.getMessage(InputError.Blank))
+            return Result.Error(PasswordInputError.BLANK)
 
         if (password.length < Constants.PASSWORD_MIN_LENGTH)
-            return ValidationResult(successful = false, errorMessage = errorMessages.getMessage(InputError.PasswordShortLength))
+            return Result.Error(PasswordInputError.SHORT_LENGTH)
 
-        return ValidationResult(successful = true)
+        return Result.Success(Unit)
     }
 }

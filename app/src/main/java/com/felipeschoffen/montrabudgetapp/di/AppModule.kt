@@ -1,8 +1,8 @@
 package com.felipeschoffen.montrabudgetapp.di
 
 import android.content.Context
-import com.felipeschoffen.montrabudgetapp.data.database.AuthDatabase
-import com.felipeschoffen.montrabudgetapp.data.database.AuthFirebase
+import com.felipeschoffen.montrabudgetapp.data.database.UserDatabase
+import com.felipeschoffen.montrabudgetapp.data.database.UserFirebase
 import com.felipeschoffen.montrabudgetapp.data.repository.AuthRepositoryImpl
 import com.felipeschoffen.montrabudgetapp.domain.repository.AuthRepository
 import com.felipeschoffen.montrabudgetapp.domain.util.ErrorMessages
@@ -10,7 +10,6 @@ import com.felipeschoffen.montrabudgetapp.domain.util.ResourceProvider
 import com.felipeschoffen.montrabudgetapp.domain.validations.EmailValidator
 import com.felipeschoffen.montrabudgetapp.domain.validations.NameValidator
 import com.felipeschoffen.montrabudgetapp.domain.validations.PasswordValidator
-import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,13 +21,13 @@ import dagger.hilt.components.SingletonComponent
 object AppModule {
 
     @Provides
-    fun provideAuthDatabase(): AuthDatabase {
-        return AuthFirebase
+    fun provideAuthDatabase(): UserDatabase {
+        return UserFirebase
     }
 
     @Provides
-    fun provideAuthRepository(authDatabase: AuthDatabase): AuthRepository {
-        return AuthRepositoryImpl(authDatabase)
+    fun provideAuthRepository(userDatabase: UserDatabase): AuthRepository {
+        return AuthRepositoryImpl(userDatabase)
     }
 
     @Provides
@@ -42,17 +41,17 @@ object AppModule {
     }
 
     @Provides
-    fun provideNameValidator(errorMessages: ErrorMessages): NameValidator {
-        return NameValidator(errorMessages)
+    fun provideNameValidator(): NameValidator {
+        return NameValidator()
     }
 
     @Provides
-    fun provideEmailValidator(errorMessages: ErrorMessages): EmailValidator {
-        return EmailValidator(errorMessages)
+    fun provideEmailValidator(): EmailValidator {
+        return EmailValidator()
     }
 
     @Provides
-    fun providePasswordValidator(errorMessages: ErrorMessages): PasswordValidator {
-        return PasswordValidator(errorMessages)
+    fun providePasswordValidator(): PasswordValidator {
+        return PasswordValidator()
     }
 }

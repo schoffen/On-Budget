@@ -1,5 +1,7 @@
 package com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.register
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,24 +23,43 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.felipeschoffen.montrabudgetapp.ui.core.buttons.ButtonGoogleSignUp
+import com.felipeschoffen.montrabudgetapp.ui.navigation.Screens
 import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.register.components.GoToLoginText
+import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.register.components.RegisterTopAppBar
 import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.register.components.SignUpButton
 import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.register.components.SignUpInputs
 import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.register.components.SignUpOrWithText
 import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.register.components.SignUpPrivacyAgreement
-import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.register.components.RegisterTopAppBar
 
 @Composable
 fun RegisterScreen(
     modifier: Modifier = Modifier,
+    navController: NavController,
     onBackPressed: () -> Unit,
     onLoginClicked: () -> Unit,
-    onRegister: () -> Unit,
     registerViewModel: RegisterViewModel
 ) {
     val registerFormState by registerViewModel.registerFormState
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        registerViewModel.registerEvents.collect { event ->
+            Log.d("launched_effect", event.toString())
+
+            when (event) {
+                is RegisterEvents.RegisterSuccessful -> {
+                    navController.navigate(Screens.OnBoarding.Auth.Register.Verification)
+                }
+                is RegisterEvents.ShowError -> {
+                    Toast.makeText(context, event.errorMessage, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -85,9 +107,6 @@ fun RegisterScreen(
                 GoToLoginText(onLoginClicked = onLoginClicked)
             }
         }
-
-        if (registerViewModel.registerResult.value.isSuccessful)
-            onRegister()
     }
 }
 

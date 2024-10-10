@@ -1,12 +1,18 @@
 package com.felipeschoffen.montrabudgetapp
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.felipeschoffen.montrabudgetapp.ui.core.theme.MontraBudgetAppTheme
-import com.felipeschoffen.montrabudgetapp.ui.navigation.MainNavHost
+import com.felipeschoffen.montrabudgetapp.ui.home.HomeScreen
+import com.felipeschoffen.montrabudgetapp.ui.navigation.Screens
+import com.felipeschoffen.montrabudgetapp.ui.navigation.onBoardingNavGraph
+import com.felipeschoffen.montrabudgetapp.ui.onboarding.verification.ui.VerificationEmailScreen
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,7 +31,32 @@ class MainActivity : ComponentActivity() {
 
                 val currentUser = firebaseAuth.currentUser
 
-                MainNavHost(navController = navController, user = currentUser)
+                NavHost(
+                    navController = navController,
+                    startDestination = if (currentUser == null) Screens.OnBoarding
+                    else if (!currentUser.isEmailVerified) Screens.OnBoarding.Auth.Register.Verification
+                    else Screens.Home,
+                    builder = {
+                        onBoardingNavGraph(navController)
+
+                        composable<Screens.Home> { HomeScreen() }
+
+                        composable<Screens.OnBoarding.Auth.Register.Verification> {
+                            VerificationEmailScreen {
+                                currentUser!!.reload()
+                                if (currentUser.isEmailVerified)
+                                    navController.navigate(Screens.Home)
+                                else {
+                                    Toast.makeText(
+                                        baseContext,
+                                        "You haven't verified your email yet",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                        }
+                    }
+                )
             }
         }
     }

@@ -1,17 +1,18 @@
 package com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.register
 
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.felipeschoffen.montrabudgetapp.core.Result
 import com.felipeschoffen.montrabudgetapp.data.model.RegistrationInfo
-import com.felipeschoffen.montrabudgetapp.domain.auth.RegisterResult
 import com.felipeschoffen.montrabudgetapp.domain.repository.AuthRepository
+import com.felipeschoffen.montrabudgetapp.domain.util.ErrorMessages
 import com.felipeschoffen.montrabudgetapp.domain.validations.EmailValidator
 import com.felipeschoffen.montrabudgetapp.domain.validations.NameValidator
 import com.felipeschoffen.montrabudgetapp.domain.validations.PasswordValidator
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,12 +22,14 @@ class RegisterViewModel @Inject constructor(
     private val nameValidator: NameValidator,
     private val emailValidator: EmailValidator,
     private val passwordValidator: PasswordValidator,
+    private val errorMessages: ErrorMessages
 ) : ViewModel() {
+
+    private val _registerEvents = Channel<RegisterEvents>()
+    val registerEvents = _registerEvents.receiveAsFlow()
 
     private var _registerFormState = mutableStateOf(RegisterFormState())
     val registerFormState get() = _registerFormState
-
-    val registerResult: MutableState<RegisterResult> get() = authRepository.registerResult
 
     fun onNameChange(newName: String) {
         _registerFormState.value = _registerFormState.value.copy(name = newName)
@@ -47,39 +50,88 @@ class RegisterViewModel @Inject constructor(
 
         if (_registerFormState.value.isNameValid && _registerFormState.value.isEmailValid && _registerFormState.value.isPasswordValid) {
             viewModelScope.launch {
-                authRepository.registerWithEmail(RegistrationInfo(
+                val result = authRepository.registerWithEmail(RegistrationInfo(
                     name = _registerFormState.value.name,
                     email = _registerFormState.value.email,
                     password = _registerFormState.value.password
                 ))
+
+                when (result) {
+                    is Result.Error -> {
+                        _registerEvents.send(
+                            RegisterEvents.ShowError(
+                                errorMessages.getMessage(
+                                    result.error
+                                )
+                            )
+                        )
+                    }
+                    is Result.Success -> _registerEvents.send(RegisterEvents.RegisterSuccessful)
+                }
             }
         }
     }
 
     private fun validateName() {
-        val result = nameValidator.execute(_registerFormState.value.name)
+        val isValid: Boolean
+        val errorMessage: String?
+
+        when (val result = nameValidator.execute(_registerFormState.value.name)) {
+            is Result.Error -> {
+                isValid = false
+                errorMessage = errorMessages.getMessage(result.error)
+            }
+            is Result.Success -> {
+                isValid = true
+                errorMessage = null
+            }
+        }
 
         _registerFormState.value = _registerFormState.value.copy(
-            isNameValid = result.successful,
-            nameErrorMessage = result.errorMessage
+            isNameValid = isValid,
+            nameErrorMessage = errorMessage
         )
     }
 
     private fun validateEmail() {
-        val result = emailValidator.execute(_registerFormState.value.email)
+        val isValid: Boolean
+        val errorMessage: String?
+
+        when (val result = emailValidator.execute(_registerFormState.value.email)) {
+            is Result.Error -> {
+                isValid = false
+                errorMessage = errorMessages.getMessage(result.error)
+            }
+            is Result.Success -> {
+                isValid = true
+                errorMessage = null
+            }
+        }
 
         _registerFormState.value = _registerFormState.value.copy(
-            isEmailValid = result.successful,
-            emailErrorMessage = result.errorMessage
+            isEmailValid = isValid,
+            emailErrorMessage = errorMessage
         )
     }
 
     private fun validatePassword() {
-        val result = passwordValidator.execute(_registerFormState.value.password)
+        val isValid: Boolean
+        val errorMessage: String?
+
+        when (val result = passwordValidator.execute(_registerFormState.value.password)) {
+            is Result.Error -> {
+                isValid = false
+                errorMessage = errorMessages.getMessage(result.error)
+            }
+            is Result.Success -> {
+                isValid = true
+                errorMessage = null
+            }
+        }
 
         _registerFormState.value = _registerFormState.value.copy(
-            isPasswordValid = result.successful,
-            passwordErrorMessage = result.errorMessage
+            isPasswordValid = isValid,
+            passwordErrorMessage = errorMessage
         )
     }
 }

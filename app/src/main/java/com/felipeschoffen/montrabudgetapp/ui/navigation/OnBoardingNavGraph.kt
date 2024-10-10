@@ -45,6 +45,7 @@ fun NavGraphBuilder.onBoardingNavGraph(navController: NavController) {
 
         composable<Screens.OnBoarding.Auth.Register> {
             RegisterScreen(
+                navController = navController,
                 onBackPressed = {
                     navController.navigateUp()
                 },
@@ -52,10 +53,7 @@ fun NavGraphBuilder.onBoardingNavGraph(navController: NavController) {
                     navController.popBackStack()
                     navController.navigate(Screens.OnBoarding.Auth.Login)
                 },
-                registerViewModel = hiltViewModel<RegisterViewModel>(),
-                onRegister = {
-                    navController.navigate(Screens.OnBoarding.Auth.Register.Verification)
-                }
+                registerViewModel = hiltViewModel<RegisterViewModel>()
             )
         }
 
