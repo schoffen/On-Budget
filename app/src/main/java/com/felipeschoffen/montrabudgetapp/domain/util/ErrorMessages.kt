@@ -20,6 +20,7 @@ class ErrorMessages(
             NameInputError.BLANK -> R.string.error_blank_input
             NameInputError.SHORT -> R.string.error_short_name
             RegisterError.USER_ALREADY_REGISTERED -> R.string.error_email_already_in_use
+            RegisterError.TERMS_NOT_ACCEPTED -> R.string.error_terms_not_accepted
             RegisterError.UNKNOWN -> R.string.error_unknown
         }
 

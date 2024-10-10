@@ -10,4 +10,5 @@ data class RegisterFormState(
     val nameErrorMessage: String? = null,
     val emailErrorMessage: String? = null,
     val passwordErrorMessage: String? = null,
+    val isTermsChecked: Boolean = false
 )

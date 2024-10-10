@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.felipeschoffen.montrabudgetapp.core.Result
+import com.felipeschoffen.montrabudgetapp.core.error.RegisterError
 import com.felipeschoffen.montrabudgetapp.data.model.RegistrationInfo
 import com.felipeschoffen.montrabudgetapp.domain.repository.AuthRepository
 import com.felipeschoffen.montrabudgetapp.domain.util.ErrorMessages
@@ -43,29 +44,51 @@ class RegisterViewModel @Inject constructor(
         _registerFormState.value = _registerFormState.value.copy(password = newPassword)
     }
 
+    fun onTermsChecked() {
+        _registerFormState.value =
+            _registerFormState.value.copy(isTermsChecked = !_registerFormState.value.isTermsChecked)
+    }
+
     fun registerWithEmail() {
         validateName()
         validateEmail()
         validatePassword()
 
+        if (!_registerFormState.value.isTermsChecked) {
+            viewModelScope.launch {
+                _registerEvents.send(
+                    RegisterEvents.ShowMessage(
+                        errorMessages.getMessage(
+                            RegisterError.TERMS_NOT_ACCEPTED
+                        )
+                    )
+                )
+            }
+
+            return
+        }
+
         if (_registerFormState.value.isNameValid && _registerFormState.value.isEmailValid && _registerFormState.value.isPasswordValid) {
             viewModelScope.launch {
-                val result = authRepository.registerWithEmail(RegistrationInfo(
-                    name = _registerFormState.value.name,
-                    email = _registerFormState.value.email,
-                    password = _registerFormState.value.password
-                ))
+                val result = authRepository.registerWithEmail(
+                    RegistrationInfo(
+                        name = _registerFormState.value.name,
+                        email = _registerFormState.value.email,
+                        password = _registerFormState.value.password
+                    )
+                )
 
                 when (result) {
                     is Result.Error -> {
                         _registerEvents.send(
-                            RegisterEvents.ShowError(
+                            RegisterEvents.ShowMessage(
                                 errorMessages.getMessage(
                                     result.error
                                 )
                             )
                         )
                     }
+
                     is Result.Success -> _registerEvents.send(RegisterEvents.RegisterSuccessful)
                 }
             }
@@ -81,6 +104,7 @@ class RegisterViewModel @Inject constructor(
                 isValid = false
                 errorMessage = errorMessages.getMessage(result.error)
             }
+
             is Result.Success -> {
                 isValid = true
                 errorMessage = null
@@ -102,6 +126,7 @@ class RegisterViewModel @Inject constructor(
                 isValid = false
                 errorMessage = errorMessages.getMessage(result.error)
             }
+
             is Result.Success -> {
                 isValid = true
                 errorMessage = null
@@ -123,6 +148,7 @@ class RegisterViewModel @Inject constructor(
                 isValid = false
                 errorMessage = errorMessages.getMessage(result.error)
             }
+
             is Result.Success -> {
                 isValid = true
                 errorMessage = null

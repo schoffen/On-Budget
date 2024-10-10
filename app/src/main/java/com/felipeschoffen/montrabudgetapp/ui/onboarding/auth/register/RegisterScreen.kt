@@ -1,7 +1,5 @@
 package com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.register
 
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,13 +17,11 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.felipeschoffen.montrabudgetapp.ui.core.buttons.ButtonGoogleSignUp
@@ -47,6 +43,7 @@ fun RegisterScreen(
 ) {
     val registerFormState by registerViewModel.registerFormState
     val snackbarHostState = remember { SnackbarHostState() }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     LaunchedEffect(Unit) {
         registerViewModel.registerEvents.collect { event ->
@@ -56,8 +53,8 @@ fun RegisterScreen(
                     navController.navigate(Screens.OnBoarding.Auth.Register.Verification)
                 }
 
-                is RegisterEvents.ShowError -> {
-                    snackbarHostState.showSnackbar(message = event.errorMessage)
+                is RegisterEvents.ShowMessage -> {
+                    snackbarHostState.showSnackbar(message = event.message)
                 }
             }
         }
@@ -94,10 +91,12 @@ fun RegisterScreen(
                     onEmailChange = { registerViewModel.onEmailChange(it) }
                 )
 
-                var checked by remember { mutableStateOf(false) }
-                SignUpPrivacyAgreement(checked = checked, onCheckedChange = { checked = !checked })
+                SignUpPrivacyAgreement(
+                    checked = registerFormState.isTermsChecked,
+                    onCheckedChange = { registerViewModel.onTermsChecked() })
 
                 SignUpButton(onClick = {
+                    keyboardController?.hide()
                     registerViewModel.registerWithEmail()
                 })
 
