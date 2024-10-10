@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -44,18 +46,18 @@ fun RegisterScreen(
     registerViewModel: RegisterViewModel
 ) {
     val registerFormState by registerViewModel.registerFormState
-    val context = LocalContext.current
+    val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(Unit) {
         registerViewModel.registerEvents.collect { event ->
-            Log.d("launched_effect", event.toString())
 
             when (event) {
                 is RegisterEvents.RegisterSuccessful -> {
                     navController.navigate(Screens.OnBoarding.Auth.Register.Verification)
                 }
+
                 is RegisterEvents.ShowError -> {
-                    Toast.makeText(context, event.errorMessage, Toast.LENGTH_SHORT).show()
+                    snackbarHostState.showSnackbar(message = event.errorMessage)
                 }
             }
         }
@@ -64,7 +66,8 @@ fun RegisterScreen(
     Scaffold(
         topBar = {
             RegisterTopAppBar(onBackPressed = onBackPressed)
-        }
+        },
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) { paddingValues ->
         Box(
             modifier = modifier
