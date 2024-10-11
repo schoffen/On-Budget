@@ -58,7 +58,7 @@ class RegisterViewModel @Inject constructor(
             viewModelScope.launch {
                 _registerEvents.send(
                     RegisterEvents.ShowMessage(
-                        errorMessages.getMessage(
+                        errorMessages.getErrorMessage(
                             RegisterError.TERMS_NOT_ACCEPTED
                         )
                     )
@@ -82,7 +82,7 @@ class RegisterViewModel @Inject constructor(
                     is Result.Error -> {
                         _registerEvents.send(
                             RegisterEvents.ShowMessage(
-                                errorMessages.getMessage(
+                                errorMessages.getErrorMessage(
                                     result.error
                                 )
                             )
@@ -102,7 +102,7 @@ class RegisterViewModel @Inject constructor(
         when (val result = nameValidator.execute(_registerFormState.value.name)) {
             is Result.Error -> {
                 isValid = false
-                errorMessage = errorMessages.getMessage(result.error)
+                errorMessage = errorMessages.getErrorMessage(result.error)
             }
 
             is Result.Success -> {
@@ -124,7 +124,7 @@ class RegisterViewModel @Inject constructor(
         when (val result = emailValidator.execute(_registerFormState.value.email)) {
             is Result.Error -> {
                 isValid = false
-                errorMessage = errorMessages.getMessage(result.error)
+                errorMessage = errorMessages.getErrorMessage(result.error)
             }
 
             is Result.Success -> {
@@ -146,7 +146,7 @@ class RegisterViewModel @Inject constructor(
         when (val result = passwordValidator.execute(_registerFormState.value.password)) {
             is Result.Error -> {
                 isValid = false
-                errorMessage = errorMessages.getMessage(result.error)
+                errorMessage = errorMessages.getErrorMessage(result.error)
             }
 
             is Result.Success -> {

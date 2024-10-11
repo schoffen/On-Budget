@@ -12,8 +12,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -23,9 +27,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.felipeschoffen.montrabudgetapp.R
+import com.felipeschoffen.montrabudgetapp.domain.util.ErrorMessages
 import com.felipeschoffen.montrabudgetapp.ui.core.buttons.CustomButtonPrimary
 import com.felipeschoffen.montrabudgetapp.ui.core.inputs.OTPField
+import com.felipeschoffen.montrabudgetapp.ui.navigation.Screens
 import com.felipeschoffen.montrabudgetapp.verification.ui.VerificationTopAppBar
 
 @Composable
@@ -130,14 +137,34 @@ fun VerificationCodeScreen(
 }
 
 @Composable
-fun VerificationEmailScreen(modifier: Modifier = Modifier, onContinueClicked: () -> Unit) {
-    Box(
-        modifier = modifier.fillMaxSize().padding(horizontal = 16.dp),
-        contentAlignment = Alignment.Center
-    ) {
+fun VerificationEmailScreen(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    verificationViewModel: VerificationViewModel
+) {
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(Unit) {
+        verificationViewModel.verificationEvents.collect { event ->
+            when (event) {
+                is VerificationEvents.ShowMessage -> snackbarHostState.showSnackbar(event.message)
+                VerificationEvents.VerificationSuccessful -> navController.navigate(Screens.Home)
+            }
+        }
+    }
+
+    Scaffold(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp),
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+    ) { paddingValues ->
         Column(
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.Center
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = stringResource(R.string.verification_email_screen_title),
@@ -145,7 +172,9 @@ fun VerificationEmailScreen(modifier: Modifier = Modifier, onContinueClicked: ()
             )
             Spacer(modifier = Modifier.padding(16.dp))
             CustomButtonPrimary(
-                onClick = onContinueClicked,
+                onClick = {
+                    verificationViewModel.onContinueClicked()
+                },
                 text = stringResource(R.string.action_continue)
             )
         }
