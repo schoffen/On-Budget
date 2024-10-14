@@ -1,6 +1,5 @@
 package com.felipeschoffen.montrabudgetapp.ui.onboarding.verification.ui
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.felipeschoffen.montrabudgetapp.core.error.AuthError
@@ -10,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,9 +22,9 @@ class VerificationViewModel @Inject constructor(
     val verificationEvents = _verificationEvents.receiveAsFlow()
 
     fun onContinueClicked() {
-        authRepository.getCurrentUser()?.reload()
-
         viewModelScope.launch {
+            authRepository.getCurrentUser()?.reload()?.await()
+
             val currentUser = authRepository.getCurrentUser()
 
             if (currentUser != null) {
@@ -33,8 +33,6 @@ class VerificationViewModel @Inject constructor(
                 else
                     _verificationEvents.send(VerificationEvents.VerificationSuccessful)
             }
-
-            _verificationEvents.send(VerificationEvents.ShowMessage(errorMessages.getErrorMessage(AuthError.EMAIL_NOT_VERIFIED)))
         }
     }
 }
