@@ -2,19 +2,23 @@ package com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.login
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.felipeschoffen.montrabudgetapp.core.Result
+import com.felipeschoffen.montrabudgetapp.data.model.LoginInformation
 import com.felipeschoffen.montrabudgetapp.domain.repository.AuthRepository
 import com.felipeschoffen.montrabudgetapp.domain.util.ErrorMessages
 import com.felipeschoffen.montrabudgetapp.domain.validations.EmailValidator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val emailValidator: EmailValidator,
     private val errorMessages: ErrorMessages,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     private val _loginFormState = mutableStateOf(LoginFormState())
@@ -33,6 +37,23 @@ class LoginViewModel @Inject constructor(
 
     fun login() {
         validateEmail()
+
+        if (!loginFormState.value.isEmailValid)
+            return
+
+        viewModelScope.launch {
+            val result = authRepository.loginWithEmail(
+                LoginInformation(
+                    _loginFormState.value.email,
+                    _loginFormState.value.password
+                )
+            )
+
+            when(result) {
+                is Result.Error -> _loginEvents.send(LoginEvents.ShowMessage(errorMessages.getErrorMessage(result.error)))
+                is Result.Success -> _loginEvents.send(LoginEvents.LoginSuccessful(authRepository.getCurrentUser()?.isEmailVerified == true))
+            }
+        }
     }
 
     private fun validateEmail() {

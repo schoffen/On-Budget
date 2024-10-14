@@ -91,6 +91,11 @@
     <string name="error_unknown">Unknown error</string>
     <string name="error_email_not_verified">You haven\'t verified your email yet</string>
     <string name="error_user_not_sign_in">Please, sign in before doing this</string>
+    <string name="error_invalid_user">This email may not be registered yet</string>
+    <string name="error_invalid_credentials">Invalid credentials</string>
+    <string name="error_many_requests">Too many request, try again later</string>
+    <string name="error_disabled_user">This account has been disabled, contact the support</string>
+    <string name="error_database_network_connection">Something went wrong, try again later</string>
 
     <string name="verification_email_screen_title">Please check your email to verify your account before continuing.</string>
 

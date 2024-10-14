@@ -4,6 +4,7 @@ import com.felipeschoffen.montrabudgetapp.R
 import com.felipeschoffen.montrabudgetapp.core.error.AuthError
 import com.felipeschoffen.montrabudgetapp.core.error.EmailInputError
 import com.felipeschoffen.montrabudgetapp.core.error.Error
+import com.felipeschoffen.montrabudgetapp.core.error.LoginError
 import com.felipeschoffen.montrabudgetapp.core.error.NameInputError
 import com.felipeschoffen.montrabudgetapp.core.error.PasswordInputError
 import com.felipeschoffen.montrabudgetapp.core.error.RegisterError
@@ -25,6 +26,12 @@ class ErrorMessages(
             RegisterError.UNKNOWN -> R.string.error_unknown
             AuthError.EMAIL_NOT_VERIFIED -> R.string.error_email_not_verified
             AuthError.USER_NOT_LOGGED_IN -> R.string.error_user_not_sign_in
+            LoginError.INVALID_USER -> R.string.error_invalid_user
+            LoginError.INVALID_CREDENTIALS -> R.string.error_invalid_credentials
+            LoginError.TOO_MANY_REQUESTS -> R.string.error_many_requests
+            LoginError.DISABLED_USER -> R.string.error_disabled_user
+            LoginError.SERVER_NETWORK_CONNECTION -> R.string.error_database_network_connection
+            LoginError.UNKNOWN -> R.string.error_unknown
         }
 
         return resourceProvider.getString(resourceId)
