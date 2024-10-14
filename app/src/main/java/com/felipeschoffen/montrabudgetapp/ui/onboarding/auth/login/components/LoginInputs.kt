@@ -12,26 +12,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.felipeschoffen.montrabudgetapp.ui.core.inputs.EmailOutlinedTextField
 import com.felipeschoffen.montrabudgetapp.ui.core.inputs.PasswordOutlinedTextField
+import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.login.LoginFormState
 
 @Composable
-fun LoginInputs(modifier: Modifier = Modifier) {
+fun LoginInputs(
+    loginFormState: LoginFormState,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        var emailValue by remember { mutableStateOf("") }
-
         EmailOutlinedTextField(
-            onValueChanged = { emailValue = it },
-            value = emailValue
+            onValueChanged = onEmailChange,
+            value = loginFormState.email,
+            isError = loginFormState.isEmailValid,
+            errorMessage = loginFormState.emailErrorMessage
         )
 
-        var passwordValue by remember { mutableStateOf("") }
         var visible by remember { mutableStateOf(false) }
 
         PasswordOutlinedTextField(
-            onValueChanged = { passwordValue = it },
-            value = passwordValue,
+            onValueChanged = onPasswordChange,
+            value = loginFormState.password,
             toggleVisibility = {visible =! visible},
             isVisible = visible
         )

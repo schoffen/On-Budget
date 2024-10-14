@@ -12,11 +12,19 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.felipeschoffen.montrabudgetapp.domain.repository.AuthRepository
+import com.felipeschoffen.montrabudgetapp.ui.navigation.Screens
 import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.login.components.ForgotPasswordTextButton
 import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.login.components.LoginButton
 import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.login.components.LoginInputs
@@ -25,15 +33,37 @@ import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.login.components.Go
 
 @Composable
 fun LoginScreen(
-    onBackPressed: () -> Unit,
-    onSignUpClicked: () -> Unit,
-    onForgotPasswordClicked: () -> Unit,
+    navController: NavController,
+    loginViewModel: LoginViewModel,
     modifier: Modifier = Modifier
 ) {
+    val loginFormState by loginViewModel.loginFormState
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(Unit) {
+        loginViewModel.loginEvents.collect { event ->
+            when (event) {
+                is LoginEvents.LoginSuccessful -> {
+                    if (!event.isEmailVerified)
+                        navController.navigate(Screens.OnBoarding.Auth.Register.Verification)
+
+                    navController.navigate(Screens.Home)
+                }
+
+                is LoginEvents.ShowMessage -> {
+                    snackbarHostState.showSnackbar(event.message)
+                }
+            }
+        }
+    }
+
     Scaffold(modifier = Modifier,
         topBar = {
-            LoginTopAppBar(onBackPressed = onBackPressed)
-        }
+            LoginTopAppBar(onBackPressed = {
+                navController.navigateUp()
+            })
+        },
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) { paddingValues ->
         Box(
             modifier = modifier
@@ -53,16 +83,25 @@ fun LoginScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
-                LoginInputs()
+                LoginInputs(
+                    loginFormState = loginFormState,
+                    onEmailChange = { loginViewModel.onEmailChange(it) },
+                    onPasswordChange = { loginViewModel.onPasswordChange(it) }
+                )
 
                 LoginButton(onClick = {
 
                 })
 
-                ForgotPasswordTextButton(onClick = onForgotPasswordClicked)
+                ForgotPasswordTextButton(onClick = {
+                    navController.navigate(Screens.OnBoarding.Auth.ForgotPassword)
+                })
 
                 GoToRegisterText(
-                    onSignUpClicked = onSignUpClicked
+                    onSignUpClicked = {
+                        navController.popBackStack()
+                        navController.navigate(Screens.OnBoarding.Auth.Register)
+                    }
                 )
             }
         }

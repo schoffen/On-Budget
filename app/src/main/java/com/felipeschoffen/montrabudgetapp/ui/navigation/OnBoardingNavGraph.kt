@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.login.LoginScreen
+import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.login.LoginViewModel
 import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.recovery.EmailSentScreen
 import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.recovery.ForgotPasswordScreen
 import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.register.RegisterScreen
@@ -30,16 +31,8 @@ fun NavGraphBuilder.onBoardingNavGraph(navController: NavController) {
 
         composable<Screens.OnBoarding.Auth.Login> {
             LoginScreen(
-                onBackPressed = {
-                    navController.navigateUp()
-                },
-                onSignUpClicked = {
-                    navController.popBackStack()
-                    navController.navigate(Screens.OnBoarding.Auth.Register)
-                },
-                onForgotPasswordClicked = {
-                    navController.navigate(Screens.OnBoarding.Auth.ForgotPassword)
-                }
+                navController = navController,
+                loginViewModel = hiltViewModel<LoginViewModel>()
             )
         }
 
