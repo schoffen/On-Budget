@@ -1,5 +1,6 @@
 package com.felipeschoffen.montrabudgetapp.data.database
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import com.felipeschoffen.montrabudgetapp.data.model.RegistrationInfo
@@ -10,7 +11,12 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 import com.felipeschoffen.montrabudgetapp.core.Result
+import com.felipeschoffen.montrabudgetapp.core.error.LoginError
 import com.felipeschoffen.montrabudgetapp.core.error.RegisterError
+import com.felipeschoffen.montrabudgetapp.data.model.LoginInformation
+import com.google.firebase.FirebaseException
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 
 object UserFirebase : UserDatabase {
 
@@ -32,6 +38,21 @@ object UserFirebase : UserDatabase {
             return Result.Error(RegisterError.USER_ALREADY_REGISTERED)
         } catch (e: Exception) {
             return Result.Error(RegisterError.UNKNOWN)
+        }
+    }
+
+    override suspend fun loginWithEmail(loginInformation: LoginInformation): Result<Unit, LoginError> {
+        try {
+            getAuth().signInWithEmailAndPassword(loginInformation.email, loginInformation.password).await()
+
+            return Result.Success(Unit)
+        } catch (e: FirebaseAuthInvalidUserException) {
+            return Result.Error(LoginError.INVALID_USER)
+        } catch (e: FirebaseAuthInvalidCredentialsException) {
+            return Result.Error(LoginError.INVALID_CREDENTIALS)
+        } catch (e: FirebaseException) {
+            Log.e("login", e.message.toString())
+            return Result.Error(LoginError.UNKNOWN)
         }
     }
 }
