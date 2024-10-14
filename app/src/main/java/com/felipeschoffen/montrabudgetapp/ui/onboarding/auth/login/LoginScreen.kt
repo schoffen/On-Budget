@@ -21,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.felipeschoffen.montrabudgetapp.domain.repository.AuthRepository
@@ -39,6 +40,7 @@ fun LoginScreen(
 ) {
     val loginFormState by loginViewModel.loginFormState
     val snackbarHostState = remember { SnackbarHostState() }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     LaunchedEffect(Unit) {
         loginViewModel.loginEvents.collect { event ->
@@ -90,7 +92,8 @@ fun LoginScreen(
                 )
 
                 LoginButton(onClick = {
-
+                    keyboardController?.hide()
+                    loginViewModel.login()
                 })
 
                 ForgotPasswordTextButton(onClick = {

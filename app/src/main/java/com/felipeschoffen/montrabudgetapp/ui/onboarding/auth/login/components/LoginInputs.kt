@@ -28,7 +28,7 @@ fun LoginInputs(
         EmailOutlinedTextField(
             onValueChanged = onEmailChange,
             value = loginFormState.email,
-            isError = loginFormState.isEmailValid,
+            isError = !loginFormState.isEmailValid,
             errorMessage = loginFormState.emailErrorMessage
         )
 

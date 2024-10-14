@@ -1,6 +1,7 @@
 package com.felipeschoffen.montrabudgetapp
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -32,6 +33,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
 
                 val currentUser = firebaseAuth.currentUser
+                Log.d("currentUser", currentUser?.isEmailVerified.toString())
 
                 NavHost(
                     navController = navController,

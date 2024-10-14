@@ -1,5 +1,6 @@
 package com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.login
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -48,7 +49,7 @@ class LoginViewModel @Inject constructor(
                     _loginFormState.value.password
                 )
             )
-
+            Log.d("login_result", result.toString())
             when(result) {
                 is Result.Error -> _loginEvents.send(LoginEvents.ShowMessage(errorMessages.getErrorMessage(result.error)))
                 is Result.Success -> _loginEvents.send(LoginEvents.LoginSuccessful(authRepository.getCurrentUser()?.isEmailVerified == true))

@@ -1,5 +1,6 @@
 package com.felipeschoffen.montrabudgetapp.ui.onboarding.verification.ui
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.felipeschoffen.montrabudgetapp.core.error.AuthError
@@ -21,6 +22,8 @@ class VerificationViewModel @Inject constructor(
     val verificationEvents = _verificationEvents.receiveAsFlow()
 
     fun onContinueClicked() {
+        authRepository.getCurrentUser()?.reload()
+
         viewModelScope.launch {
             val currentUser = authRepository.getCurrentUser()
 
