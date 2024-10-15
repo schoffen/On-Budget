@@ -35,4 +35,8 @@ class VerificationViewModel @Inject constructor(
             }
         }
     }
+
+    fun resendEmailVerification() {
+        authRepository.getCurrentUser()?.sendEmailVerification()
+    }
 }

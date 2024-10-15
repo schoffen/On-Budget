@@ -99,4 +99,7 @@
 
     <string name="verification_email_screen_title">Please check your email to verify your account before continuing.</string>
 
+    <string name="resend_email_in">Resend email verification in %1$s</string>
+    <string name="resend_email">Resend email</string>
+
 </resources>
