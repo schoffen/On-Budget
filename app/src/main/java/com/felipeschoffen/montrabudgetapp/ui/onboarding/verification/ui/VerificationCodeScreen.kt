@@ -1,5 +1,6 @@
 package com.felipeschoffen.montrabudgetapp.ui.onboarding.verification.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -25,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -153,7 +156,7 @@ fun VerificationEmailScreen(
         verificationViewModel.verificationEvents.collect { event ->
             when (event) {
                 is VerificationEvents.ShowMessage -> snackbarHostState.showSnackbar(event.message)
-                VerificationEvents.VerificationSuccessful -> navController.navigate(Screens.Home)
+                is VerificationEvents.VerificationSuccessful -> navController.navigate(Screens.Home)
             }
         }
     }
@@ -167,17 +170,25 @@ fun VerificationEmailScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
+                .padding(paddingValues)
+                .padding(top = 32.dp)
+                .imePadding(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = stringResource(R.string.verification_email_screen_title),
                 style = MaterialTheme.typography.titleMedium
             )
+            Image(
+                painter = painterResource(R.drawable.email_on_the_way),
+                contentDescription = null,
+                modifier = Modifier.size(320.dp)
+            )
             Spacer(modifier = Modifier.padding(16.dp))
             ResendEmailText(verificationViewModel)
-            Spacer(modifier = Modifier.padding(16.dp))
+            Spacer(modifier = Modifier.weight(1f))
             CustomButtonPrimary(
                 onClick = {
                     verificationViewModel.onContinueClicked()
