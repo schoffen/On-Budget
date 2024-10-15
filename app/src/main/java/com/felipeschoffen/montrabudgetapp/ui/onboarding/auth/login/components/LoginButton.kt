@@ -8,8 +8,9 @@ import com.felipeschoffen.montrabudgetapp.ui.core.buttons.CustomButtonPrimary
 
 @Composable
 fun LoginButton(
+    modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    isLoading: Boolean
 ) {
-    CustomButtonPrimary(onClick = onClick, text = stringResource(R.string.login_title), modifier = modifier)
+    CustomButtonPrimary(onClick = onClick, text = stringResource(R.string.login_title), modifier = modifier, showLoadingProgress = isLoading)
 }

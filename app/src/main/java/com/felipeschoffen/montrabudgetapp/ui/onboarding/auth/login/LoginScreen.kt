@@ -24,13 +24,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.felipeschoffen.montrabudgetapp.domain.repository.AuthRepository
 import com.felipeschoffen.montrabudgetapp.ui.navigation.Screens
 import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.login.components.ForgotPasswordTextButton
+import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.login.components.GoToRegisterText
 import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.login.components.LoginButton
 import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.login.components.LoginInputs
 import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.login.components.LoginTopAppBar
-import com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.login.components.GoToRegisterText
 
 @Composable
 fun LoginScreen(
@@ -91,10 +90,13 @@ fun LoginScreen(
                     onPasswordChange = { loginViewModel.onPasswordChange(it) }
                 )
 
-                LoginButton(onClick = {
-                    keyboardController?.hide()
-                    loginViewModel.login()
-                })
+                LoginButton(
+                    onClick = {
+                        keyboardController?.hide()
+                        loginViewModel.login()
+                    },
+                    isLoading = loginViewModel.isLoading
+                )
 
                 ForgotPasswordTextButton(onClick = {
                     navController.navigate(Screens.OnBoarding.Auth.ForgotPassword)

@@ -38,7 +38,9 @@ fun LoginInputs(
             onValueChanged = onPasswordChange,
             value = loginFormState.password,
             toggleVisibility = {visible =! visible},
-            isVisible = visible
+            isVisible = visible,
+            isError = !loginFormState.isPasswordValid,
+            errorMessage = loginFormState.passwordErrorMessage
         )
     }
 }

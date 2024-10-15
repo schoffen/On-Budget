@@ -1,6 +1,5 @@
 package com.felipeschoffen.montrabudgetapp.ui.onboarding.auth.login
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,6 +8,7 @@ import com.felipeschoffen.montrabudgetapp.data.model.LoginInformation
 import com.felipeschoffen.montrabudgetapp.domain.repository.AuthRepository
 import com.felipeschoffen.montrabudgetapp.domain.util.ErrorMessages
 import com.felipeschoffen.montrabudgetapp.domain.validations.EmailValidator
+import com.felipeschoffen.montrabudgetapp.domain.validations.PasswordValidator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -18,9 +18,12 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val emailValidator: EmailValidator,
+    private val passwordValidator: PasswordValidator,
     private val errorMessages: ErrorMessages,
     private val authRepository: AuthRepository
 ) : ViewModel() {
+    private var _isLoading = mutableStateOf(false)
+    val isLoading get() = _isLoading.value
 
     private val _loginFormState = mutableStateOf(LoginFormState())
     val loginFormState get() = _loginFormState
@@ -37,10 +40,15 @@ class LoginViewModel @Inject constructor(
     }
 
     fun login() {
-        validateEmail()
+        _isLoading.value = true
 
-        if (!loginFormState.value.isEmailValid)
+        validateEmail()
+        validatePassword()
+
+        if (!loginFormState.value.isEmailValid || !loginFormState.value.isPasswordValid) {
+            _isLoading.value = false
             return
+        }
 
         viewModelScope.launch {
             val result = authRepository.loginWithEmail(
@@ -49,9 +57,18 @@ class LoginViewModel @Inject constructor(
                     _loginFormState.value.password
                 )
             )
-            Log.d("login_result", result.toString())
-            when(result) {
-                is Result.Error -> _loginEvents.send(LoginEvents.ShowMessage(errorMessages.getErrorMessage(result.error)))
+
+            _isLoading.value = false
+
+            when (result) {
+                is Result.Error -> _loginEvents.send(
+                    LoginEvents.ShowMessage(
+                        errorMessages.getErrorMessage(
+                            result.error
+                        )
+                    )
+                )
+
                 is Result.Success -> _loginEvents.send(LoginEvents.LoginSuccessful(authRepository.getCurrentUser()?.isEmailVerified == true))
             }
         }
@@ -76,6 +93,28 @@ class LoginViewModel @Inject constructor(
         _loginFormState.value = _loginFormState.value.copy(
             isEmailValid = isValid,
             emailErrorMessage = errorMessage
+        )
+    }
+
+    private fun validatePassword() {
+        val isValid: Boolean
+        val errorMessage: String?
+
+        when (val result = passwordValidator.execute(_loginFormState.value.password)) {
+            is Result.Error -> {
+                isValid = false
+                errorMessage = errorMessages.getErrorMessage(result.error)
+            }
+
+            is Result.Success -> {
+                isValid = true
+                errorMessage = null
+            }
+        }
+
+        _loginFormState.value = _loginFormState.value.copy(
+            isPasswordValid = isValid,
+            passwordErrorMessage = errorMessage
         )
     }
 }
