@@ -8,12 +8,14 @@ import com.felipeschoffen.montrabudgetapp.ui.core.buttons.CustomButtonPrimary
 
 @Composable
 fun SignUpButton(
+    modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    isLoading: Boolean
 ) {
     CustomButtonPrimary(
+        modifier = modifier,
         onClick = onClick,
         text = stringResource(R.string.sign_up_title),
-        modifier = modifier
+        showLoadingProgress = isLoading
     )
 }

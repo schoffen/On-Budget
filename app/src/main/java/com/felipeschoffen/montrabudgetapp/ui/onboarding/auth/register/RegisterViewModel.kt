@@ -25,6 +25,8 @@ class RegisterViewModel @Inject constructor(
     private val passwordValidator: PasswordValidator,
     private val errorMessages: ErrorMessages
 ) : ViewModel() {
+    private var _requestLoading = mutableStateOf(false)
+    val requestLoading get() = _requestLoading.value
 
     private val _registerEvents = Channel<RegisterEvents>()
     val registerEvents = _registerEvents.receiveAsFlow()
@@ -50,11 +52,14 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun registerWithEmail() {
+        _requestLoading.value = true
+
         validateName()
         validateEmail()
         validatePassword()
 
         if (!_registerFormState.value.isTermsChecked) {
+            _requestLoading.value = false
             viewModelScope.launch {
                 _registerEvents.send(
                     RegisterEvents.ShowMessage(
@@ -64,33 +69,39 @@ class RegisterViewModel @Inject constructor(
                     )
                 )
             }
-
             return
         }
 
-        if (_registerFormState.value.isNameValid && _registerFormState.value.isEmailValid && _registerFormState.value.isPasswordValid) {
-            viewModelScope.launch {
-                val result = authRepository.registerWithEmail(
-                    RegistrationInfo(
-                        name = _registerFormState.value.name,
-                        email = _registerFormState.value.email,
-                        password = _registerFormState.value.password
-                    )
-                )
+        if (!_registerFormState.value.isNameValid ||
+            !_registerFormState.value.isEmailValid ||
+            !_registerFormState.value.isPasswordValid
+        ) {
+            _requestLoading.value = false
+            return
+        }
 
-                when (result) {
-                    is Result.Error -> {
-                        _registerEvents.send(
-                            RegisterEvents.ShowMessage(
-                                errorMessages.getErrorMessage(
-                                    result.error
-                                )
+        viewModelScope.launch {
+            val result = authRepository.registerWithEmail(
+                RegistrationInfo(
+                    name = _registerFormState.value.name,
+                    email = _registerFormState.value.email,
+                    password = _registerFormState.value.password
+                )
+            )
+
+            when (result) {
+                is Result.Error -> {
+                    _registerEvents.send(
+                        RegisterEvents.ShowMessage(
+                            errorMessages.getErrorMessage(
+                                result.error
                             )
                         )
-                    }
-
-                    is Result.Success -> _registerEvents.send(RegisterEvents.RegisterSuccessful)
+                    )
+                    _requestLoading.value = false
                 }
+
+                is Result.Success -> _registerEvents.send(RegisterEvents.RegisterSuccessful)
             }
         }
     }

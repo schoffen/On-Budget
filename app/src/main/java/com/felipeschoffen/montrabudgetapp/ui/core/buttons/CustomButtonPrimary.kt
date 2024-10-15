@@ -1,6 +1,7 @@
 package com.felipeschoffen.montrabudgetapp.ui.core.buttons
 
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -9,9 +10,10 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun CustomButtonPrimary(
+    modifier: Modifier = Modifier,
     onClick: () -> Unit,
     text: String,
-    modifier: Modifier = Modifier
+    showLoadingProgress: Boolean = false
 ) {
     FilledTonalButton(
         onClick = onClick,
@@ -21,10 +23,13 @@ fun CustomButtonPrimary(
             containerColor = MaterialTheme.colorScheme.primary
         )
     ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onPrimary
-        )
+        if (showLoadingProgress)
+            CircularProgressIndicator(color = MaterialTheme.colorScheme.onPrimary)
+        else
+            Text(
+                text = text,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onPrimary
+            )
     }
 }

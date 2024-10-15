@@ -96,6 +96,7 @@
     <string name="error_many_requests">Too many request, try again later</string>
     <string name="error_disabled_user">This account has been disabled, contact the support</string>
     <string name="error_database_network_connection">Something went wrong, try again later</string>
+    <string name="error_input_fields_invalid">Please, fill out the form correctly</string>
 
     <string name="verification_email_screen_title">Please check your email to verify your account before continuing.</string>
 
