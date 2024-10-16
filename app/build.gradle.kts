@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.felipeschoffen.montrabudgetapp"
+    namespace = "com.felipeschoffen.onbudget"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.felipeschoffen.montrabudgetapp"
+        applicationId = "com.felipeschoffen.onbudget"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

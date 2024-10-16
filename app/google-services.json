@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "873314779023",
-    "project_id": "montra-budget",
-    "storage_bucket": "montra-budget.appspot.com"
+    "project_number": "92814954806",
+    "project_id": "on-budget-9e172",
+    "storage_bucket": "on-budget-9e172.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:873314779023:android:d81346b39b5bc45be795fa",
+        "mobilesdk_app_id": "1:92814954806:android:40a8f32590a9af9afca397",
         "android_client_info": {
-          "package_name": "com.felipeschoffen.montrabudgetapp"
+          "package_name": "com.felipeschoffen.onbudget"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDYMCpjSVyZSiThKgqoUXXR3IEKrTmOrbw"
+          "current_key": "AIzaSyDwxoDbP_fums4QI14ZWbpAXwBtab2y_a4"
         }
       ],
       "services": {

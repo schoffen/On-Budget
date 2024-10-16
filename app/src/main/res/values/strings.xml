@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Montra Budget App</string>
+    <string name="app_name">On Budget</string>
 
     <string name="onboarding_control_title">Gain total control\nof your money</string>
     <string name="onboarding_control_description">Become your own money manager\nand make every cent count</string>
