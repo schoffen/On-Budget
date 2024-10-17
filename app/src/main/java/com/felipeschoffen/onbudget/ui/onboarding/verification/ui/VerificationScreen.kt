@@ -1,10 +1,10 @@
 package com.felipeschoffen.onbudget.ui.onboarding.verification.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
@@ -17,7 +17,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -38,19 +37,33 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.felipeschoffen.onbudget.R
 import com.felipeschoffen.onbudget.ui.core.buttons.CustomButtonPrimary
-import com.felipeschoffen.onbudget.ui.core.inputs.OTPField
 import com.felipeschoffen.onbudget.ui.navigation.Screens
 import com.felipeschoffen.onbudget.verification.ui.VerificationTopAppBar
 import kotlinx.coroutines.delay
+import java.util.Locale
 
 @Composable
-fun VerificationCodeScreen(
-    modifier: Modifier = Modifier
+fun VerificationScreen(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    verificationViewModel: VerificationViewModel
 ) {
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(Unit) {
+        verificationViewModel.verificationEvents.collect { event ->
+            when (event) {
+                is VerificationEvents.ShowMessage -> snackbarHostState.showSnackbar(event.message)
+                is VerificationEvents.VerificationSuccessful -> navController.navigate(Screens.Home)
+            }
+        }
+    }
+
     Scaffold(
         topBar = {
             VerificationTopAppBar()
-        }
+        },
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) { paddingValues ->
 
         Box(
@@ -58,9 +71,8 @@ fun VerificationCodeScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
                 .imePadding(),
-            contentAlignment = Alignment.BottomCenter
+            contentAlignment = Alignment.Center
         ) {
-
             Column(
                 modifier = modifier
                     .fillMaxWidth()
@@ -69,22 +81,41 @@ fun VerificationCodeScreen(
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
+                Image(
+                    painter = painterResource(R.drawable.email_on_the_way),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .size(240.dp)
+                )
+
                 Text(
-                    text = stringResource(R.string.verification_code_title),
+                    text = stringResource(R.string.verification_subtitle),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onBackground
                 )
 
-                OTPField()
+                // For future usage
+                // OTPField()
+
+                val timeBetweenRequests = 120
+                var timeLeft by remember { mutableIntStateOf(timeBetweenRequests) }
+                var timeRunning by remember { mutableStateOf(true) }
+
+                LaunchedEffect(timeRunning) {
+                    while (timeLeft > 0) {
+                        delay(1000L)
+                        timeLeft--
+                    }
+                    timeRunning = false
+                }
 
                 Text(
-                    text = "05:00",
+                    text = String.format(Locale.US, "%02d:%02d", (timeLeft / 60), (timeLeft % 60)),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.primary,
                     textAlign = TextAlign.Start
                 )
-
-                val emailText = "fschoffen@gmail.com"
 
                 Text(
                     text = buildAnnotatedString {
@@ -108,7 +139,7 @@ fun VerificationCodeScreen(
                                 color = MaterialTheme.colorScheme.primary
                             )
                         ) {
-                            append(emailText)
+                            append(verificationViewModel.userEmail)
                         }
 
                         withStyle(
@@ -130,112 +161,25 @@ fun VerificationCodeScreen(
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.primary,
                     textDecoration = TextDecoration.Underline,
-                    textAlign = TextAlign.Start
-                )
-
-                CustomButtonPrimary(
-                    onClick = {
-
-                    },
-                    text = stringResource(R.string.action_verify)
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier.clickable {
+                        if (!timeRunning) {
+                            verificationViewModel.resendEmailVerification()
+                            timeLeft = timeBetweenRequests
+                            timeRunning = true
+                        }
+                    }
                 )
             }
-        }
-    }
-}
-
-@Composable
-fun VerificationEmailScreen(
-    modifier: Modifier = Modifier,
-    navController: NavController,
-    verificationViewModel: VerificationViewModel
-) {
-    val snackbarHostState = remember { SnackbarHostState() }
-
-    LaunchedEffect(Unit) {
-        verificationViewModel.verificationEvents.collect { event ->
-            when (event) {
-                is VerificationEvents.ShowMessage -> snackbarHostState.showSnackbar(event.message)
-                is VerificationEvents.VerificationSuccessful -> navController.navigate(Screens.Home)
-            }
-        }
-    }
-
-    Scaffold(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp),
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(top = 32.dp)
-                .imePadding(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(modifier = Modifier.weight(.5f))
-            Image(
-                painter = painterResource(R.drawable.email_on_the_way),
-                contentDescription = null,
-                modifier = Modifier.size(240.dp)
-            )
-            Spacer(modifier = Modifier.padding(16.dp))
-            Text(
-                text = stringResource(R.string.verification_email_screen_title),
-                style = MaterialTheme.typography.titleMedium
-            )
-            Spacer(modifier = Modifier.padding(16.dp))
-            ResendEmailText(verificationViewModel)
-            Spacer(modifier = Modifier.weight(1f))
             CustomButtonPrimary(
                 onClick = {
                     verificationViewModel.onContinueClicked()
                 },
-                text = stringResource(R.string.action_continue)
+                text = stringResource(R.string.action_continue),
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(16.dp)
             )
         }
-    }
-}
-
-@Composable
-private fun ResendEmailText(verificationViewModel: VerificationViewModel) {
-
-    val timeBetweenRequests = 120
-    var timeLeft by remember { mutableIntStateOf(timeBetweenRequests) }
-    var timeRunning by remember { mutableStateOf(false) }
-
-    if (timeRunning) {
-        LaunchedEffect(timeLeft) {
-            delay(1000L)
-            if (timeLeft > 0)
-                timeLeft--
-            else
-                timeRunning = false
-        }
-    }
-    TextButton(
-        enabled = !timeRunning,
-        onClick = {
-            verificationViewModel.resendEmailVerification()
-            timeLeft = timeBetweenRequests
-            timeRunning = true
-        }) {
-        if (timeRunning) {
-            Text(
-                text = stringResource(
-                    R.string.resend_email_in,
-                    timeLeft
-                ),
-                color = MaterialTheme.colorScheme.primary
-            )
-        } else
-            Text(
-                text = stringResource(R.string.resend_email),
-                color = MaterialTheme.colorScheme.primary,
-                textDecoration = TextDecoration.Underline
-            )
     }
 }

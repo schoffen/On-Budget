@@ -13,7 +13,7 @@ import com.felipeschoffen.onbudget.ui.core.theme.MontraBudgetAppTheme
 import com.felipeschoffen.onbudget.ui.home.HomeScreen
 import com.felipeschoffen.onbudget.ui.navigation.Screens
 import com.felipeschoffen.onbudget.ui.navigation.onBoardingNavGraph
-import com.felipeschoffen.onbudget.ui.onboarding.verification.ui.VerificationEmailScreen
+import com.felipeschoffen.onbudget.ui.onboarding.verification.ui.VerificationScreen
 import com.felipeschoffen.onbudget.ui.onboarding.verification.ui.VerificationViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
                         composable<Screens.Home> { HomeScreen() }
 
                         composable<Screens.OnBoarding.Auth.Register.Verification> {
-                            VerificationEmailScreen(
+                            VerificationScreen(
                                 navController = navController,
                                 verificationViewModel = hiltViewModel<VerificationViewModel>()
                             )

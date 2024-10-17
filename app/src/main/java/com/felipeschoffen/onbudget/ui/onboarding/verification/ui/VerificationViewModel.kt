@@ -21,6 +21,9 @@ class VerificationViewModel @Inject constructor(
     private val _verificationEvents = Channel<VerificationEvents>()
     val verificationEvents = _verificationEvents.receiveAsFlow()
 
+    private val _userEmail = authRepository.getCurrentUser()?.email
+    val userEmail = _userEmail
+
     fun onContinueClicked() {
         viewModelScope.launch {
             authRepository.getCurrentUser()?.reload()?.await()

@@ -38,6 +38,7 @@
     <string name="action_verify">Verify</string>
 
     <string name="verification_title">Verification</string>
+    <string name="verification_subtitle">Please, verify your email</string>
 
     <string name="forgot_password_question">Forgot Password?</string>
     <string name="forgot_password_title">Forgot Password</string>
