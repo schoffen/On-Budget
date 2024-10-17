@@ -13,6 +13,9 @@ val Dark50 = Color(0xFF464A4D)
 val Dark75 = Color(0xFF161719)
 val Dark100 = Color(0xFF000000)
 
+val Cyan100 = Color(0xFF217C87)
+val Cyan60 = Color(0xFF5BD2D4)
+val Cyan20 = Color(0xFFB2FAEF)
 
 val Violet100 = Color(0xFF7F3DFF)
 val Violet80 = Color(0xFF8F57FF)

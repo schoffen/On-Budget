@@ -14,11 +14,11 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Violet100,
+    primary = Cyan100,
     onPrimary = Light80,
 
-    secondary = Violet20,
-    onSecondary = Violet100,
+    secondary = Cyan20,
+    onSecondary = Cyan100,
 
     tertiary = Dark25,
 
