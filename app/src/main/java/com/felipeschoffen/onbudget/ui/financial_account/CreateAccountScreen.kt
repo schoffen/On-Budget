@@ -92,11 +92,11 @@ fun CreateAccountScreen(modifier: Modifier = Modifier) {
                         expanded = !expanded
                     },
                     items = listOf(
-                        DropDownMenuItem(name = "Wallet", onItemClicked = {
-                            value = AccountType.Wallet.typeName
+                        DropDownMenuItem(name = AccountType.Wallet.name, onItemClicked = {
+                            value = AccountType.Wallet.name
                         }),
-                        DropDownMenuItem(name = "Bank", onItemClicked = {
-                            value = AccountType.Bank.typeName
+                        DropDownMenuItem(name = AccountType.Bank.name, onItemClicked = {
+                            value = AccountType.Bank.name
                         })
                     )
                 )

@@ -30,10 +30,10 @@
 
     <string name="verification_code_title">Enter your\nVerification Code</string>
 
-    <string name="verification_email_sent">We send verification code to your email</string>
+    <string name="verification_email_sent">We send verification link to your email</string>
     <string name="verification_check_inbox">. You can check your inbox.</string>
 
-    <string name="verification_resend_code">I didn’t received the code. Send again</string>
+    <string name="verification_resend_code">I didn’t received the email. Send again</string>
 
     <string name="action_verify">Verify</string>
 
