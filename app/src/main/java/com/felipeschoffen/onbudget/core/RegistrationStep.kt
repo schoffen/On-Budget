@@ -3,5 +3,6 @@ package com.felipeschoffen.onbudget.core
 enum class RegistrationStep {
     VERIFICATION,
     PIN,
-    FINANCIAL_ACCOUNT
+    FINANCIAL_ACCOUNT,
+    COMPLETE
 }

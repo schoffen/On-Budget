@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.felipeschoffen.onbudget.core.RegistrationStep
 import com.felipeschoffen.onbudget.ui.navigation.Screens
 import com.felipeschoffen.onbudget.ui.onboarding.auth.login.components.ForgotPasswordTextButton
 import com.felipeschoffen.onbudget.ui.onboarding.auth.login.components.GoToRegisterText
@@ -45,10 +46,12 @@ fun LoginScreen(
         loginViewModel.loginEvents.collect { event ->
             when (event) {
                 is LoginEvents.LoginSuccessful -> {
-                    if (!event.isEmailVerified)
-                        navController.navigate(Screens.OnBoarding.Auth.Register.Verification)
-                    else
-                        navController.navigate(Screens.Home)
+                    when(event.registrationStep) {
+                        RegistrationStep.VERIFICATION -> navController.navigate(Screens.OnBoarding.Auth.Register.Verification)
+                        RegistrationStep.PIN -> navController.navigate(Screens.OnBoarding.Auth.Register.PIN)
+                        RegistrationStep.FINANCIAL_ACCOUNT -> navController.navigate(Screens.CreateFinancialAccount)
+                        RegistrationStep.COMPLETE -> navController.navigate(Screens.Home)
+                    }
                 }
 
                 is LoginEvents.ShowMessage -> {

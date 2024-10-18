@@ -22,6 +22,9 @@ sealed class Screens {
 
                 @Serializable
                 object Verification
+
+                @Serializable
+                object PIN
             }
 
             @Serializable
@@ -36,4 +39,7 @@ sealed class Screens {
 
     @Serializable
     object Home
+
+    @Serializable
+    object CreateFinancialAccount
 }

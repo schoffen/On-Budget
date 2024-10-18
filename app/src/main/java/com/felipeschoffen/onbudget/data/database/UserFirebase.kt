@@ -1,38 +1,31 @@
 package com.felipeschoffen.onbudget.data.database
 
 import android.util.Log
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import com.felipeschoffen.onbudget.core.RegistrationStep
 import com.felipeschoffen.onbudget.data.model.RegistrationInfo
-import com.felipeschoffen.onbudget.domain.auth.RegisterResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 import com.felipeschoffen.onbudget.core.Result
+import com.felipeschoffen.onbudget.core.error.DatabaseError
 import com.felipeschoffen.onbudget.core.error.LoginError
 import com.felipeschoffen.onbudget.core.error.RegisterError
 import com.felipeschoffen.onbudget.data.FirestoreCollections
 import com.felipeschoffen.onbudget.data.model.LoginInformation
-import com.felipeschoffen.onbudget.data.model.User
+import com.felipeschoffen.onbudget.data.model.FirebaseUser
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 
 object UserFirebase : UserDatabase {
-
-    private val _registerResult = mutableStateOf(RegisterResult(false))
-    override val registerResult: MutableState<RegisterResult> get() = _registerResult
-
-    private fun getAuth(): FirebaseAuth = Firebase.auth
-    private fun getDb(): FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val auth: FirebaseAuth = Firebase.auth
 
     override suspend fun registerWithEmail(registrationInfo: RegistrationInfo): Result<Unit, RegisterError> {
         try {
-            val result = getAuth().createUserWithEmailAndPassword(
+            val result = auth.createUserWithEmailAndPassword(
                 registrationInfo.email,
                 registrationInfo.password
             ).await()
@@ -40,18 +33,16 @@ object UserFirebase : UserDatabase {
             result.user?.sendEmailVerification()
 
             if (result.user != null) {
-                getDb().collection(FirestoreCollections.USERS)
+                Firebase.firestore.collection(FirestoreCollections.USERS)
                     .document(result.user!!.uid)
                     .set(
-                        User(
+                        FirebaseUser(
                             uid = result.user!!.uid,
                             name = registrationInfo.name,
                             email = registrationInfo.email,
                             registrationStep = RegistrationStep.VERIFICATION
                         )
                     )
-                    .addOnSuccessListener { Log.d("user_collections", "Successfully added") }
-                    .addOnFailureListener { Log.d("user_collections", "Failure to add") }
             }
 
             return Result.Success(Unit)
@@ -64,7 +55,7 @@ object UserFirebase : UserDatabase {
 
     override suspend fun loginWithEmail(loginInformation: LoginInformation): Result<Unit, LoginError> {
         try {
-            getAuth().signInWithEmailAndPassword(loginInformation.email, loginInformation.password).await()
+            auth.signInWithEmailAndPassword(loginInformation.email, loginInformation.password).await()
 
             return Result.Success(Unit)
         } catch (e: FirebaseAuthInvalidUserException) {
@@ -74,6 +65,23 @@ object UserFirebase : UserDatabase {
         } catch (e: FirebaseException) {
             Log.e("login", e.message.toString())
             return Result.Error(LoginError.UNKNOWN)
+        }
+    }
+
+    override suspend fun getUserInformation(): Result<FirebaseUser?, DatabaseError> {
+        return try {
+            val document = Firebase.firestore.collection(FirestoreCollections.USERS)
+                .document(auth.currentUser!!.uid)
+                .get()
+                .await()
+
+            if (document.exists())
+                Result.Success(document.toObject(FirebaseUser::class.java))
+            else
+                Result.Error(DatabaseError.DOCUMENT_NOT_FOUND)
+        } catch (e: Exception) {
+            Log.e("firebase", e.message.toString())
+            Result.Error(DatabaseError.UNKNOWN)
         }
     }
 }

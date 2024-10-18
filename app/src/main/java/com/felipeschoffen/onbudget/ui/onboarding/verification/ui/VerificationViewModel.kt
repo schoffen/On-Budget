@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.felipeschoffen.onbudget.core.error.AuthError
 import com.felipeschoffen.onbudget.domain.repository.AuthRepository
 import com.felipeschoffen.onbudget.domain.util.ErrorMessages
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -21,17 +23,15 @@ class VerificationViewModel @Inject constructor(
     private val _verificationEvents = Channel<VerificationEvents>()
     val verificationEvents = _verificationEvents.receiveAsFlow()
 
-    private val _userEmail = authRepository.getCurrentUser()?.email
+    private val _userEmail = Firebase.auth.currentUser?.email
     val userEmail = _userEmail
 
     fun onContinueClicked() {
         viewModelScope.launch {
-            authRepository.getCurrentUser()?.reload()?.await()
+            Firebase.auth.currentUser?.reload()?.await()
 
-            val currentUser = authRepository.getCurrentUser()
-
-            if (currentUser != null) {
-                if (!currentUser.isEmailVerified)
+            if (Firebase.auth.currentUser != null) {
+                if (!Firebase.auth.currentUser?.isEmailVerified!!)
                     _verificationEvents.send(VerificationEvents.ShowMessage(errorMessages.getErrorMessage(AuthError.EMAIL_NOT_VERIFIED)))
                 else
                     _verificationEvents.send(VerificationEvents.VerificationSuccessful)
@@ -40,6 +40,6 @@ class VerificationViewModel @Inject constructor(
     }
 
     fun resendEmailVerification() {
-        authRepository.getCurrentUser()?.sendEmailVerification()
+        Firebase.auth.currentUser?.sendEmailVerification()
     }
 }

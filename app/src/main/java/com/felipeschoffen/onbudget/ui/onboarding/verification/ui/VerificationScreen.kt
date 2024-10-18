@@ -54,7 +54,7 @@ fun VerificationScreen(
         verificationViewModel.verificationEvents.collect { event ->
             when (event) {
                 is VerificationEvents.ShowMessage -> snackbarHostState.showSnackbar(event.message)
-                is VerificationEvents.VerificationSuccessful -> navController.navigate(Screens.Home)
+                is VerificationEvents.VerificationSuccessful -> navController.navigate(Screens.OnBoarding.Auth.Register.PIN)
             }
         }
     }

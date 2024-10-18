@@ -2,6 +2,7 @@ package com.felipeschoffen.onbudget.domain.util
 
 import com.felipeschoffen.onbudget.R
 import com.felipeschoffen.onbudget.core.error.AuthError
+import com.felipeschoffen.onbudget.core.error.DatabaseError
 import com.felipeschoffen.onbudget.core.error.EmailInputError
 import com.felipeschoffen.onbudget.core.error.Error
 import com.felipeschoffen.onbudget.core.error.LoginError
@@ -32,6 +33,9 @@ class ErrorMessages(
             LoginError.DISABLED_USER -> R.string.error_disabled_user
             LoginError.SERVER_NETWORK_CONNECTION -> R.string.error_database_network_connection
             LoginError.UNKNOWN -> R.string.error_unknown
+            DatabaseError.NETWORK_CONNECTION -> R.string.error_database_network_connection
+            DatabaseError.UNKNOWN -> R.string.error_unknown
+            DatabaseError.DOCUMENT_NOT_FOUND -> R.string.error_database_document_not_found
         }
 
         return resourceProvider.getString(resourceId)

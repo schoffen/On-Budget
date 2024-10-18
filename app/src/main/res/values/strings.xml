@@ -89,7 +89,7 @@
     <string name="error_short_password">Password must have at least 8 characters</string>
     <string name="error_email_already_in_use">This email is already in use</string>
     <string name="error_terms_not_accepted">Please, read and accept Terms of Service and Privacy Policy</string>
-    <string name="error_unknown">Unknown error</string>
+    <string name="error_unknown">Oops, something unexpected happen</string>
     <string name="error_email_not_verified">You haven\'t verified your email yet</string>
     <string name="error_user_not_sign_in">Please, sign in before doing this</string>
     <string name="error_invalid_user">This email may not be registered yet</string>
@@ -98,6 +98,8 @@
     <string name="error_disabled_user">This account has been disabled, contact the support</string>
     <string name="error_database_network_connection">Something went wrong, try again later</string>
     <string name="error_input_fields_invalid">Please, fill out the form correctly</string>
+    <string name="error_database_connection">Oops, looks like you don\'t have internet connection</string>
+    <string name="error_database_document_not_found">Looks like something went wrong with your registration, please contact support</string>
 
     <string name="verification_email_screen_title">Please check your email to verify your account before continuing.</string>
 
