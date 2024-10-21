@@ -20,10 +20,11 @@ import com.felipeschoffen.onbudget.ui.home.HomeScreen
 import com.felipeschoffen.onbudget.ui.navigation.Screens
 import com.felipeschoffen.onbudget.ui.navigation.onBoardingNavGraph
 import com.felipeschoffen.onbudget.ui.onboarding.pin.PinInputScreen
+import com.felipeschoffen.onbudget.ui.onboarding.pin.PinViewModel
+import com.felipeschoffen.onbudget.ui.onboarding.setup.SetupAccountScreen
 import com.felipeschoffen.onbudget.ui.onboarding.verification.ui.VerificationScreen
 import com.felipeschoffen.onbudget.ui.onboarding.verification.ui.VerificationViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -48,9 +49,9 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         startDestination = when (mainViewModel.userInformation?.registrationStep) {
                             RegistrationStep.VERIFICATION -> Screens.OnBoarding.Auth.Register.Verification
-                            RegistrationStep.PIN -> Screens.OnBoarding.Auth.Register.PIN
-                            RegistrationStep.FINANCIAL_ACCOUNT -> Screens.CreateFinancialAccount
-                            RegistrationStep.COMPLETE -> Screens.Home
+                            RegistrationStep.SETUP_PIN -> Screens.OnBoarding.Auth.Register.PIN
+                            RegistrationStep.SETUP_FINANCIAL_ACCOUNT -> Screens.CreateFinancialAccount
+                            RegistrationStep.COMPLETE -> Screens.OnBoarding.Auth.Register.PIN
                             null -> Screens.OnBoarding
                         },
                         builder = {
@@ -66,7 +67,14 @@ class MainActivity : ComponentActivity() {
                             }
 
                             composable<Screens.OnBoarding.Auth.Register.PIN> {
+                                PinInputScreen(
+                                    navController = navController,
+                                    pinViewModel = hiltViewModel<PinViewModel>()
+                                )
+                            }
 
+                            composable<Screens.CreateFinancialAccount> {
+                                SetupAccountScreen()
                             }
                         }
                     )

@@ -48,8 +48,8 @@ fun LoginScreen(
                 is LoginEvents.LoginSuccessful -> {
                     when(event.registrationStep) {
                         RegistrationStep.VERIFICATION -> navController.navigate(Screens.OnBoarding.Auth.Register.Verification)
-                        RegistrationStep.PIN -> navController.navigate(Screens.OnBoarding.Auth.Register.PIN)
-                        RegistrationStep.FINANCIAL_ACCOUNT -> navController.navigate(Screens.CreateFinancialAccount)
+                        RegistrationStep.SETUP_PIN -> navController.navigate(Screens.OnBoarding.Auth.Register.PIN)
+                        RegistrationStep.SETUP_FINANCIAL_ACCOUNT -> navController.navigate(Screens.CreateFinancialAccount)
                         RegistrationStep.COMPLETE -> navController.navigate(Screens.Home)
                     }
                 }

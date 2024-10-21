@@ -4,6 +4,7 @@ import android.content.Context
 import com.felipeschoffen.onbudget.data.database.UserDatabase
 import com.felipeschoffen.onbudget.data.database.UserFirebase
 import com.felipeschoffen.onbudget.data.repository.AuthRepositoryImpl
+import com.felipeschoffen.onbudget.domain.auth.PinHashing
 import com.felipeschoffen.onbudget.domain.repository.AuthRepository
 import com.felipeschoffen.onbudget.domain.util.ErrorMessages
 import com.felipeschoffen.onbudget.domain.util.ResourceProvider
@@ -26,8 +27,13 @@ object AppModule {
     }
 
     @Provides
-    fun provideAuthRepository(userDatabase: UserDatabase): AuthRepository {
-        return AuthRepositoryImpl(userDatabase)
+    fun providePinHashing(): PinHashing {
+        return PinHashing()
+    }
+
+    @Provides
+    fun provideAuthRepository(userDatabase: UserDatabase, pinHashing: PinHashing): AuthRepository {
+        return AuthRepositoryImpl(userDatabase, pinHashing)
     }
 
     @Provides

@@ -72,7 +72,7 @@ class LoginViewModel @Inject constructor(
                 is Result.Success -> {
                     when(val userInformation = authRepository.getUserInformation()) {
                         is Result.Error -> _loginEvents.send(LoginEvents.ShowMessage(errorMessages.getErrorMessage(userInformation.error)))
-                        is Result.Success -> _loginEvents.send(LoginEvents.LoginSuccessful(userInformation.data.registrationStep!!))
+                        is Result.Success -> _loginEvents.send(LoginEvents.LoginSuccessful(userInformation.data?.registrationStep!!))
                     }
                 }
             }

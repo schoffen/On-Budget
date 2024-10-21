@@ -2,6 +2,7 @@ package com.felipeschoffen.onbudget.ui.onboarding.verification.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.felipeschoffen.onbudget.core.RegistrationStep
 import com.felipeschoffen.onbudget.core.error.AuthError
 import com.felipeschoffen.onbudget.domain.repository.AuthRepository
 import com.felipeschoffen.onbudget.domain.util.ErrorMessages
@@ -32,9 +33,17 @@ class VerificationViewModel @Inject constructor(
 
             if (Firebase.auth.currentUser != null) {
                 if (!Firebase.auth.currentUser?.isEmailVerified!!)
-                    _verificationEvents.send(VerificationEvents.ShowMessage(errorMessages.getErrorMessage(AuthError.EMAIL_NOT_VERIFIED)))
-                else
+                    _verificationEvents.send(
+                        VerificationEvents.ShowMessage(
+                            errorMessages.getErrorMessage(
+                                AuthError.EMAIL_NOT_VERIFIED
+                            )
+                        )
+                    )
+                else {
+                    authRepository.updateUserRegistrationStep(RegistrationStep.SETUP_PIN)
                     _verificationEvents.send(VerificationEvents.VerificationSuccessful)
+                }
             }
         }
     }

@@ -31,7 +31,7 @@ sealed class Screens {
             object ForgotPassword {
 
                 @Serializable
-                data class EmailSent(val email: String)
+                object EmailSent
             }
 
         }

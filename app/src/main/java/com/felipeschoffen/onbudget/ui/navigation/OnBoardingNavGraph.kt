@@ -5,10 +5,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import androidx.navigation.toRoute
 import com.felipeschoffen.onbudget.ui.onboarding.auth.login.LoginScreen
 import com.felipeschoffen.onbudget.ui.onboarding.auth.login.LoginViewModel
-import com.felipeschoffen.onbudget.ui.onboarding.auth.recovery.EmailSentScreen
 import com.felipeschoffen.onbudget.ui.onboarding.auth.recovery.ForgotPasswordScreen
 import com.felipeschoffen.onbudget.ui.onboarding.auth.register.RegisterScreen
 import com.felipeschoffen.onbudget.ui.onboarding.auth.register.RegisterViewModel
@@ -59,8 +57,7 @@ fun NavGraphBuilder.onBoardingNavGraph(navController: NavController) {
         }
 
         composable<Screens.OnBoarding.Auth.ForgotPassword.EmailSent> {
-            val args = it.toRoute<Screens.OnBoarding.Auth.ForgotPassword.EmailSent>()
-            EmailSentScreen(email = args.email)
+
         }
     }
 }

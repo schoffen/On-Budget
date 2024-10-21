@@ -13,12 +13,14 @@ import com.felipeschoffen.onbudget.core.error.DatabaseError
 import com.felipeschoffen.onbudget.core.error.LoginError
 import com.felipeschoffen.onbudget.core.error.RegisterError
 import com.felipeschoffen.onbudget.data.FirestoreCollections
+import com.felipeschoffen.onbudget.data.FirestoreFields
 import com.felipeschoffen.onbudget.data.model.LoginInformation
 import com.felipeschoffen.onbudget.data.model.FirebaseUser
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.internal.api.FirebaseNoSignedInUserException
 
 object UserFirebase : UserDatabase {
     private val auth: FirebaseAuth = Firebase.auth
@@ -70,8 +72,10 @@ object UserFirebase : UserDatabase {
 
     override suspend fun getUserInformation(): Result<FirebaseUser?, DatabaseError> {
         return try {
+            val userUid = auth.currentUser?.uid ?: throw FirebaseNoSignedInUserException("")
+
             val document = Firebase.firestore.collection(FirestoreCollections.USERS)
-                .document(auth.currentUser!!.uid)
+                .document(userUid)
                 .get()
                 .await()
 
@@ -79,9 +83,42 @@ object UserFirebase : UserDatabase {
                 Result.Success(document.toObject(FirebaseUser::class.java))
             else
                 Result.Error(DatabaseError.DOCUMENT_NOT_FOUND)
-        } catch (e: Exception) {
+        } catch (e: FirebaseNoSignedInUserException) {
+            Log.e("firebase", e.message.toString())
+            Result.Error(DatabaseError.USER_NOT_LOGGED_IN)
+        }
+        catch (e: Exception) {
             Log.e("firebase", e.message.toString())
             Result.Error(DatabaseError.UNKNOWN)
+        }
+    }
+
+    override suspend fun createPin(pin: String): Result<Unit, DatabaseError> {
+        return updateField(FirestoreFields.PIN, pin)
+    }
+
+    override suspend fun updateUserRegisterStep(registrationStep: RegistrationStep): Result<Unit, DatabaseError> {
+        return updateField(FirestoreFields.REGISTRATION_STEP, registrationStep.name)
+    }
+
+    private suspend fun updateField(field: String, value: String): Result<Unit, DatabaseError> {
+        try {
+            val userUid = auth.currentUser?.uid ?: throw FirebaseNoSignedInUserException("")
+
+            Firebase.firestore.collection(FirestoreCollections.USERS)
+                .document(userUid)
+                .update(field, value)
+                .addOnFailureListener {
+                    throw it
+                }
+                .await()
+
+            return Result.Success(Unit)
+        } catch (e: FirebaseNoSignedInUserException) {
+            return Result.Error(DatabaseError.USER_NOT_LOGGED_IN)
+        }
+        catch (e: Exception) {
+            return Result.Error(DatabaseError.UNKNOWN)
         }
     }
 }
