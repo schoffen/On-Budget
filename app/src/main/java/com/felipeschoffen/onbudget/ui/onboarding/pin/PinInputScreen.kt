@@ -45,7 +45,13 @@ fun PinInputScreen(
             when (event) {
                 is PinEvents.CheckFailed -> snackbarHostState.showSnackbar(message = "Authentication Failed")
                 is PinEvents.ShowMessage -> snackbarHostState.showSnackbar(message = event.message)
-                is PinEvents.SuccessfullyChecked -> navController.navigate(Screens.OnBoarding.CreateFinancialAccount)
+                is PinEvents.SuccessfullyChecked -> {
+                    if (step == PinStep.AUTHENTICATE)
+                        navController.navigate(Screens.Home)
+
+                    if (step == PinStep.CONFIRM_NEW)
+                        navController.navigate(Screens.OnBoarding.CreateFinancialAccount)
+                }
             }
         }
     }
