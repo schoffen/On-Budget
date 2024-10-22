@@ -50,7 +50,7 @@ fun LoginScreen(
                         RegistrationStep.VERIFICATION -> navController.navigate(Screens.OnBoarding.Auth.Register.Verification)
                         RegistrationStep.SETUP_PIN -> navController.navigate(Screens.OnBoarding.Auth.Register.PIN)
                         RegistrationStep.SETUP_FINANCIAL_ACCOUNT -> navController.navigate(Screens.OnBoarding.CreateFinancialAccount)
-                        RegistrationStep.COMPLETE -> navController.navigate(Screens.Home)
+                        RegistrationStep.COMPLETE -> navController.navigate(Screens.OnBoarding.Auth.Register.PIN)
                     }
                 }
 
