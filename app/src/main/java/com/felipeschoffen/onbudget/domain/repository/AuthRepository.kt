@@ -6,6 +6,7 @@ import com.felipeschoffen.onbudget.data.model.RegistrationInfo
 import com.felipeschoffen.onbudget.core.Result
 import com.felipeschoffen.onbudget.core.error.DatabaseError
 import com.felipeschoffen.onbudget.core.error.LoginError
+import com.felipeschoffen.onbudget.data.model.FinancialAccount
 import com.felipeschoffen.onbudget.data.model.FirebaseUser
 import com.felipeschoffen.onbudget.data.model.LoginInformation
 
@@ -17,4 +18,5 @@ interface AuthRepository {
     suspend fun registerPin(pin: String): Result<Unit, DatabaseError>
     suspend fun loginWithEmail(loginInformation: LoginInformation): Result<Unit, LoginError>
     suspend fun pinAuthentication(pin: String): Result<Unit, LoginError>
+    suspend fun createFinancialAccount(account: FinancialAccount): Result<Unit, DatabaseError>
 }

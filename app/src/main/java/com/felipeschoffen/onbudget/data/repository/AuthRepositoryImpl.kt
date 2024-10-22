@@ -6,6 +6,7 @@ import com.felipeschoffen.onbudget.core.error.DatabaseError
 import com.felipeschoffen.onbudget.core.error.LoginError
 import com.felipeschoffen.onbudget.core.error.RegisterError
 import com.felipeschoffen.onbudget.data.database.UserDatabase
+import com.felipeschoffen.onbudget.data.model.FinancialAccount
 import com.felipeschoffen.onbudget.data.model.FirebaseUser
 import com.felipeschoffen.onbudget.data.model.LoginInformation
 import com.felipeschoffen.onbudget.data.model.RegistrationInfo
@@ -24,7 +25,7 @@ class AuthRepositoryImpl @Inject constructor(
 
     init {
         CoroutineScope(Dispatchers.IO).launch {
-            cachedUser = when(val result = getUserInformation()) {
+            cachedUser = when (val result = getUserInformation()) {
                 is Result.Error -> null
                 is Result.Success -> result.data
             }
@@ -34,11 +35,12 @@ class AuthRepositoryImpl @Inject constructor(
     override fun getCachedUser(): FirebaseUser? = cachedUser
 
     override suspend fun getUserInformation(): Result<FirebaseUser?, DatabaseError> {
-        when(val result = userDatabase.getUserInformation()) {
+        when (val result = userDatabase.getUserInformation()) {
             is Result.Error -> {
                 cachedUser = null
                 return result
             }
+
             is Result.Success -> {
                 cachedUser = result.data
                 return result
@@ -51,7 +53,7 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun registerPin(pin: String): Result<Unit, DatabaseError> {
-        return when(val result = userDatabase.createPin(PinHashing().hashPin(pin))) {
+        return when (val result = userDatabase.createPin(PinHashing().hashPin(pin))) {
             is Result.Error -> Result.Error(result.error)
             is Result.Success -> {
                 return updateUserRegistrationStep(RegistrationStep.SETUP_FINANCIAL_ACCOUNT)
@@ -74,9 +76,19 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateUserRegistrationStep(registrationStep: RegistrationStep): Result<Unit, DatabaseError> {
-        return when(val update = userDatabase.updateUserRegisterStep(registrationStep)) {
+        return when (val update = userDatabase.updateUserRegisterStep(registrationStep)) {
             is Result.Error -> Result.Error(update.error)
             is Result.Success -> Result.Success(Unit)
         }
+    }
+
+    override suspend fun createFinancialAccount(account: FinancialAccount): Result<Unit, DatabaseError> {
+        return userDatabase.createFinancialAccount(
+            account = FinancialAccount(
+                name = account.name,
+                balance = account.balance.ifEmpty { "0" },
+                type = account.type
+            )
+        )
     }
 }

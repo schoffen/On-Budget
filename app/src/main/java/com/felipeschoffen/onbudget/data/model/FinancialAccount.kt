@@ -1,9 +1,9 @@
 package com.felipeschoffen.onbudget.data.model
 
 data class FinancialAccount(
-    val name: String,
-    val type: AccountType,
-    private var balance: Float
+    val name: String = "",
+    val type: AccountType = AccountType.Wallet,
+    var balance: String = ""
 )
 
 sealed class AccountType(val name: String) {

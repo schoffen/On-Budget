@@ -1,4 +1,4 @@
-package com.felipeschoffen.onbudget.ui.onboarding.setup
+package com.felipeschoffen.onbudget.ui.financial_account
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

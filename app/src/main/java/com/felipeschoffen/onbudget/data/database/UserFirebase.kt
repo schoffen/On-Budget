@@ -14,6 +14,7 @@ import com.felipeschoffen.onbudget.core.error.LoginError
 import com.felipeschoffen.onbudget.core.error.RegisterError
 import com.felipeschoffen.onbudget.data.FirestoreCollections
 import com.felipeschoffen.onbudget.data.FirestoreFields
+import com.felipeschoffen.onbudget.data.model.FinancialAccount
 import com.felipeschoffen.onbudget.data.model.LoginInformation
 import com.felipeschoffen.onbudget.data.model.FirebaseUser
 import com.google.firebase.FirebaseException
@@ -99,6 +100,29 @@ object UserFirebase : UserDatabase {
 
     override suspend fun updateUserRegisterStep(registrationStep: RegistrationStep): Result<Unit, DatabaseError> {
         return updateField(FirestoreFields.REGISTRATION_STEP, registrationStep.name)
+    }
+
+    override suspend fun createFinancialAccount(account: FinancialAccount): Result<Unit, DatabaseError> {
+        try {
+            val userUid = auth.currentUser?.uid ?: throw FirebaseNoSignedInUserException("")
+
+            Firebase.firestore.collection(FirestoreCollections.USERS)
+                .document(userUid)
+                .collection(FirestoreCollections.ACCOUNTS)
+                .document(account.name)
+                .set(account)
+                .addOnFailureListener { exception ->
+                    exception.cause?.let { throw it }
+                }
+            updateUserRegisterStep(registrationStep = RegistrationStep.COMPLETE)
+
+            return Result.Success(Unit)
+        } catch (e: FirebaseNoSignedInUserException) {
+            return Result.Error(DatabaseError.USER_NOT_LOGGED_IN)
+        }
+        catch (e: Exception) {
+            return Result.Error(DatabaseError.UNKNOWN)
+        }
     }
 
     private suspend fun updateField(field: String, value: String): Result<Unit, DatabaseError> {

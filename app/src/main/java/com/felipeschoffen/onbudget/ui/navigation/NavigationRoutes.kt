@@ -33,13 +33,22 @@ sealed class Screens {
                 @Serializable
                 object EmailSent
             }
+        }
 
+        @Serializable
+        object CreateFinancialAccount {
+
+            @Serializable
+            object Introduction
+
+            @Serializable
+            object Create
+
+            @Serializable
+            object AllSet
         }
     }
 
     @Serializable
     object Home
-
-    @Serializable
-    object CreateFinancialAccount
 }

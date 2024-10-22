@@ -12,8 +12,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,27 +25,46 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.felipeschoffen.onbudget.R
 import com.felipeschoffen.onbudget.data.model.AccountType
 import com.felipeschoffen.onbudget.ui.core.buttons.CustomButtonPrimary
 import com.felipeschoffen.onbudget.ui.core.inputs.DropDownMenuItem
 import com.felipeschoffen.onbudget.ui.core.inputs.DropDownSelector
 import com.felipeschoffen.onbudget.ui.core.inputs.LabeledOutlinedTextField
-import com.felipeschoffen.onbudget.ui.financial_account.components.ValueInput
+import com.felipeschoffen.onbudget.ui.financial_account.components.BalanceInput
+import com.felipeschoffen.onbudget.ui.navigation.Screens
 
 @Composable
-fun CreateAccountScreen(modifier: Modifier = Modifier) {
+fun CreateAccountScreen(
+    modifier: Modifier = Modifier,
+    createAccountViewModel: CreateAccountViewModel,
+    navController: NavController
+) {
 
-    var accountName by remember { mutableStateOf("") }
+    val uiState by createAccountViewModel.uiState
+    val snackbarHostState = SnackbarHostState()
+
+    LaunchedEffect(Unit) {
+        createAccountViewModel.uiEvents.collect { event ->
+            when (event) {
+                is CreateAccountEvents.CreateSuccessful -> navController.navigate(Screens.OnBoarding.CreateFinancialAccount.AllSet)
+                is CreateAccountEvents.ShowMessage -> snackbarHostState.showSnackbar(event.message)
+            }
+        }
+    }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.primary,
         bottomBar = {
             Box(modifier = Modifier.background(color = Color.White))
-        }
+        },
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) { paddingValues ->
         Column(
-            modifier = modifier.fillMaxSize().imePadding(),
+            modifier = modifier
+                .fillMaxSize()
+                .imePadding(),
             verticalArrangement = Arrangement.Bottom
         ) {
             Column(
@@ -56,7 +78,9 @@ fun CreateAccountScreen(modifier: Modifier = Modifier) {
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onPrimary
                 )
-                ValueInput()
+                BalanceInput(
+                    balance = uiState.account.balance,
+                    onBalanceChanged = { createAccountViewModel.onBalanceChanged(it) })
             }
             Column(
                 modifier = modifier
@@ -73,17 +97,18 @@ fun CreateAccountScreen(modifier: Modifier = Modifier) {
             {
                 LabeledOutlinedTextField(
                     onValueChanged = {
-                        accountName = it
+                        createAccountViewModel.onNameChanged(it)
                     },
-                    value = accountName,
-                    placeholder = stringResource(R.string.name_hint)
+                    value = uiState.account.name,
+                    placeholder = stringResource(R.string.name_hint),
+                    isError = !uiState.isNameValid,
+                    errorMessage = uiState.nameErrorMessage
                 )
 
-                var value by remember { mutableStateOf("") }
                 var expanded by remember { mutableStateOf(false) }
 
                 DropDownSelector(
-                    value = value,
+                    value = uiState.account.type.name,
                     expanded = expanded,
                     onExpandedChange = {
                         expanded = it
@@ -93,17 +118,20 @@ fun CreateAccountScreen(modifier: Modifier = Modifier) {
                     },
                     items = listOf(
                         DropDownMenuItem(name = AccountType.Wallet.name, onItemClicked = {
-                            value = AccountType.Wallet.name
+                            createAccountViewModel.onTypeChanged(AccountType.Wallet)
                         }),
                         DropDownMenuItem(name = AccountType.Bank.name, onItemClicked = {
-                            value = AccountType.Bank.name
+                            createAccountViewModel.onTypeChanged(AccountType.Bank)
                         })
                     )
                 )
 
                 CustomButtonPrimary(
-                    onClick = {},
-                    text = stringResource(R.string.action_continue)
+                    onClick = {
+                        createAccountViewModel.onContinueClicked()
+                    },
+                    text = stringResource(R.string.action_continue),
+                    showLoadingProgress = uiState.isLoading
                 )
             }
         }

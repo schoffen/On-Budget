@@ -86,4 +86,6 @@ dependencies {
 
     implementation(platform("com.google.firebase:firebase-bom:33.4.0"))
     implementation("com.google.firebase:firebase-auth")
+
+    implementation("org.mockito:mockito-core:3.12.4")
 }

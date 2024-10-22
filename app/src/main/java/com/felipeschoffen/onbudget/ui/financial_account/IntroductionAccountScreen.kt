@@ -1,4 +1,4 @@
-package com.felipeschoffen.onbudget.ui.onboarding.setup
+package com.felipeschoffen.onbudget.ui.financial_account
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,11 +10,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.felipeschoffen.onbudget.R
 import com.felipeschoffen.onbudget.ui.core.buttons.CustomButtonPrimary
+import com.felipeschoffen.onbudget.ui.navigation.Screens
 
 @Composable
-fun SetupAccountScreen(modifier: Modifier = Modifier) {
+fun IntroductionAccountScreen(
+    modifier: Modifier = Modifier,
+    navController: NavController
+) {
 
     Scaffold { paddingValues ->
         Column(
@@ -37,7 +42,7 @@ fun SetupAccountScreen(modifier: Modifier = Modifier) {
                 )
             }
             CustomButtonPrimary(
-                onClick = {},
+                onClick = { navController.navigate(Screens.OnBoarding.CreateFinancialAccount.Create)},
                 text = stringResource(R.string.action_setup_account)
             )
         }

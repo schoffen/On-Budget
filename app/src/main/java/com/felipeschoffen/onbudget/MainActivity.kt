@@ -21,7 +21,8 @@ import com.felipeschoffen.onbudget.ui.navigation.Screens
 import com.felipeschoffen.onbudget.ui.navigation.onBoardingNavGraph
 import com.felipeschoffen.onbudget.ui.onboarding.pin.PinInputScreen
 import com.felipeschoffen.onbudget.ui.onboarding.pin.PinViewModel
-import com.felipeschoffen.onbudget.ui.onboarding.setup.SetupAccountScreen
+import com.felipeschoffen.onbudget.ui.financial_account.IntroductionAccountScreen
+import com.felipeschoffen.onbudget.ui.navigation.createFinancialAccountNavGraph
 import com.felipeschoffen.onbudget.ui.onboarding.verification.ui.VerificationScreen
 import com.felipeschoffen.onbudget.ui.onboarding.verification.ui.VerificationViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,12 +51,14 @@ class MainActivity : ComponentActivity() {
                         startDestination = when (mainViewModel.userInformation?.registrationStep) {
                             RegistrationStep.VERIFICATION -> Screens.OnBoarding.Auth.Register.Verification
                             RegistrationStep.SETUP_PIN -> Screens.OnBoarding.Auth.Register.PIN
-                            RegistrationStep.SETUP_FINANCIAL_ACCOUNT -> Screens.CreateFinancialAccount
+                            RegistrationStep.SETUP_FINANCIAL_ACCOUNT -> Screens.OnBoarding.CreateFinancialAccount
                             RegistrationStep.COMPLETE -> Screens.OnBoarding.Auth.Register.PIN
                             null -> Screens.OnBoarding
                         },
                         builder = {
                             onBoardingNavGraph(navController)
+
+                            createFinancialAccountNavGraph(navController)
 
                             composable<Screens.Home> { HomeScreen() }
 
@@ -71,10 +74,6 @@ class MainActivity : ComponentActivity() {
                                     navController = navController,
                                     pinViewModel = hiltViewModel<PinViewModel>()
                                 )
-                            }
-
-                            composable<Screens.CreateFinancialAccount> {
-                                SetupAccountScreen()
                             }
                         }
                     )

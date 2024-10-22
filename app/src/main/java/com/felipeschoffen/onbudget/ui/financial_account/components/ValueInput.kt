@@ -6,28 +6,21 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import com.felipeschoffen.onbudget.R
 
 @Composable
-fun ValueInput() {
-    var value by remember {
-        mutableStateOf("")
-    }
+fun BalanceInput(balance: String, onBalanceChanged: (String) -> Unit) {
 
     TextField(
-        value = value,
+        value = balance,
         onValueChange = {
-            value = if (it.startsWith("0")) {
-                ""
+            if (it.startsWith("0")) {
+                onBalanceChanged("")
             } else {
-                it
+                onBalanceChanged(it)
             }
         },
         visualTransformation = ValueInputVisualTransformation(

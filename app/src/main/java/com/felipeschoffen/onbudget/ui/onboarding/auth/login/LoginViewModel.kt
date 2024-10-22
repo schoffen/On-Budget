@@ -58,8 +58,6 @@ class LoginViewModel @Inject constructor(
                 )
             )
 
-            _isLoading.value = false
-
             when (result) {
                 is Result.Error -> _loginEvents.send(
                     LoginEvents.ShowMessage(
@@ -76,6 +74,8 @@ class LoginViewModel @Inject constructor(
                     }
                 }
             }
+
+            _isLoading.value = false
         }
     }
 
