@@ -62,8 +62,7 @@ fun VerificationScreen(
         topBar = {
             VerificationTopAppBar(onBackPressed = {
                 verificationViewModel.signOut()
-                navController.navigate(Screens.OnBoarding.Auth.Login)
-                navController.popBackStack()
+                navController.navigateUp()
             })
         },
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
