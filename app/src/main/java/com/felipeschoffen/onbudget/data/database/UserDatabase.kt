@@ -17,4 +17,5 @@ interface UserDatabase {
     suspend fun getUserInformation(): Result<FirebaseUser?, DatabaseError>
     suspend fun updateUserRegisterStep(registrationStep: RegistrationStep): Result<Unit, DatabaseError>
     suspend fun createFinancialAccount(account: FinancialAccount): Result<Unit, DatabaseError>
+    suspend fun signOut()
 }

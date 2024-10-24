@@ -145,4 +145,8 @@ object UserFirebase : UserDatabase {
             return Result.Error(DatabaseError.UNKNOWN)
         }
     }
+
+    override suspend fun signOut() {
+        auth.signOut()
+    }
 }

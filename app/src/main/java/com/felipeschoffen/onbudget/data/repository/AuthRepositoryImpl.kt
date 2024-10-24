@@ -91,4 +91,8 @@ class AuthRepositoryImpl @Inject constructor(
             )
         )
     }
+
+    override suspend fun signOut() {
+        userDatabase.signOut()
+    }
 }

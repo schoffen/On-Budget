@@ -51,4 +51,6 @@ class VerificationViewModel @Inject constructor(
     fun resendEmailVerification() {
         Firebase.auth.currentUser?.sendEmailVerification()
     }
+
+    fun signOut() = viewModelScope.launch { authRepository.signOut() }
 }

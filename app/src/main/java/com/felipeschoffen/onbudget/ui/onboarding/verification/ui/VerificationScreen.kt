@@ -38,7 +38,6 @@ import androidx.navigation.NavController
 import com.felipeschoffen.onbudget.R
 import com.felipeschoffen.onbudget.ui.core.buttons.CustomButtonPrimary
 import com.felipeschoffen.onbudget.ui.navigation.Screens
-import com.felipeschoffen.onbudget.verification.ui.VerificationTopAppBar
 import kotlinx.coroutines.delay
 import java.util.Locale
 
@@ -61,7 +60,11 @@ fun VerificationScreen(
 
     Scaffold(
         topBar = {
-            VerificationTopAppBar()
+            VerificationTopAppBar(onBackPressed = {
+                verificationViewModel.signOut()
+                navController.navigate(Screens.OnBoarding.Auth.Login)
+                navController.popBackStack()
+            })
         },
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) { paddingValues ->

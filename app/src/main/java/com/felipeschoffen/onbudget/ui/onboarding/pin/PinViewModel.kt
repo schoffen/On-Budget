@@ -79,10 +79,10 @@ class PinViewModel @Inject constructor(
             }
 
             PinStep.AUTHENTICATE -> viewModelScope.launch {
-                when (val result = authRepository.pinAuthentication(_inputValue.value)) {
+                when (authRepository.pinAuthentication(_inputValue.value)) {
                     is Result.Error -> {
                         _pinEvents.send(PinEvents.CheckFailed)
-                        _pinEvents.send(PinEvents.ShowMessage(errorMessages.getErrorMessage(result.error)))
+                        onValueChanged("")
                     }
                     is Result.Success -> _pinEvents.send(PinEvents.SuccessfullyChecked)
                 }
