@@ -26,7 +26,7 @@ fun NavGraphBuilder.createFinancialAccountNavGraph(navController: NavController)
         }
 
         composable<Screens.OnBoarding.CreateFinancialAccount.AllSet> {
-            AllSetScreen()
+            AllSetScreen(navController = navController)
         }
     }
 }
