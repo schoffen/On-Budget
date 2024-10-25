@@ -44,9 +44,7 @@ class LoginViewModel @Inject constructor(
     fun login() {
         _isLoading.value = true
 
-        validateLoginForm()
-
-        if (!loginFormState.value.isEmailValid || !loginFormState.value.isPasswordValid) {
+        if (!validateLoginForm()) {
             _isLoading.value = false
             return
         }
@@ -73,7 +71,7 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    private fun validateLoginForm() {
+    private fun validateLoginForm(): Boolean {
         emailValidator
             .execute(_loginFormState.value.email)
             .onError { error ->
@@ -103,5 +101,7 @@ class LoginViewModel @Inject constructor(
                     passwordErrorMessage = null
                 )
             }
+
+        return (_loginFormState.value.isEmailValid && _loginFormState.value.isPasswordValid)
     }
 }
