@@ -1,13 +1,14 @@
 package com.felipeschoffen.onbudget.ui.onboarding.pin
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.felipeschoffen.onbudget.core.RegistrationStep
-import com.felipeschoffen.onbudget.core.Result
+import com.felipeschoffen.onbudget.core.error.toString
+import com.felipeschoffen.onbudget.core.onError
+import com.felipeschoffen.onbudget.core.onSuccess
 import com.felipeschoffen.onbudget.domain.repository.AuthRepository
-import com.felipeschoffen.onbudget.domain.util.ErrorMessages
+import com.felipeschoffen.onbudget.domain.util.ResourceProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -17,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PinViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val errorMessages: ErrorMessages
+    private val resourceProvider: ResourceProvider
 ) : ViewModel() {
     private val _pinUIState = mutableStateOf(PinUIState())
     val pinUIState = _pinUIState
@@ -35,56 +36,71 @@ class PinViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val result = authRepository.getUserInformation()
-            if (result is Result.Success) {
-                if (result.data?.registrationStep == RegistrationStep.SETUP_PIN)
-                    _step.value = PinStep.SETUP_NEW
+            authRepository.getUserInformation()
+                .onSuccess { data ->
+                    if (data?.registrationStep == RegistrationStep.SETUP_PIN)
+                        _step.value = PinStep.SETUP_NEW
 
-                if (result.data?.registrationStep == RegistrationStep.COMPLETE) {
-                    _step.value = PinStep.AUTHENTICATE
+                    if (data?.registrationStep == RegistrationStep.COMPLETE) {
+                        _step.value = PinStep.AUTHENTICATE
+                    }
+                }
+                .onError { error ->
+                    _pinEvents.send(PinEvents.ShowMessage(error.toString(resourceProvider)))
                 }
 
-                _pinUIState.value = _pinUIState.value.copy(isLoading = false)
-            }
+            _pinUIState.value = _pinUIState.value.copy(isLoading = false)
         }
     }
 
     fun onValueChanged(value: String) {
         _inputValue.value = value
-        Log.d("vm", _inputValue.value)
     }
 
     fun sendPin() {
-        when (_step.value) {
-            PinStep.SETUP_NEW -> {
-                userPin = _inputValue.value
-                _inputValue.value = ""
-                _step.value = PinStep.CONFIRM_NEW
-            }
+        viewModelScope.launch {
+            when (_step.value) {
+                PinStep.SETUP_NEW -> {
+                    userPin = _inputValue.value
+                    _inputValue.value = ""
+                    _step.value = PinStep.CONFIRM_NEW
+                }
 
-            PinStep.CONFIRM_NEW -> {
-                when (_inputValue.value == userPin) {
-                    true -> viewModelScope.launch {
-                        val result = authRepository.registerPin(userPin)
-                        Log.d("pin", result.toString())
-                        _pinEvents.send(PinEvents.SuccessfullyChecked)
-                    }
+                PinStep.CONFIRM_NEW -> {
+                    when (_inputValue.value == userPin) {
+                        true -> {
+                            authRepository.registerPin(userPin)
+                                .onSuccess {
+                                    _pinEvents.send(PinEvents.SuccessfullyChecked)
+                                }
+                                .onError { error ->
+                                    _pinEvents.send(
+                                        PinEvents.ShowMessage(
+                                            error.toString(
+                                                resourceProvider
+                                            )
+                                        )
+                                    )
+                                }
+                        }
 
-                    false -> viewModelScope.launch {
-                        _step.value = PinStep.SETUP_NEW
-                        _pinEvents.send(PinEvents.CheckFailed)
-                        onValueChanged("")
+                        false -> {
+                            _step.value = PinStep.SETUP_NEW
+                            _pinEvents.send(PinEvents.CheckFailed)
+                            onValueChanged("")
+                        }
                     }
                 }
-            }
 
-            PinStep.AUTHENTICATE -> viewModelScope.launch {
-                when (authRepository.pinAuthentication(_inputValue.value)) {
-                    is Result.Error -> {
-                        _pinEvents.send(PinEvents.CheckFailed)
-                        onValueChanged("")
-                    }
-                    is Result.Success -> _pinEvents.send(PinEvents.SuccessfullyChecked)
+                PinStep.AUTHENTICATE -> {
+                    authRepository.pinAuthentication(_inputValue.value)
+                        .onSuccess {
+                            _pinEvents.send(PinEvents.SuccessfullyChecked)
+                        }
+                        .onError {
+                            _pinEvents.send(PinEvents.CheckFailed)
+                            onValueChanged("")
+                        }
                 }
             }
         }
