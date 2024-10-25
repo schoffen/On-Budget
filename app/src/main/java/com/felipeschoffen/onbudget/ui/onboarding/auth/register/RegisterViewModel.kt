@@ -3,11 +3,13 @@ package com.felipeschoffen.onbudget.ui.onboarding.auth.register
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.felipeschoffen.onbudget.core.Result
 import com.felipeschoffen.onbudget.core.error.RegisterError
+import com.felipeschoffen.onbudget.core.error.toString
+import com.felipeschoffen.onbudget.core.onError
+import com.felipeschoffen.onbudget.core.onSuccess
 import com.felipeschoffen.onbudget.data.model.RegistrationInfo
 import com.felipeschoffen.onbudget.domain.repository.AuthRepository
-import com.felipeschoffen.onbudget.domain.util.ErrorMessages
+import com.felipeschoffen.onbudget.domain.util.ResourceProvider
 import com.felipeschoffen.onbudget.domain.validations.EmailValidator
 import com.felipeschoffen.onbudget.domain.validations.NameValidator
 import com.felipeschoffen.onbudget.domain.validations.PasswordValidator
@@ -23,7 +25,7 @@ class RegisterViewModel @Inject constructor(
     private val nameValidator: NameValidator,
     private val emailValidator: EmailValidator,
     private val passwordValidator: PasswordValidator,
-    private val errorMessages: ErrorMessages
+    private val resourceProvider: ResourceProvider
 ) : ViewModel() {
     private var _requestLoading = mutableStateOf(false)
     val requestLoading get() = _requestLoading.value
@@ -54,124 +56,88 @@ class RegisterViewModel @Inject constructor(
     fun registerWithEmail() {
         _requestLoading.value = true
 
-        validateName()
-        validateEmail()
-        validatePassword()
-
-        if (!_registerFormState.value.isTermsChecked) {
-            _requestLoading.value = false
-            viewModelScope.launch {
-                _registerEvents.send(
-                    RegisterEvents.ShowMessage(
-                        errorMessages.getErrorMessage(
-                            RegisterError.TERMS_NOT_ACCEPTED
-                        )
-                    )
-                )
-            }
-            return
-        }
-
-        if (!_registerFormState.value.isNameValid ||
-            !_registerFormState.value.isEmailValid ||
-            !_registerFormState.value.isPasswordValid
-        ) {
+        if (!validateRegisterForm() || !validateTerms()) {
             _requestLoading.value = false
             return
         }
 
         viewModelScope.launch {
-            val result = authRepository.registerWithEmail(
+            authRepository.registerWithEmail(
                 RegistrationInfo(
                     name = _registerFormState.value.name,
                     email = _registerFormState.value.email,
                     password = _registerFormState.value.password
                 )
-            )
+            ).onError { error ->
+                _registerEvents.send(RegisterEvents.ShowMessage(error.toString(resourceProvider)))
+            }.onSuccess {
+                _registerEvents.send(RegisterEvents.RegisterSuccessful)
+            }
 
-            when (result) {
-                is Result.Error -> {
-                    _registerEvents.send(
-                        RegisterEvents.ShowMessage(
-                            errorMessages.getErrorMessage(
-                                result.error
-                            )
-                        )
+            _requestLoading.value = false
+        }
+    }
+
+    private fun validateRegisterForm(): Boolean {
+        nameValidator.execute(_registerFormState.value.name)
+            .onError { error ->
+                _registerFormState.value = _registerFormState.value.copy(
+                    isNameValid = false,
+                    nameErrorMessage = error.toString(resourceProvider)
+                )
+            }
+            .onSuccess {
+                _registerFormState.value = _registerFormState.value.copy(
+                    isNameValid = true,
+                    nameErrorMessage = null
+                )
+            }
+
+        emailValidator.execute(_registerFormState.value.email)
+            .onError { error ->
+                _registerFormState.value = _registerFormState.value.copy(
+                    isEmailValid = false,
+                    emailErrorMessage = error.toString(resourceProvider)
+                )
+            }
+            .onSuccess {
+                _registerFormState.value = _registerFormState.value.copy(
+                    isEmailValid = true,
+                    emailErrorMessage = null
+                )
+            }
+
+        passwordValidator.execute(_registerFormState.value.password)
+            .onError { error ->
+                _registerFormState.value = _registerFormState.value.copy(
+                    isPasswordValid = false,
+                    passwordErrorMessage = error.toString(resourceProvider)
+                )
+            }
+            .onSuccess {
+                _registerFormState.value = _registerFormState.value.copy(
+                    isPasswordValid = true,
+                    passwordErrorMessage = null
+                )
+            }
+
+        return (_registerFormState.value.isNameValid &&
+                _registerFormState.value.isEmailValid &&
+                _registerFormState.value.isPasswordValid)
+    }
+
+    private fun validateTerms(): Boolean {
+        if (!_registerFormState.value.isTermsChecked) {
+            _requestLoading.value = false
+            viewModelScope.launch {
+                _registerEvents.send(
+                    RegisterEvents.ShowMessage(
+                        RegisterError.TERMS_NOT_ACCEPTED.toString(resourceProvider)
                     )
-                    _requestLoading.value = false
-                }
-
-                is Result.Success -> {
-                    _registerEvents.send(RegisterEvents.RegisterSuccessful)
-                    _requestLoading.value = false
-                }
-            }
-        }
-    }
-
-    private fun validateName() {
-        val isValid: Boolean
-        val errorMessage: String?
-
-        when (val result = nameValidator.execute(_registerFormState.value.name)) {
-            is Result.Error -> {
-                isValid = false
-                errorMessage = errorMessages.getErrorMessage(result.error)
-            }
-
-            is Result.Success -> {
-                isValid = true
-                errorMessage = null
+                )
             }
         }
 
-        _registerFormState.value = _registerFormState.value.copy(
-            isNameValid = isValid,
-            nameErrorMessage = errorMessage
-        )
-    }
-
-    private fun validateEmail() {
-        val isValid: Boolean
-        val errorMessage: String?
-
-        when (val result = emailValidator.execute(_registerFormState.value.email)) {
-            is Result.Error -> {
-                isValid = false
-                errorMessage = errorMessages.getErrorMessage(result.error)
-            }
-
-            is Result.Success -> {
-                isValid = true
-                errorMessage = null
-            }
-        }
-
-        _registerFormState.value = _registerFormState.value.copy(
-            isEmailValid = isValid,
-            emailErrorMessage = errorMessage
-        )
-    }
-
-    private fun validatePassword() {
-        val isValid: Boolean
-        val errorMessage: String?
-
-        when (val result = passwordValidator.execute(_registerFormState.value.password)) {
-            is Result.Error -> {
-                isValid = false
-                errorMessage = errorMessages.getErrorMessage(result.error)
-            }
-
-            is Result.Success -> {
-                isValid = true
-                errorMessage = null
-            }
-        }
-
-        _registerFormState.value = _registerFormState.value.copy(
-            isPasswordValid = isValid,
-            passwordErrorMessage = errorMessage
-        )
+        return _registerFormState.value.isTermsChecked
     }
 }
