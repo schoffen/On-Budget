@@ -44,7 +44,7 @@ fun LoginScreen(
 
     LaunchedEffect(Unit) {
         loginViewModel.loginEvents.collect { event ->
-            when (event) {
+            when(event) {
                 is LoginEvents.LoginSuccessful -> {
                     when(event.registrationStep) {
                         RegistrationStep.VERIFICATION -> navController.navigate(Screens.OnBoarding.Auth.Register.Verification)

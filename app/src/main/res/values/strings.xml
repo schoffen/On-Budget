@@ -5,10 +5,10 @@
     <string name="onboarding_control_description">Become your own money manager\nand make every cent count</string>
 
     <string name="onboarding_tracking_title">Know where your\nmoney goes</string>
-    <string name="onboarding_tracking_description">Track your transaction easily,\nwith categories and financial report</string>
+    <string name="onboarding_tracking_description">Track your transactions easily,\nwith categories and financial reports</string>
 
-    <string name="onboarding_planning_title">Planning ahead</string>
-    <string name="onboarding_planning_description">Setup your budget for each category\nso you in control</string>
+    <string name="onboarding_planning_title">Plan ahead</string>
+    <string name="onboarding_planning_description">Set up your budget for each category\nso you stay in control</string>
 
     <string name="login_title">Login</string>
     <string name="sign_up_title">Sign Up</string>
@@ -30,20 +30,20 @@
 
     <string name="verification_code_title">Enter your\nVerification Code</string>
 
-    <string name="verification_email_sent">We send verification link to your email</string>
-    <string name="verification_check_inbox">. You can check your inbox.</string>
+    <string name="verification_email_sent">We sent a verification link to your email</string>
+    <string name="verification_check_inbox">. Please check your inbox.</string>
 
-    <string name="verification_resend_code">I didn’t received the email. Send again</string>
+    <string name="verification_resend_code">I didn’t receive the email. Send again</string>
 
     <string name="action_verify">Verify</string>
 
     <string name="verification_title">Verification</string>
-    <string name="verification_subtitle">Please, verify your email</string>
+    <string name="verification_subtitle">Please verify your email</string>
 
     <string name="forgot_password_question">Forgot Password?</string>
     <string name="forgot_password_title">Forgot Password</string>
 
-    <string name="signup_no_account">Dont\'t have an account yet?</string>
+    <string name="signup_no_account">Don\'t have an account yet?</string>
 
     <string name="forgot_password_instructions">Don’t worry.\nEnter your email and we’ll send you a link to reset your password.</string>
 
@@ -52,22 +52,22 @@
     <string name="action_back_to_login">Back to Login</string>
 
     <string name="reset_email_sent">Your email is on the way</string>
-    <string name="reset_check_email">Check your email %1$s and follow the instructions to reset your password</string>
+    <string name="reset_check_email">Check your email at %1$s and follow the instructions to reset your password</string>
 
     <string name="reset_password_title">Reset Password</string>
     <string name="new_password_hint">New password</string>
     <string name="confirm_password_hint">Retype new password</string>
 
     <string name="enter_PIN">Enter your PIN</string>
-    <string name="setup_new_PIN">Let\'s setup your PIN</string>
+    <string name="setup_new_PIN">Let\'s set up your PIN</string>
     <string name="setup_confirm_new_PIN">Let\'s confirm your PIN</string>
 
-    <string name="setup_account_title">Let\'s setup your account!</string>
-    <string name="setup_account_description">Account can be your bank, credit card or your wallet.</string>
+    <string name="setup_account_title">Let\'s set up your account!</string>
+    <string name="setup_account_description">An account can be your bank, credit card, or wallet.</string>
 
     <string name="action_setup_account">Let\'s go</string>
 
-    <string name="add_account_title">Add new account</string>
+    <string name="add_account_title">Add a new account</string>
     <string name="balance">Balance</string>
 
     <string name="account_type_hint">Account Type</string>
@@ -81,25 +81,25 @@
 
     <string name="account_name_hint">Account Name</string>
 
-    <string name="all_set_title">You are set!</string>
+    <string name="all_set_title">You\'re all set!</string>
 
     <string name="error_blank_input">This field cannot be empty</string>
     <string name="error_invalid_email">Invalid email</string>
     <string name="error_short_name">Name must have at least 3 letters</string>
     <string name="error_short_password">Password must have at least 8 characters</string>
     <string name="error_email_already_in_use">This email is already in use</string>
-    <string name="error_terms_not_accepted">Please, read and accept Terms of Service and Privacy Policy</string>
-    <string name="error_unknown">Oops, something unexpected happen</string>
-    <string name="error_email_not_verified">You haven\'t verified your email yet</string>
-    <string name="error_user_not_sign_in">Looks like you\'re not sign in, you\'ll be send to login page</string>
+    <string name="error_terms_not_accepted">Please read and accept the Terms of Service and Privacy Policy</string>
+    <string name="error_unknown">Oops, something unexpected happened</string>
+    <string name="error_email_not_verified">You haven’t verified your email yet</string>
+    <string name="error_user_not_sign_in">Looks like you\'re not signed in. You\'ll be sent to the login page</string>
     <string name="error_invalid_user">This email may not be registered yet</string>
     <string name="error_invalid_credentials">Invalid credentials</string>
-    <string name="error_many_requests">Too many request, try again later</string>
-    <string name="error_disabled_user">This account has been disabled, contact the support</string>
+    <string name="error_many_requests">Too many requests, try again later</string>
+    <string name="error_disabled_user">This account has been disabled, contact support</string>
     <string name="error_database_network_connection">Something went wrong, try again later</string>
-    <string name="error_input_fields_invalid">Please, fill out the form correctly</string>
-    <string name="error_database_connection">Oops, looks like you don\'t have internet connection</string>
-    <string name="error_database_document_not_found">Looks like something went wrong with your registration, please contact support</string>
+    <string name="error_input_fields_invalid">Please fill out the form correctly</string>
+    <string name="error_database_connection">Oops, looks like you don’t have an internet connection</string>
+    <string name="error_database_document_not_found">Looks like something went wrong with your registration. Please contact support</string>
 
     <string name="verification_email_screen_title">Please check your email to verify your account before continuing.</string>
 

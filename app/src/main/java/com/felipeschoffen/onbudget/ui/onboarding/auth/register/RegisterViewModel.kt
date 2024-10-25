@@ -101,7 +101,10 @@ class RegisterViewModel @Inject constructor(
                     _requestLoading.value = false
                 }
 
-                is Result.Success -> _registerEvents.send(RegisterEvents.RegisterSuccessful)
+                is Result.Success -> {
+                    _registerEvents.send(RegisterEvents.RegisterSuccessful)
+                    _requestLoading.value = false
+                }
             }
         }
     }
