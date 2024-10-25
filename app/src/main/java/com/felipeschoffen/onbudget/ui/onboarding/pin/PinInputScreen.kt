@@ -41,7 +41,7 @@ fun PinInputScreen(
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(Unit) {
-        pinViewModel.pinEvents.collect { event ->
+        pinViewModel.events.collect { event ->
             when (event) {
                 is PinEvents.CheckFailed -> snackbarHostState.showSnackbar(message = "Authentication Failed")
                 is PinEvents.ShowMessage -> snackbarHostState.showSnackbar(message = event.message)

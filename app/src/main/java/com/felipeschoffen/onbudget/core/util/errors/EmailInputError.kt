@@ -1,4 +1,4 @@
-package com.felipeschoffen.onbudget.core.error
+package com.felipeschoffen.onbudget.core.util.errors
 
 import com.felipeschoffen.onbudget.R
 import com.felipeschoffen.onbudget.domain.util.ResourceProvider

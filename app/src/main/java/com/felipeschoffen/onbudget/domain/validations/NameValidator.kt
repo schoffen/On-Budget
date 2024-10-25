@@ -1,8 +1,8 @@
 package com.felipeschoffen.onbudget.domain.validations
 
-import com.felipeschoffen.onbudget.domain.core.Constants
-import com.felipeschoffen.onbudget.core.Result
-import com.felipeschoffen.onbudget.core.error.NameInputError
+import com.felipeschoffen.onbudget.core.Constants
+import com.felipeschoffen.onbudget.core.util.Result
+import com.felipeschoffen.onbudget.core.util.errors.NameInputError
 
 class NameValidator {
 

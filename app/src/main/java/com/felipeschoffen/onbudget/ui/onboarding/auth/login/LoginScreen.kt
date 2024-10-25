@@ -24,7 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.felipeschoffen.onbudget.core.RegistrationStep
+import com.felipeschoffen.onbudget.core.util.RegistrationStep
 import com.felipeschoffen.onbudget.ui.navigation.Screens
 import com.felipeschoffen.onbudget.ui.onboarding.auth.login.components.ForgotPasswordTextButton
 import com.felipeschoffen.onbudget.ui.onboarding.auth.login.components.GoToRegisterText
@@ -43,7 +43,7 @@ fun LoginScreen(
     val keyboardController = LocalSoftwareKeyboardController.current
 
     LaunchedEffect(Unit) {
-        loginViewModel.loginEvents.collect { event ->
+        loginViewModel.events.collect { event ->
             when(event) {
                 is LoginEvents.LoginSuccessful -> {
                     when(event.registrationStep) {

@@ -1,19 +1,17 @@
 package com.felipeschoffen.onbudget.data.database
 
 import android.util.Log
-import com.felipeschoffen.onbudget.core.RegistrationStep
+import com.felipeschoffen.onbudget.core.util.RegistrationStep
 import com.felipeschoffen.onbudget.data.model.RegistrationInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
-import com.felipeschoffen.onbudget.core.Result
-import com.felipeschoffen.onbudget.core.error.DatabaseError
-import com.felipeschoffen.onbudget.core.error.LoginError
-import com.felipeschoffen.onbudget.core.error.RegisterError
-import com.felipeschoffen.onbudget.data.FirestoreCollections
-import com.felipeschoffen.onbudget.data.FirestoreFields
+import com.felipeschoffen.onbudget.core.util.Result
+import com.felipeschoffen.onbudget.core.util.errors.DatabaseError
+import com.felipeschoffen.onbudget.core.util.errors.LoginError
+import com.felipeschoffen.onbudget.core.util.errors.RegisterError
 import com.felipeschoffen.onbudget.data.model.FinancialAccount
 import com.felipeschoffen.onbudget.data.model.LoginInformation
 import com.felipeschoffen.onbudget.data.model.FirebaseUser

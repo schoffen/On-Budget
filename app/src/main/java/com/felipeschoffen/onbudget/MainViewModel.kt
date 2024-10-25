@@ -3,7 +3,8 @@ package com.felipeschoffen.onbudget
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.felipeschoffen.onbudget.core.Result
+import com.felipeschoffen.onbudget.core.util.onError
+import com.felipeschoffen.onbudget.core.util.onSuccess
 import com.felipeschoffen.onbudget.data.model.FirebaseUser
 import com.felipeschoffen.onbudget.domain.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,10 +27,13 @@ class MainViewModel @Inject constructor(
 
     private fun getUserInformation() {
         viewModelScope.launch {
-            when(val result = authRepository.getUserInformation()) {
-                is Result.Error -> _userInformation.value = null
-                is Result.Success -> _userInformation.value = result.data
-            }
+            authRepository.getUserInformation()
+                .onSuccess { user ->
+                    _userInformation.value = user
+                }
+                .onError {
+                    _userInformation.value = null
+                }
 
             _mainUIState.value = _mainUIState.value.copy(isLoading = false)
         }

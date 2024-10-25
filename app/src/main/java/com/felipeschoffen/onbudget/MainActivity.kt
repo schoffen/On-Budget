@@ -14,14 +14,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.felipeschoffen.onbudget.core.RegistrationStep
+import com.felipeschoffen.onbudget.core.util.RegistrationStep
 import com.felipeschoffen.onbudget.ui.core.theme.MontraBudgetAppTheme
 import com.felipeschoffen.onbudget.ui.home.HomeScreen
 import com.felipeschoffen.onbudget.ui.navigation.Screens
 import com.felipeschoffen.onbudget.ui.navigation.onBoardingNavGraph
 import com.felipeschoffen.onbudget.ui.onboarding.pin.PinInputScreen
 import com.felipeschoffen.onbudget.ui.onboarding.pin.PinViewModel
-import com.felipeschoffen.onbudget.ui.financial_account.IntroductionAccountScreen
 import com.felipeschoffen.onbudget.ui.navigation.createFinancialAccountNavGraph
 import com.felipeschoffen.onbudget.ui.onboarding.verification.ui.VerificationScreen
 import com.felipeschoffen.onbudget.ui.onboarding.verification.ui.VerificationViewModel

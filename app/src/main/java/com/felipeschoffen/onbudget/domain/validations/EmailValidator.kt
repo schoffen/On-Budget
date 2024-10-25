@@ -1,8 +1,8 @@
 package com.felipeschoffen.onbudget.domain.validations
 
 import android.util.Patterns
-import com.felipeschoffen.onbudget.core.Result
-import com.felipeschoffen.onbudget.core.error.EmailInputError
+import com.felipeschoffen.onbudget.core.util.Result
+import com.felipeschoffen.onbudget.core.util.errors.EmailInputError
 
 class EmailValidator {
 

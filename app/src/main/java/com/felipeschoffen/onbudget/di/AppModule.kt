@@ -6,7 +6,6 @@ import com.felipeschoffen.onbudget.data.database.UserFirebase
 import com.felipeschoffen.onbudget.data.repository.AuthRepositoryImpl
 import com.felipeschoffen.onbudget.domain.auth.PinHashing
 import com.felipeschoffen.onbudget.domain.repository.AuthRepository
-import com.felipeschoffen.onbudget.domain.util.ErrorMessages
 import com.felipeschoffen.onbudget.domain.util.ResourceProvider
 import com.felipeschoffen.onbudget.domain.validations.EmailValidator
 import com.felipeschoffen.onbudget.domain.validations.NameValidator
@@ -39,11 +38,6 @@ object AppModule {
     @Provides
     fun provideResourceProvider(@ApplicationContext context: Context): ResourceProvider {
         return ResourceProvider(context)
-    }
-
-    @Provides
-    fun provideErrorMessages(resourceProvider: ResourceProvider): ErrorMessages {
-        return ErrorMessages(resourceProvider)
     }
 
     @Provides

@@ -3,12 +3,14 @@ package com.felipeschoffen.onbudget.ui.financial_account
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.felipeschoffen.onbudget.core.Result
-import com.felipeschoffen.onbudget.core.error.NameInputError
+import com.felipeschoffen.onbudget.core.util.errors.NameInputError
+import com.felipeschoffen.onbudget.core.util.errors.toString
+import com.felipeschoffen.onbudget.core.util.onError
+import com.felipeschoffen.onbudget.core.util.onSuccess
 import com.felipeschoffen.onbudget.data.model.AccountType
 import com.felipeschoffen.onbudget.data.model.FinancialAccount
 import com.felipeschoffen.onbudget.domain.repository.AuthRepository
-import com.felipeschoffen.onbudget.domain.util.ErrorMessages
+import com.felipeschoffen.onbudget.domain.util.ResourceProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -18,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateAccountViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val errorMessages: ErrorMessages
+    private val resourceProvider: ResourceProvider,
 ) : ViewModel() {
 
     data class UIState(
@@ -28,8 +30,8 @@ class CreateAccountViewModel @Inject constructor(
         val isLoading: Boolean = false
     )
 
-    private val _uiEvents = Channel<CreateAccountEvents>()
-    val uiEvents = _uiEvents.receiveAsFlow()
+    private val _events = Channel<CreateAccountEvents>()
+    val events = _events.receiveAsFlow()
 
     private val _uiState = mutableStateOf(UIState())
     val uiState get() = _uiState
@@ -59,28 +61,24 @@ class CreateAccountViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            when (val result = authRepository.createFinancialAccount(uiState.value.account)) {
-                is Result.Error -> _uiEvents.send(
-                    CreateAccountEvents.ShowMessage(
-                        errorMessages.getErrorMessage(
-                            result.error
-                        )
-                    )
-                )
-
-                is Result.Success -> _uiEvents.send(CreateAccountEvents.CreateSuccessful)
-            }
+            authRepository.createFinancialAccount(_uiState.value.account)
+                .onSuccess {
+                    _events.send(CreateAccountEvents.CreateSuccessful)
+                }
+                .onError { error ->
+                    _events.send(CreateAccountEvents.ShowMessage(error.toString(resourceProvider)))
+                }
             _uiState.value = _uiState.value.copy(isLoading = false)
         }
     }
 
     private fun validateName() {
         _uiState.value =
-            _uiState.value.copy(isNameValid = _uiState.value.account.name.isNotEmpty())
-        _uiState.value = _uiState.value.copy(
-            nameErrorMessage = if (_uiState.value.isNameValid) null else errorMessages.getErrorMessage(
-                NameInputError.BLANK
+            _uiState.value.copy(
+                isNameValid = _uiState.value.account.name.isNotEmpty(),
+                nameErrorMessage = if (_uiState.value.isNameValid) null else NameInputError.BLANK.toString(
+                    resourceProvider
+                )
             )
-        )
     }
 }

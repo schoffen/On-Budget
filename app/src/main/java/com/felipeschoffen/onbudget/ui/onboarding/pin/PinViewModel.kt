@@ -3,10 +3,10 @@ package com.felipeschoffen.onbudget.ui.onboarding.pin
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.felipeschoffen.onbudget.core.RegistrationStep
-import com.felipeschoffen.onbudget.core.error.toString
-import com.felipeschoffen.onbudget.core.onError
-import com.felipeschoffen.onbudget.core.onSuccess
+import com.felipeschoffen.onbudget.core.util.RegistrationStep
+import com.felipeschoffen.onbudget.core.util.errors.toString
+import com.felipeschoffen.onbudget.core.util.onError
+import com.felipeschoffen.onbudget.core.util.onSuccess
 import com.felipeschoffen.onbudget.domain.repository.AuthRepository
 import com.felipeschoffen.onbudget.domain.util.ResourceProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,8 +23,8 @@ class PinViewModel @Inject constructor(
     private val _pinUIState = mutableStateOf(PinUIState())
     val pinUIState = _pinUIState
 
-    private var _pinEvents = Channel<PinEvents>()
-    val pinEvents = _pinEvents.receiveAsFlow()
+    private var _events = Channel<PinEvents>()
+    val events = _events.receiveAsFlow()
 
     private var _step = mutableStateOf(PinStep.SETUP_NEW)
     val step get() = _step
@@ -46,7 +46,7 @@ class PinViewModel @Inject constructor(
                     }
                 }
                 .onError { error ->
-                    _pinEvents.send(PinEvents.ShowMessage(error.toString(resourceProvider)))
+                    _events.send(PinEvents.ShowMessage(error.toString(resourceProvider)))
                 }
 
             _pinUIState.value = _pinUIState.value.copy(isLoading = false)
@@ -71,10 +71,10 @@ class PinViewModel @Inject constructor(
                         true -> {
                             authRepository.registerPin(userPin)
                                 .onSuccess {
-                                    _pinEvents.send(PinEvents.SuccessfullyChecked)
+                                    _events.send(PinEvents.SuccessfullyChecked)
                                 }
                                 .onError { error ->
-                                    _pinEvents.send(
+                                    _events.send(
                                         PinEvents.ShowMessage(
                                             error.toString(
                                                 resourceProvider
@@ -86,7 +86,7 @@ class PinViewModel @Inject constructor(
 
                         false -> {
                             _step.value = PinStep.SETUP_NEW
-                            _pinEvents.send(PinEvents.CheckFailed)
+                            _events.send(PinEvents.CheckFailed)
                             onValueChanged("")
                         }
                     }
@@ -95,10 +95,10 @@ class PinViewModel @Inject constructor(
                 PinStep.AUTHENTICATE -> {
                     authRepository.pinAuthentication(_inputValue.value)
                         .onSuccess {
-                            _pinEvents.send(PinEvents.SuccessfullyChecked)
+                            _events.send(PinEvents.SuccessfullyChecked)
                         }
                         .onError {
-                            _pinEvents.send(PinEvents.CheckFailed)
+                            _events.send(PinEvents.CheckFailed)
                             onValueChanged("")
                         }
                 }

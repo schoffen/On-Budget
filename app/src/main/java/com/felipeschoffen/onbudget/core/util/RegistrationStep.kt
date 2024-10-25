@@ -1,4 +1,4 @@
-package com.felipeschoffen.onbudget.core
+package com.felipeschoffen.onbudget.core.util
 
 enum class RegistrationStep {
     VERIFICATION,

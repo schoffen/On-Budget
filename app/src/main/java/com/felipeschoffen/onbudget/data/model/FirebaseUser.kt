@@ -1,6 +1,6 @@
 package com.felipeschoffen.onbudget.data.model
 
-import com.felipeschoffen.onbudget.core.RegistrationStep
+import com.felipeschoffen.onbudget.core.util.RegistrationStep
 
 data class FirebaseUser(
     val uid: String = "",

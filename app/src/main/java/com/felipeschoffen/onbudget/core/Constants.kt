@@ -1,4 +1,4 @@
-package com.felipeschoffen.onbudget.domain.core
+package com.felipeschoffen.onbudget.core
 
 object Constants {
 

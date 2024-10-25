@@ -2,10 +2,11 @@ package com.felipeschoffen.onbudget.ui.onboarding.verification.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.felipeschoffen.onbudget.core.RegistrationStep
-import com.felipeschoffen.onbudget.core.error.AuthError
+import com.felipeschoffen.onbudget.core.util.RegistrationStep
+import com.felipeschoffen.onbudget.core.util.errors.AuthError
+import com.felipeschoffen.onbudget.core.util.errors.toString
 import com.felipeschoffen.onbudget.domain.repository.AuthRepository
-import com.felipeschoffen.onbudget.domain.util.ErrorMessages
+import com.felipeschoffen.onbudget.domain.util.ResourceProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,11 +19,11 @@ import javax.inject.Inject
 @HiltViewModel
 class VerificationViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val errorMessages: ErrorMessages
+    private val resourceProvider: ResourceProvider,
 ) : ViewModel() {
 
-    private val _verificationEvents = Channel<VerificationEvents>()
-    val verificationEvents = _verificationEvents.receiveAsFlow()
+    private val _events = Channel<VerificationEvents>()
+    val events = _events.receiveAsFlow()
 
     private val _userEmail = Firebase.auth.currentUser?.email
     val userEmail = _userEmail
@@ -33,16 +34,12 @@ class VerificationViewModel @Inject constructor(
 
             if (Firebase.auth.currentUser != null) {
                 if (!Firebase.auth.currentUser?.isEmailVerified!!)
-                    _verificationEvents.send(
-                        VerificationEvents.ShowMessage(
-                            errorMessages.getErrorMessage(
-                                AuthError.EMAIL_NOT_VERIFIED
-                            )
-                        )
+                    _events.send(
+                        VerificationEvents.ShowMessage(AuthError.EMAIL_NOT_VERIFIED.toString(resourceProvider))
                     )
                 else {
                     authRepository.updateUserRegistrationStep(RegistrationStep.SETUP_PIN)
-                    _verificationEvents.send(VerificationEvents.VerificationSuccessful)
+                    _events.send(VerificationEvents.VerificationSuccessful)
                 }
             }
         }

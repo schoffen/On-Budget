@@ -3,10 +3,10 @@ package com.felipeschoffen.onbudget.ui.onboarding.auth.register
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.felipeschoffen.onbudget.core.error.RegisterError
-import com.felipeschoffen.onbudget.core.error.toString
-import com.felipeschoffen.onbudget.core.onError
-import com.felipeschoffen.onbudget.core.onSuccess
+import com.felipeschoffen.onbudget.core.util.errors.RegisterError
+import com.felipeschoffen.onbudget.core.util.errors.toString
+import com.felipeschoffen.onbudget.core.util.onError
+import com.felipeschoffen.onbudget.core.util.onSuccess
 import com.felipeschoffen.onbudget.data.model.RegistrationInfo
 import com.felipeschoffen.onbudget.domain.repository.AuthRepository
 import com.felipeschoffen.onbudget.domain.util.ResourceProvider
@@ -30,8 +30,8 @@ class RegisterViewModel @Inject constructor(
     private var _requestLoading = mutableStateOf(false)
     val requestLoading get() = _requestLoading.value
 
-    private val _registerEvents = Channel<RegisterEvents>()
-    val registerEvents = _registerEvents.receiveAsFlow()
+    private val _events = Channel<RegisterEvents>()
+    val events = _events.receiveAsFlow()
 
     private var _registerFormState = mutableStateOf(RegisterFormState())
     val registerFormState get() = _registerFormState
@@ -69,9 +69,9 @@ class RegisterViewModel @Inject constructor(
                     password = _registerFormState.value.password
                 )
             ).onError { error ->
-                _registerEvents.send(RegisterEvents.ShowMessage(error.toString(resourceProvider)))
+                _events.send(RegisterEvents.ShowMessage(error.toString(resourceProvider)))
             }.onSuccess {
-                _registerEvents.send(RegisterEvents.RegisterSuccessful)
+                _events.send(RegisterEvents.RegisterSuccessful)
             }
 
             _requestLoading.value = false
@@ -130,7 +130,7 @@ class RegisterViewModel @Inject constructor(
         if (!_registerFormState.value.isTermsChecked) {
             _requestLoading.value = false
             viewModelScope.launch {
-                _registerEvents.send(
+                _events.send(
                     RegisterEvents.ShowMessage(
                         RegisterError.TERMS_NOT_ACCEPTED.toString(resourceProvider)
                     )

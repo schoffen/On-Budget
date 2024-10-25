@@ -1,4 +1,4 @@
-package com.felipeschoffen.onbudget.data
+package com.felipeschoffen.onbudget.data.database
 
 object FirestoreCollections {
     const val USERS = "users"

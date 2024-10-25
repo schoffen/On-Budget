@@ -3,9 +3,9 @@ package com.felipeschoffen.onbudget.ui.onboarding.auth.login
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.felipeschoffen.onbudget.core.error.toString
-import com.felipeschoffen.onbudget.core.onError
-import com.felipeschoffen.onbudget.core.onSuccess
+import com.felipeschoffen.onbudget.core.util.errors.toString
+import com.felipeschoffen.onbudget.core.util.onError
+import com.felipeschoffen.onbudget.core.util.onSuccess
 import com.felipeschoffen.onbudget.data.model.LoginInformation
 import com.felipeschoffen.onbudget.domain.repository.AuthRepository
 import com.felipeschoffen.onbudget.domain.util.ResourceProvider
@@ -30,8 +30,8 @@ class LoginViewModel @Inject constructor(
     private val _loginFormState = mutableStateOf(LoginFormState())
     val loginFormState get() = _loginFormState
 
-    private val _loginEvents = Channel<LoginEvents>()
-    val loginEvents = _loginEvents.receiveAsFlow()
+    private val _events = Channel<LoginEvents>()
+    val events = _events.receiveAsFlow()
 
     fun onEmailChange(value: String) {
         _loginFormState.value = _loginFormState.value.copy(email = value)
@@ -56,14 +56,14 @@ class LoginViewModel @Inject constructor(
                     _loginFormState.value.password
                 )
             ).onError { error ->
-                _loginEvents.send(LoginEvents.ShowMessage(error.toString(resourceProvider)))
+                _events.send(LoginEvents.ShowMessage(error.toString(resourceProvider)))
             }.onSuccess {
                 authRepository.getUserInformation()
                     .onError { error ->
-                        _loginEvents.send(LoginEvents.ShowMessage(error.toString(resourceProvider)))
+                        _events.send(LoginEvents.ShowMessage(error.toString(resourceProvider)))
                     }
                     .onSuccess { user ->
-                        _loginEvents.send(LoginEvents.LoginSuccessful(user?.registrationStep!!))
+                        _events.send(LoginEvents.LoginSuccessful(user?.registrationStep!!))
                     }
             }
 

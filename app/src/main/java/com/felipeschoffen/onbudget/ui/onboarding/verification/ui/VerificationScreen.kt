@@ -50,7 +50,7 @@ fun VerificationScreen(
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(Unit) {
-        verificationViewModel.verificationEvents.collect { event ->
+        verificationViewModel.events.collect { event ->
             when (event) {
                 is VerificationEvents.ShowMessage -> snackbarHostState.showSnackbar(event.message)
                 is VerificationEvents.VerificationSuccessful -> navController.navigate(Screens.OnBoarding.Auth.Register.PIN)

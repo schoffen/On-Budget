@@ -18,7 +18,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -49,7 +48,7 @@ fun CreateAccountScreen(
     val keyboardController = LocalSoftwareKeyboardController.current
 
     LaunchedEffect(Unit) {
-        createAccountViewModel.uiEvents.collect { event ->
+        createAccountViewModel.events.collect { event ->
             when (event) {
                 is CreateAccountEvents.CreateSuccessful -> navController.navigate(Screens.OnBoarding.CreateFinancialAccount.AllSet)
                 is CreateAccountEvents.ShowMessage -> snackbarHostState.showSnackbar(event.message)

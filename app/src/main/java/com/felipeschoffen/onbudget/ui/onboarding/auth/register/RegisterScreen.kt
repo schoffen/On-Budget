@@ -46,7 +46,7 @@ fun RegisterScreen(
     val keyboardController = LocalSoftwareKeyboardController.current
 
     LaunchedEffect(Unit) {
-        registerViewModel.registerEvents.collect { event ->
+        registerViewModel.events.collect { event ->
 
             when (event) {
                 is RegisterEvents.RegisterSuccessful -> {

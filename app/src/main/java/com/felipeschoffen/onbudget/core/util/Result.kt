@@ -1,6 +1,6 @@
-package com.felipeschoffen.onbudget.core
+package com.felipeschoffen.onbudget.core.util
 
-import com.felipeschoffen.onbudget.core.error.Error
+import com.felipeschoffen.onbudget.core.util.errors.Error
 
 typealias DomainError = Error
 
