@@ -5,9 +5,12 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import androidx.navigation.toRoute
 import com.felipeschoffen.onbudget.ui.onboarding.auth.login.LoginScreen
 import com.felipeschoffen.onbudget.ui.onboarding.auth.login.LoginViewModel
+import com.felipeschoffen.onbudget.ui.onboarding.auth.recovery.EmailSentScreen
 import com.felipeschoffen.onbudget.ui.onboarding.auth.recovery.ForgotPasswordScreen
+import com.felipeschoffen.onbudget.ui.onboarding.auth.recovery.ForgotPasswordViewModel
 import com.felipeschoffen.onbudget.ui.onboarding.auth.register.RegisterScreen
 import com.felipeschoffen.onbudget.ui.onboarding.auth.register.RegisterViewModel
 import com.felipeschoffen.onbudget.ui.onboarding.welcome.WelcomeScreen
@@ -50,14 +53,17 @@ fun NavGraphBuilder.onBoardingNavGraph(navController: NavController) {
 
         composable<Screens.OnBoarding.Auth.ForgotPassword> {
             ForgotPasswordScreen(
-                onBackPressed = {
-                    navController.navigateUp()
-                }
+                navController = navController,
+                forgotPasswordViewModel = hiltViewModel<ForgotPasswordViewModel>()
             )
         }
 
-        composable<Screens.OnBoarding.Auth.ForgotPassword.EmailSent> {
-
+        composable<Screens.OnBoarding.Auth.ForgotPassword.EmailSent> { backStackEntry ->
+            val args = requireNotNull(backStackEntry.toRoute<Screens.OnBoarding.Auth.ForgotPassword.EmailSent>())
+            EmailSentScreen(
+                navController = navController,
+                email = args.email
+            )
         }
     }
 }

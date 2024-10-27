@@ -24,12 +24,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.felipeschoffen.onbudget.R
 import com.felipeschoffen.onbudget.ui.core.buttons.CustomButtonPrimary
+import com.felipeschoffen.onbudget.ui.navigation.Screens
 
 @Composable
 fun EmailSentScreen(
     email: String,
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -73,7 +76,11 @@ fun EmailSentScreen(
 
             CustomButtonPrimary(
                 onClick = {
-
+                    navController.navigate(Screens.OnBoarding.Auth.Login) {
+                        popUpTo(Screens.OnBoarding.Auth.Login) {
+                            inclusive = true
+                        }
+                    }
                 },
                 text = stringResource(R.string.action_back_to_login)
             )

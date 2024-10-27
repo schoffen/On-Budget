@@ -13,30 +13,54 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.felipeschoffen.onbudget.R
 import com.felipeschoffen.onbudget.ui.core.buttons.CustomButtonPrimary
 import com.felipeschoffen.onbudget.ui.core.inputs.EmailOutlinedTextField
+import com.felipeschoffen.onbudget.ui.navigation.Screens
 import com.felipeschoffen.onbudget.ui.onboarding.auth.recovery.components.ForgotPasswordTopAppBar
 
 @Composable
 fun ForgotPasswordScreen(
-    onBackPressed: () -> Unit,
+    navController: NavController,
+    forgotPasswordViewModel: ForgotPasswordViewModel,
     modifier: Modifier = Modifier
 ) {
+    val snackbarHostState = remember { SnackbarHostState() }
+    val uiState by forgotPasswordViewModel.uiState
+
+    LaunchedEffect(Unit) {
+        forgotPasswordViewModel.uiEvent.collect { event ->
+            when (event) {
+                ForgotPasswordEvent.Continue -> navController.navigate(
+                    Screens.OnBoarding.Auth.ForgotPassword.EmailSent(
+                        uiState.email
+                    )
+                )
+
+                is ForgotPasswordEvent.ShowError -> snackbarHostState.showSnackbar(message = event.message)
+            }
+        }
+    }
+
     Scaffold(modifier = Modifier,
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         topBar = {
-            ForgotPasswordTopAppBar(onBackPressed = onBackPressed)
+            ForgotPasswordTopAppBar(onBackPressed = {
+                navController.navigateUp()
+            })
         }) { paddingValues ->
         Box(
             modifier = modifier
@@ -45,9 +69,8 @@ fun ForgotPasswordScreen(
                 .padding(horizontal = 16.dp)
                 .imePadding()
                 .background(Color.Transparent),
-            contentAlignment = Alignment.Center,
-
-            ) {
+            contentAlignment = Alignment.Center
+        ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -62,20 +85,21 @@ fun ForgotPasswordScreen(
                     color = MaterialTheme.colorScheme.onBackground
                 )
 
-                var email by remember { mutableStateOf("") }
-
                 EmailOutlinedTextField(
                     onValueChanged = {
-                        email = it
+                        forgotPasswordViewModel.onAction(ForgotPasswordAction.OnEmailChange(it))
                     },
-                    value = email,
+                    value = uiState.email,
+                    isError = !uiState.isEmailValid,
+                    errorMessage = uiState.emailErrorMessage
                 )
 
                 CustomButtonPrimary(
                     onClick = {
-
+                        forgotPasswordViewModel.onAction(ForgotPasswordAction.Continue)
                     },
-                    text = stringResource(R.string.action_continue)
+                    text = stringResource(R.string.action_continue),
+                    showLoadingProgress = uiState.isLoading
                 )
             }
         }
