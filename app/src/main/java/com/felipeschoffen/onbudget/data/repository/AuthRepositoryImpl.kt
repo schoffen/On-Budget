@@ -96,7 +96,7 @@ class AuthRepositoryImpl @Inject constructor(
         userDatabase.signOut()
     }
 
-    override suspend fun sendResetPasswordEmail() {
-
+    override suspend fun sendResetPasswordEmail(email: String): Result<Unit, DatabaseError> {
+        return userDatabase.sendResetPasswordEmail(email)
     }
 }

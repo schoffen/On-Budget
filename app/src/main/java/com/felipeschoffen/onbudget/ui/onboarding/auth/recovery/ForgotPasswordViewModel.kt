@@ -41,9 +41,14 @@ class ForgotPasswordViewModel @Inject constructor(
         if (_uiState.value.isEmailValid) {
             changeLoading(true)
             viewModelScope.launch {
-                authRepository.sendResetPasswordEmail()
+                authRepository.sendResetPasswordEmail(_uiState.value.email)
+                    .onSuccess {
+                        _uiEvent.send(ForgotPasswordEvent.Continue)
+                    }
+                    .onError { error ->
+                        _uiEvent.send(ForgotPasswordEvent.ShowError(error.toString(resourceProvider)))
+                    }
                 changeLoading(false)
-                _uiEvent.send(ForgotPasswordEvent.Continue)
             }
         }
     }

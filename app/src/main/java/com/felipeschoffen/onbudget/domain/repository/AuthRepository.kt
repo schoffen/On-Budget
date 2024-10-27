@@ -20,5 +20,5 @@ interface AuthRepository {
     suspend fun pinAuthentication(pin: String): Result<Unit, LoginError>
     suspend fun createFinancialAccount(account: FinancialAccount): Result<Unit, DatabaseError>
     suspend fun signOut()
-    suspend fun sendResetPasswordEmail()
+    suspend fun sendResetPasswordEmail(email: String): Result<Unit, DatabaseError>
 }

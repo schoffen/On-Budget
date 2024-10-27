@@ -56,7 +56,8 @@ object UserFirebase : UserDatabase {
 
     override suspend fun loginWithEmail(loginInformation: LoginInformation): Result<Unit, LoginError> {
         try {
-            auth.signInWithEmailAndPassword(loginInformation.email, loginInformation.password).await()
+            auth.signInWithEmailAndPassword(loginInformation.email, loginInformation.password)
+                .await()
 
             return Result.Success(Unit)
         } catch (e: FirebaseAuthInvalidUserException) {
@@ -85,8 +86,7 @@ object UserFirebase : UserDatabase {
         } catch (e: FirebaseNoSignedInUserException) {
             Log.e("firebase", e.message.toString())
             Result.Error(DatabaseError.USER_NOT_LOGGED_IN)
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             Log.e("firebase", e.message.toString())
             Result.Error(DatabaseError.UNKNOWN)
         }
@@ -117,8 +117,7 @@ object UserFirebase : UserDatabase {
             return Result.Success(Unit)
         } catch (e: FirebaseNoSignedInUserException) {
             return Result.Error(DatabaseError.USER_NOT_LOGGED_IN)
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             return Result.Error(DatabaseError.UNKNOWN)
         }
     }
@@ -138,8 +137,16 @@ object UserFirebase : UserDatabase {
             return Result.Success(Unit)
         } catch (e: FirebaseNoSignedInUserException) {
             return Result.Error(DatabaseError.USER_NOT_LOGGED_IN)
+        } catch (e: Exception) {
+            return Result.Error(DatabaseError.UNKNOWN)
         }
-        catch (e: Exception) {
+    }
+
+    override suspend fun sendResetPasswordEmail(email: String): Result<Unit, DatabaseError> {
+        try {
+            auth.sendPasswordResetEmail(email)
+            return Result.Success(Unit)
+        } catch (e: Exception) {
             return Result.Error(DatabaseError.UNKNOWN)
         }
     }
