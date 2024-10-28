@@ -47,7 +47,7 @@ fun PinInputScreen(
                 is PinEvents.ShowMessage -> snackbarHostState.showSnackbar(message = event.message)
                 is PinEvents.SuccessfullyChecked -> {
                     if (step == PinStep.AUTHENTICATE)
-                        navController.navigate(Screens.Home)
+                        navController.navigate(Screens.Home) { popUpTo(Screens.Home) { inclusive = true } }
 
                     if (step == PinStep.CONFIRM_NEW)
                         navController.navigate(Screens.OnBoarding.CreateFinancialAccount)

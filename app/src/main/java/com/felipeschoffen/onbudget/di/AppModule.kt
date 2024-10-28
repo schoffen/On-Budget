@@ -1,8 +1,8 @@
 package com.felipeschoffen.onbudget.di
 
 import android.content.Context
-import com.felipeschoffen.onbudget.data.database.UserDatabase
-import com.felipeschoffen.onbudget.data.database.UserFirebase
+import com.felipeschoffen.onbudget.data.database.AuthDataSource
+import com.felipeschoffen.onbudget.data.database.FirebaseDataSource
 import com.felipeschoffen.onbudget.data.repository.AuthRepositoryImpl
 import com.felipeschoffen.onbudget.domain.auth.PinHashing
 import com.felipeschoffen.onbudget.domain.repository.AuthRepository
@@ -21,8 +21,8 @@ import dagger.hilt.components.SingletonComponent
 object AppModule {
 
     @Provides
-    fun provideAuthDatabase(): UserDatabase {
-        return UserFirebase
+    fun provideAuthDatabase(): AuthDataSource {
+        return FirebaseDataSource
     }
 
     @Provides
@@ -31,8 +31,8 @@ object AppModule {
     }
 
     @Provides
-    fun provideAuthRepository(userDatabase: UserDatabase, pinHashing: PinHashing): AuthRepository {
-        return AuthRepositoryImpl(userDatabase, pinHashing)
+    fun provideAuthRepository(authDataSource: AuthDataSource, pinHashing: PinHashing): AuthRepository {
+        return AuthRepositoryImpl(authDataSource, pinHashing)
     }
 
     @Provides

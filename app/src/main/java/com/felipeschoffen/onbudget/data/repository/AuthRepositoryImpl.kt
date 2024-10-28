@@ -5,7 +5,7 @@ import com.felipeschoffen.onbudget.core.util.Result
 import com.felipeschoffen.onbudget.core.util.errors.DatabaseError
 import com.felipeschoffen.onbudget.core.util.errors.LoginError
 import com.felipeschoffen.onbudget.core.util.errors.RegisterError
-import com.felipeschoffen.onbudget.data.database.UserDatabase
+import com.felipeschoffen.onbudget.data.database.AuthDataSource
 import com.felipeschoffen.onbudget.data.model.FinancialAccount
 import com.felipeschoffen.onbudget.data.model.FirebaseUser
 import com.felipeschoffen.onbudget.data.model.LoginInformation
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
-    private val userDatabase: UserDatabase,
+    private val authDataSource: AuthDataSource,
     private val pinHashing: PinHashing
 ) : AuthRepository {
     private var cachedUser: FirebaseUser? = null
@@ -35,7 +35,7 @@ class AuthRepositoryImpl @Inject constructor(
     override fun getCachedUser(): FirebaseUser? = cachedUser
 
     override suspend fun getUserInformation(): Result<FirebaseUser?, DatabaseError> {
-        when (val result = userDatabase.getUserInformation()) {
+        when (val result = authDataSource.getUserInformation()) {
             is Result.Error -> {
                 cachedUser = null
                 return result
@@ -49,11 +49,11 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun registerWithEmail(registrationInfo: RegistrationInfo): Result<Unit, RegisterError> {
-        return userDatabase.registerWithEmail(registrationInfo)
+        return authDataSource.registerWithEmail(registrationInfo)
     }
 
     override suspend fun registerPin(pin: String): Result<Unit, DatabaseError> {
-        return when (val result = userDatabase.createPin(PinHashing().hashPin(pin))) {
+        return when (val result = authDataSource.createPin(PinHashing().hashPin(pin))) {
             is Result.Error -> Result.Error(result.error)
             is Result.Success -> {
                 return updateUserRegistrationStep(RegistrationStep.SETUP_FINANCIAL_ACCOUNT)
@@ -62,7 +62,7 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun loginWithEmail(loginInformation: LoginInformation): Result<Unit, LoginError> {
-        return userDatabase.loginWithEmail(loginInformation)
+        return authDataSource.loginWithEmail(loginInformation)
     }
 
     override suspend fun pinAuthentication(pin: String): Result<Unit, LoginError> {
@@ -76,14 +76,14 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateUserRegistrationStep(registrationStep: RegistrationStep): Result<Unit, DatabaseError> {
-        return when (val update = userDatabase.updateUserRegisterStep(registrationStep)) {
+        return when (val update = authDataSource.updateUserRegisterStep(registrationStep)) {
             is Result.Error -> Result.Error(update.error)
             is Result.Success -> Result.Success(Unit)
         }
     }
 
     override suspend fun createFinancialAccount(account: FinancialAccount): Result<Unit, DatabaseError> {
-        return userDatabase.createFinancialAccount(
+        return authDataSource.createFinancialAccount(
             account = FinancialAccount(
                 name = account.name,
                 balance = account.balance.ifEmpty { "0" },
@@ -93,10 +93,10 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun signOut() {
-        userDatabase.signOut()
+        authDataSource.signOut()
     }
 
     override suspend fun sendResetPasswordEmail(email: String): Result<Unit, DatabaseError> {
-        return userDatabase.sendResetPasswordEmail(email)
+        return authDataSource.sendResetPasswordEmail(email)
     }
 }

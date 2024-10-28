@@ -10,7 +10,7 @@ import com.felipeschoffen.onbudget.data.model.FinancialAccount
 import com.felipeschoffen.onbudget.data.model.LoginInformation
 import com.felipeschoffen.onbudget.data.model.FirebaseUser
 
-interface UserDatabase {
+interface AuthDataSource {
     suspend fun registerWithEmail(registrationInfo: RegistrationInfo): Result<Unit, RegisterError>
     suspend fun createPin(pin: String): Result<Unit, DatabaseError>
     suspend fun loginWithEmail(loginInformation: LoginInformation): Result<Unit, LoginError>

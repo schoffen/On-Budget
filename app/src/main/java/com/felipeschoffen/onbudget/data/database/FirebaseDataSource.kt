@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.internal.api.FirebaseNoSignedInUserException
 
-object UserFirebase : UserDatabase {
+object FirebaseDataSource : AuthDataSource {
     private val auth: FirebaseAuth = Firebase.auth
 
     override suspend fun registerWithEmail(registrationInfo: RegistrationInfo): Result<Unit, RegisterError> {

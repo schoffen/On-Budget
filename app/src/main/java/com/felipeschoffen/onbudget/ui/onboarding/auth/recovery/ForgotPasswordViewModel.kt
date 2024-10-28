@@ -36,8 +36,6 @@ class ForgotPasswordViewModel @Inject constructor(
     }
 
     private fun onContinueClicked() {
-        validateEmail()
-
         if (_uiState.value.isEmailValid) {
             changeLoading(true)
             viewModelScope.launch {
@@ -68,6 +66,7 @@ class ForgotPasswordViewModel @Inject constructor(
 
     private fun onEmailChange(value: String) {
         _uiState.value = _uiState.value.copy(email = value)
+        validateEmail()
     }
 
     private fun changeLoading(value: Boolean) = _uiState.value.copy(isLoading = value)
