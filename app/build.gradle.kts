@@ -81,6 +81,8 @@ dependencies {
     kapt(libs.google.dagger.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
+    implementation("androidx.compose.material:material:1.7.1")
+
     implementation("androidx.compose.ui:ui-text-google-fonts:1.6.8")
     implementation("androidx.compose.material:material-icons-extended:1.6.0")
 

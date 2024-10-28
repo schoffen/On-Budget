@@ -50,5 +50,15 @@ sealed class Screens {
     }
 
     @Serializable
-    object Home
+    object Home {
+
+        @Serializable
+        object Transactions
+
+        @Serializable
+        object Budgets
+
+        @Serializable
+        object Profile
+    }
 }
