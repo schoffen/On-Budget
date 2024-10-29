@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.felipeschoffen.onbudget.R
 import com.felipeschoffen.onbudget.ui.core.buttons.CustomButtonPrimary
-import com.felipeschoffen.onbudget.ui.navigation.Screens
+import com.felipeschoffen.onbudget.ui.navigation.main.Screens
 
 @Composable
 fun AllSetScreen(modifier: Modifier = Modifier, navController: NavController) {
@@ -50,8 +50,8 @@ fun AllSetScreen(modifier: Modifier = Modifier, navController: NavController) {
             Spacer(modifier = Modifier.weight(1f))
             CustomButtonPrimary(
                 onClick = {
-                    navController.navigate(Screens.Home) {
-                        popUpTo(Screens.Home) {
+                    navController.navigate(Screens.Main) {
+                        popUpTo(Screens.Main) {
                             inclusive = true
                         }
                     }

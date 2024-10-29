@@ -1,4 +1,4 @@
-package com.felipeschoffen.onbudget.ui.home.components.bottom_navigation
+package com.felipeschoffen.onbudget.ui.navigation.main
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor

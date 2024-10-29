@@ -25,7 +25,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.felipeschoffen.onbudget.core.util.RegistrationStep
-import com.felipeschoffen.onbudget.ui.navigation.Screens
+import com.felipeschoffen.onbudget.ui.navigation.main.Screens
 import com.felipeschoffen.onbudget.ui.onboarding.auth.login.components.ForgotPasswordTextButton
 import com.felipeschoffen.onbudget.ui.onboarding.auth.login.components.GoToRegisterText
 import com.felipeschoffen.onbudget.ui.onboarding.auth.login.components.LoginButton
@@ -46,11 +46,12 @@ fun LoginScreen(
         loginViewModel.events.collect { event ->
             when(event) {
                 is LoginEvents.LoginSuccessful -> {
+                    navController.popBackStack()
                     when(event.registrationStep) {
-                        RegistrationStep.VERIFICATION -> navController.navigate(Screens.OnBoarding.Auth.Register.Verification)
-                        RegistrationStep.SETUP_PIN -> navController.navigate(Screens.OnBoarding.Auth.Register.PIN)
-                        RegistrationStep.SETUP_FINANCIAL_ACCOUNT -> navController.navigate(Screens.OnBoarding.CreateFinancialAccount)
-                        RegistrationStep.COMPLETE -> navController.navigate(Screens.OnBoarding.Auth.Register.PIN)
+                        RegistrationStep.VERIFICATION -> navController.navigate(Screens.OnBoarding.Register.Verification)
+                        RegistrationStep.SETUP_PIN -> navController.navigate(Screens.OnBoarding.Register.SetupPin)
+                        RegistrationStep.SETUP_FINANCIAL_ACCOUNT -> navController.navigate(Screens.OnBoarding.Register.SetupFinancialAccount)
+                        RegistrationStep.COMPLETE -> navController.navigate(Screens.Main)
                     }
                 }
 
@@ -102,13 +103,13 @@ fun LoginScreen(
                 )
 
                 ForgotPasswordTextButton(onClick = {
-                    navController.navigate(Screens.OnBoarding.Auth.ForgotPassword)
+                    navController.navigate(Screens.OnBoarding.ForgotPassword)
                 })
 
                 GoToRegisterText(
                     onSignUpClicked = {
                         navController.popBackStack()
-                        navController.navigate(Screens.OnBoarding.Auth.Register)
+                        navController.navigate(Screens.OnBoarding.Register)
                     }
                 )
             }

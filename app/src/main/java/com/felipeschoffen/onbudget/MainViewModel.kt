@@ -16,10 +16,10 @@ class MainViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
     private val _mainUIState = mutableStateOf(MainUIState())
-    val mainUIState get() = _mainUIState.value
+    val mainUIState get() = _mainUIState
 
     private val _userInformation = mutableStateOf<FirebaseUser?>(null)
-    val userInformation get() = _userInformation.value
+    val userInformation get() = _userInformation
 
     init {
         getUserInformation()

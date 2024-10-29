@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.felipeschoffen.onbudget.R
 import com.felipeschoffen.onbudget.ui.core.buttons.CustomButtonPrimary
-import com.felipeschoffen.onbudget.ui.navigation.Screens
+import com.felipeschoffen.onbudget.ui.navigation.main.Screens
 import kotlinx.coroutines.delay
 import java.util.Locale
 
@@ -53,7 +53,7 @@ fun VerificationScreen(
         verificationViewModel.events.collect { event ->
             when (event) {
                 is VerificationEvents.ShowMessage -> snackbarHostState.showSnackbar(event.message)
-                is VerificationEvents.VerificationSuccessful -> navController.navigate(Screens.OnBoarding.Auth.Register.PIN)
+                is VerificationEvents.VerificationSuccessful -> navController.navigate(Screens.OnBoarding.Register.SetupPin)
             }
         }
     }

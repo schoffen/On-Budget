@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.felipeschoffen.onbudget.R
 import com.felipeschoffen.onbudget.ui.core.buttons.CustomButtonPrimary
-import com.felipeschoffen.onbudget.ui.navigation.Screens
+import com.felipeschoffen.onbudget.ui.navigation.main.Screens
 
 @Composable
 fun EmailSentScreen(
@@ -76,8 +76,8 @@ fun EmailSentScreen(
 
             CustomButtonPrimary(
                 onClick = {
-                    navController.navigate(Screens.OnBoarding.Auth.Login) {
-                        popUpTo(Screens.OnBoarding.Auth.Login) {
+                    navController.navigate(Screens.OnBoarding.Login) {
+                        popUpTo(Screens.OnBoarding.Login) {
                             inclusive = true
                         }
                     }

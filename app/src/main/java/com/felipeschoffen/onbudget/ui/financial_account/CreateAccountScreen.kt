@@ -34,7 +34,7 @@ import com.felipeschoffen.onbudget.ui.core.inputs.DropDownMenuItem
 import com.felipeschoffen.onbudget.ui.core.inputs.DropDownSelector
 import com.felipeschoffen.onbudget.ui.core.inputs.LabeledOutlinedTextField
 import com.felipeschoffen.onbudget.ui.financial_account.components.BalanceInput
-import com.felipeschoffen.onbudget.ui.navigation.Screens
+import com.felipeschoffen.onbudget.ui.navigation.main.Screens
 
 @Composable
 fun CreateAccountScreen(
@@ -50,7 +50,7 @@ fun CreateAccountScreen(
     LaunchedEffect(Unit) {
         createAccountViewModel.events.collect { event ->
             when (event) {
-                is CreateAccountEvents.CreateSuccessful -> navController.navigate(Screens.OnBoarding.CreateFinancialAccount.AllSet)
+                is CreateAccountEvents.CreateSuccessful -> navController.navigate(Screens.OnBoarding.Register.SetupFinancialAccount.AllSet)
                 is CreateAccountEvents.ShowMessage -> snackbarHostState.showSnackbar(event.message)
             }
         }

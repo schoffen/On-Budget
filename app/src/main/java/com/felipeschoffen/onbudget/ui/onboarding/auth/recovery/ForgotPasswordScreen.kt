@@ -29,7 +29,7 @@ import androidx.navigation.NavController
 import com.felipeschoffen.onbudget.R
 import com.felipeschoffen.onbudget.ui.core.buttons.CustomButtonPrimary
 import com.felipeschoffen.onbudget.ui.core.inputs.EmailOutlinedTextField
-import com.felipeschoffen.onbudget.ui.navigation.Screens
+import com.felipeschoffen.onbudget.ui.navigation.main.Screens
 import com.felipeschoffen.onbudget.ui.onboarding.auth.recovery.components.ForgotPasswordTopAppBar
 
 @Composable
@@ -45,7 +45,7 @@ fun ForgotPasswordScreen(
         forgotPasswordViewModel.uiEvent.collect { event ->
             when (event) {
                 ForgotPasswordEvent.Continue -> navController.navigate(
-                    Screens.OnBoarding.Auth.ForgotPassword.EmailSent(
+                    Screens.OnBoarding.ForgotPassword.EmailSent(
                         uiState.email
                     )
                 )

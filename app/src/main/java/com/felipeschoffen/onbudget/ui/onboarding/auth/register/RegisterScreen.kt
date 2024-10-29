@@ -25,7 +25,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.felipeschoffen.onbudget.ui.core.buttons.ButtonGoogleSignUp
-import com.felipeschoffen.onbudget.ui.navigation.Screens
+import com.felipeschoffen.onbudget.ui.navigation.main.Screens
 import com.felipeschoffen.onbudget.ui.onboarding.auth.register.components.GoToLoginText
 import com.felipeschoffen.onbudget.ui.onboarding.auth.register.components.RegisterTopAppBar
 import com.felipeschoffen.onbudget.ui.onboarding.auth.register.components.SignUpButton
@@ -50,7 +50,8 @@ fun RegisterScreen(
 
             when (event) {
                 is RegisterEvents.RegisterSuccessful -> {
-                    navController.navigate(Screens.OnBoarding.Auth.Register.Verification)
+                    navController.popBackStack()
+                    navController.navigate(Screens.OnBoarding.Register.Verification)
                 }
 
                 is RegisterEvents.ShowMessage -> {

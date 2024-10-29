@@ -1,4 +1,4 @@
-package com.felipeschoffen.onbudget.ui.navigation
+package com.felipeschoffen.onbudget.ui.navigation.onboarding
 
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -9,23 +9,24 @@ import com.felipeschoffen.onbudget.ui.financial_account.AllSetScreen
 import com.felipeschoffen.onbudget.ui.financial_account.CreateAccountScreen
 import com.felipeschoffen.onbudget.ui.financial_account.CreateAccountViewModel
 import com.felipeschoffen.onbudget.ui.financial_account.IntroductionAccountScreen
+import com.felipeschoffen.onbudget.ui.navigation.main.Screens
 
-fun NavGraphBuilder.createFinancialAccountNavGraph(navController: NavController) {
-    navigation<Screens.OnBoarding.CreateFinancialAccount>(
-        startDestination = Screens.OnBoarding.CreateFinancialAccount.Introduction
+fun NavGraphBuilder.setupFinancialAccountNavGraph(navController: NavController) {
+    navigation<Screens.OnBoarding.Register.SetupFinancialAccount>(
+        startDestination = Screens.OnBoarding.Register.SetupFinancialAccount.Introduction
     ) {
-        composable<Screens.OnBoarding.CreateFinancialAccount.Introduction> {
+        composable<Screens.OnBoarding.Register.SetupFinancialAccount.Introduction> {
             IntroductionAccountScreen(navController = navController)
         }
 
-        composable<Screens.OnBoarding.CreateFinancialAccount.Create> {
+        composable<Screens.OnBoarding.Register.SetupFinancialAccount.Create> {
             CreateAccountScreen(
                 createAccountViewModel = hiltViewModel<CreateAccountViewModel>(),
                 navController = navController
             )
         }
 
-        composable<Screens.OnBoarding.CreateFinancialAccount.AllSet> {
+        composable<Screens.OnBoarding.Register.SetupFinancialAccount.AllSet> {
             AllSetScreen(navController = navController)
         }
     }

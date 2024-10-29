@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.felipeschoffen.onbudget.R
 import com.felipeschoffen.onbudget.ui.core.buttons.CustomButtonPrimary
-import com.felipeschoffen.onbudget.ui.navigation.Screens
+import com.felipeschoffen.onbudget.ui.navigation.main.Screens
 
 @Composable
 fun IntroductionAccountScreen(
@@ -42,7 +42,7 @@ fun IntroductionAccountScreen(
                 )
             }
             CustomButtonPrimary(
-                onClick = { navController.navigate(Screens.OnBoarding.CreateFinancialAccount.Create)},
+                onClick = { navController.navigate(Screens.OnBoarding.Register.SetupFinancialAccount.Create)},
                 text = stringResource(R.string.action_setup_account)
             )
         }
