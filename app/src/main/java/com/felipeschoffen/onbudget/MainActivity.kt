@@ -12,13 +12,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
-import com.felipeschoffen.onbudget.core.util.RegistrationStep
 import com.felipeschoffen.onbudget.ui.core.theme.MontraBudgetAppTheme
-import com.felipeschoffen.onbudget.ui.navigation.main.Screens
-import com.felipeschoffen.onbudget.ui.navigation.main.mainNavGraph
-import com.felipeschoffen.onbudget.ui.navigation.onboarding.onBoardingNavGraph
+import com.felipeschoffen.onbudget.ui.navigation.RootNavGraph
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,7 +27,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MontraBudgetAppTheme {
-                val navController = rememberNavController()
                 mainViewModel = hiltViewModel<MainViewModel>()
 
                 val state by mainViewModel.mainUIState
@@ -43,21 +37,7 @@ class MainActivity : ComponentActivity() {
                         CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
                     }
                 } else {
-                    NavHost(
-                        navController = navController,
-                        startDestination = when (userInformation?.registrationStep) {
-                            RegistrationStep.COMPLETE -> Screens.Main
-                            else -> Screens.OnBoarding
-                        },
-                        builder = {
-                            onBoardingNavGraph(
-                                navController,
-                                userInformation?.registrationStep
-                            )
-
-                            mainNavGraph(navController = navController)
-                        }
-                    )
+                    RootNavGraph(userInformation)
                 }
             }
         }
