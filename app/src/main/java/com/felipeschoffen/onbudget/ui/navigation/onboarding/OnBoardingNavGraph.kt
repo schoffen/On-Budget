@@ -6,7 +6,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.felipeschoffen.onbudget.core.util.RegistrationStep
-import com.felipeschoffen.onbudget.ui.navigation.main.Screens
+import com.felipeschoffen.onbudget.ui.navigation.home.Screens
 import com.felipeschoffen.onbudget.ui.onboarding.auth.login.LoginScreen
 import com.felipeschoffen.onbudget.ui.onboarding.auth.login.LoginViewModel
 import com.felipeschoffen.onbudget.ui.onboarding.welcome.WelcomeScreen

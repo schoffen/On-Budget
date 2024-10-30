@@ -1,4 +1,4 @@
-package com.felipeschoffen.onbudget.ui.navigation.main
+package com.felipeschoffen.onbudget.ui.navigation.home
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
@@ -23,28 +23,28 @@ sealed class NavigationItem(
             R.string.home,
             Icons.Filled.Home,
             Icons.Outlined.Home,
-        Screens.Main
+        Screens.Home
     )
 
     data object Transactions : NavigationItem(
         R.string.transactions,
         Icons.Filled.Sync,
         Icons.Outlined.Sync,
-        Screens.Main.Transactions
+        Screens.Home.Transactions
     )
 
     data object Budgets : NavigationItem(
         R.string.budget,
         Icons.Filled.Savings,
         Icons.Outlined.Savings,
-        Screens.Main.Budgets
+        Screens.Home.Budgets
     )
 
     data object Profile : NavigationItem(
         R.string.profile,
         Icons.Filled.Person,
         Icons.Outlined.Person,
-        Screens.Main.Profile
+        Screens.Home.Profile
     )
 }
 

@@ -24,7 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.felipeschoffen.onbudget.R
-import com.felipeschoffen.onbudget.ui.navigation.main.Screens
+import com.felipeschoffen.onbudget.ui.navigation.home.Screens
 import com.felipeschoffen.onbudget.ui.onboarding.pin.components.PinIndicators
 import com.felipeschoffen.onbudget.ui.onboarding.pin.components.PinInputTitle
 import com.felipeschoffen.onbudget.ui.onboarding.pin.components.PinNumberPad
@@ -47,7 +47,7 @@ fun PinInputScreen(
                 is PinEvents.ShowMessage -> snackbarHostState.showSnackbar(message = event.message)
                 is PinEvents.SuccessfullyChecked -> {
                     if (step == PinStep.AUTHENTICATE)
-                        navController.navigate(Screens.Main.Home) { popUpTo(Screens.Main.Home) { inclusive = true } }
+                        navController.navigate(Screens.Home) { popUpTo(Screens.Pin) { inclusive = true } }
 
                     if (step == PinStep.CONFIRM_NEW)
                         navController.navigate(Screens.OnBoarding.Register.SetupFinancialAccount)

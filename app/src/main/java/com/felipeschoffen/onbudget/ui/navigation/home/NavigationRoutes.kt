@@ -1,4 +1,4 @@
-package com.felipeschoffen.onbudget.ui.navigation.main
+package com.felipeschoffen.onbudget.ui.navigation.home
 
 import kotlinx.serialization.Serializable
 
@@ -51,13 +51,10 @@ sealed class Screens {
     }
 
     @Serializable
-    object Main {
+    object Pin
 
-        @Serializable
-        object Pin
-
-        @Serializable
-        object Home
+    @Serializable
+    object Home {
 
         @Serializable
         object Transactions

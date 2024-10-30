@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.felipeschoffen.onbudget.R
 import com.felipeschoffen.onbudget.ui.core.buttons.CustomButtonPrimary
-import com.felipeschoffen.onbudget.ui.navigation.main.Screens
+import com.felipeschoffen.onbudget.ui.navigation.home.Screens
 
 @Composable
 fun EmailSentScreen(

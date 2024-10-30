@@ -6,7 +6,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
-import com.felipeschoffen.onbudget.ui.navigation.main.Screens
+import com.felipeschoffen.onbudget.ui.navigation.home.Screens
 import com.felipeschoffen.onbudget.ui.onboarding.auth.recovery.EmailSentScreen
 import com.felipeschoffen.onbudget.ui.onboarding.auth.recovery.ForgotPasswordScreen
 import com.felipeschoffen.onbudget.ui.onboarding.auth.recovery.ForgotPasswordViewModel

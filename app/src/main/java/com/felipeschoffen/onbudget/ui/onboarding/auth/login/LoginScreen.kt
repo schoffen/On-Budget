@@ -25,7 +25,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.felipeschoffen.onbudget.core.util.RegistrationStep
-import com.felipeschoffen.onbudget.ui.navigation.main.Screens
+import com.felipeschoffen.onbudget.ui.navigation.home.Screens
 import com.felipeschoffen.onbudget.ui.onboarding.auth.login.components.ForgotPasswordTextButton
 import com.felipeschoffen.onbudget.ui.onboarding.auth.login.components.GoToRegisterText
 import com.felipeschoffen.onbudget.ui.onboarding.auth.login.components.LoginButton
@@ -51,7 +51,7 @@ fun LoginScreen(
                         RegistrationStep.VERIFICATION -> navController.navigate(Screens.OnBoarding.Register.Verification)
                         RegistrationStep.SETUP_PIN -> navController.navigate(Screens.OnBoarding.Register.SetupPin)
                         RegistrationStep.SETUP_FINANCIAL_ACCOUNT -> navController.navigate(Screens.OnBoarding.Register.SetupFinancialAccount)
-                        RegistrationStep.COMPLETE -> navController.navigate(Screens.Main)
+                        RegistrationStep.COMPLETE -> navController.navigate(Screens.Home)
                     }
                 }
 

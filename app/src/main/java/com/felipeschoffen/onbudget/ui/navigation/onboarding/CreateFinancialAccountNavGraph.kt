@@ -9,7 +9,7 @@ import com.felipeschoffen.onbudget.ui.financial_account.AllSetScreen
 import com.felipeschoffen.onbudget.ui.financial_account.CreateAccountScreen
 import com.felipeschoffen.onbudget.ui.financial_account.CreateAccountViewModel
 import com.felipeschoffen.onbudget.ui.financial_account.IntroductionAccountScreen
-import com.felipeschoffen.onbudget.ui.navigation.main.Screens
+import com.felipeschoffen.onbudget.ui.navigation.home.Screens
 
 fun NavGraphBuilder.setupFinancialAccountNavGraph(navController: NavController) {
     navigation<Screens.OnBoarding.Register.SetupFinancialAccount>(

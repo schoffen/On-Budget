@@ -34,7 +34,7 @@ import com.felipeschoffen.onbudget.ui.core.inputs.DropDownMenuItem
 import com.felipeschoffen.onbudget.ui.core.inputs.DropDownSelector
 import com.felipeschoffen.onbudget.ui.core.inputs.LabeledOutlinedTextField
 import com.felipeschoffen.onbudget.ui.financial_account.components.BalanceInput
-import com.felipeschoffen.onbudget.ui.navigation.main.Screens
+import com.felipeschoffen.onbudget.ui.navigation.home.Screens
 
 @Composable
 fun CreateAccountScreen(
