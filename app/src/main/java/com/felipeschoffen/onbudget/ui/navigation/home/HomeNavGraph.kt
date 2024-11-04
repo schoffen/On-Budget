@@ -32,7 +32,7 @@ fun HomeNavGraph(
         }
 
         composable<Screens.Home.Profile> {
-            ProfileContent()
+            ProfileContent(modifier = modifier)
         }
     }
 }

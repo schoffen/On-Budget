@@ -13,8 +13,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.felipeschoffen.onbudget.R
 import com.felipeschoffen.onbudget.ui.core.theme.MontraBudgetAppTheme
 import com.felipeschoffen.onbudget.ui.home.profile_content.components.MenuItem
 import com.felipeschoffen.onbudget.ui.home.profile_content.components.ProfileInfo
@@ -29,19 +31,19 @@ fun ProfileContent(modifier: Modifier = Modifier) {
 
         val items = listOf(
             MenuItem(
-                "Account",
+                stringResource(R.string.accounts),
                 Icons.Filled.Wallet,
                 primaryColorBackground,
                 iconTint = MaterialTheme.colorScheme.primary
             ),
             MenuItem(
-                "Settings",
+                stringResource(R.string.settings),
                 Icons.Filled.Settings,
                 primaryColorBackground,
                 iconTint = MaterialTheme.colorScheme.primary
             ),
             MenuItem(
-                "Logout",
+                stringResource(R.string.logout),
                 Icons.AutoMirrored.Filled.Logout,
                 MaterialTheme.colorScheme.error.copy(.2f),
                 iconTint = MaterialTheme.colorScheme.error

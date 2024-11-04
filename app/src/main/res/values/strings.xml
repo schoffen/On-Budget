@@ -110,4 +110,8 @@
     <string name="transactions">Transações</string>
     <string name="budget">Orçamentos</string>
     <string name="profile">Perfil</string>
+
+    <string name="logout">Sair</string>
+    <string name="settings">Configurações</string>
+    <string name="accounts">Contas</string>
 </resources>

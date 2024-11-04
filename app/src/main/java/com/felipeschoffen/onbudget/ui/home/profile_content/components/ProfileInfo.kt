@@ -42,8 +42,7 @@ fun ProfileInfo(modifier: Modifier = Modifier) {
             contentDescription = null,
             modifier = Modifier
                 .size(80.dp)
-                .clip(CircleShape)
-                .border(2.dp, MaterialTheme.colorScheme.primary, CircleShape),
+                .clip(CircleShape),
             contentScale = ContentScale.Crop
         )
 
